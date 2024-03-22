@@ -1,0 +1,130 @@
+html {
+    height: -webkit-fill-available;
+}
+
+body {
+    margin: 0;
+    font-size: 1rem;
+    color: #222;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #faf5ff;
+}
+
+h1 {
+    font-size: 4rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    font-family: "Quicksand", sans-serif;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-top: 0rem;
+    margin-bottom: 2rem;
+    font-family: "Quicksand", sans-serif;
+}
+
+h2 span {
+    background: -webkit-linear-gradient(left, #6366F1, #8B5CF6, #EC4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+aside {
+    background-color: #f3e8ff;
+    padding: 2rem;
+    width: 33%;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    z-index: 10;
+}
+
+main {
+    background-color: #fff;
+    padding: 4rem;
+    margin-left: calc(33% + 4rem);
+    width: 67%;
+    position: relative;
+}
+
+#about {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    justify-content: center;
+}
+
+aside nav{
+    display: flex;
+    column-gap: 2rem;
+}
+aside nav div a{
+    color: #222;
+    text-decoration: none;
+    font-family: "Quicksand", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    width: 8rem;
+}
+
+hr{ 
+    background: -webkit-linear-gradient(left, #6366F1, #8B5CF6, #EC4899);
+    height: .25rem;
+    width: 0rem; 
+    margin: 0;
+    border-radius: 1rem;
+    border: none;
+    transition: .3s ease-in-out;
+}
+
+
+#l1:hover > #hr1, #l2:hover > #hr2, #l3:hover > #hr3, .selected {
+    width: 100%;
+}
+
+#contacts {
+    display: flex;
+    gap: 1rem;
+    font-family: "Quicksand", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    width: 8rem;
+}
+
+.projectsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+}
+
+.project {
+    width: 100%;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 2rem;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    padding:2rem
+}
+
+.clientsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.client {
+    width: 4rem;
+    height: 4rem;
+    background-color: #fff;
+    border-radius: 2rem;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    padding:2rem
+}
