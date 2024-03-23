@@ -17,54 +17,78 @@
 </head>
 
 <body>
-    <aside>
-        <nav>
+
+    <nav>
+        <div id="leftLinks">
             <div id="l1">
-                <a href="#">Home</a>
-                <hr id="hr1" class="selected">
+                <a href="#home">Home</a>
+                <hr id="hr1">
             </div>
             <div id="l2">
-                <a href="#">Manifesto</a>
+                <a href="#projects">Projects</a>
                 <hr id="hr2">
             </div>
             <div id="l3">
-                <a  href="#">Bookshelf</a>
+                <a href="#manifesto">Manifesto</a>
                 <hr id="hr3">
             </div>
-        </nav>
-        <div id="about">
-            <h1>I'm Federico</h1>
-            <h2>an <span class="aba">user experience designer</span></h2>
-            very motivated to create solutions that fit perfectly for humans. I want to make an impact by helping to understand and improve the way we interact with the physical and virtual world. Talk to me about user behavoir, accessibility, usability, interactivity and comics!
+            <div id="l4">
+                <a  href="#bookshelf">Bookshelf</a>
+                <hr id="hr4">
+            </div>
         </div>
-        <div id="contacts">
-            <div>CV</div>
-            <div>Mail</div>
-            <div>LinkedIn</div>
+        
+        <div id="rightLinks">
+            <button class="circle">M</button>
+            <button class="circle">In</button>
+            <button>Download my CV</button>
         </div>
-    </aside>
+        
+    </nav>
 
     <main>
-        <h2>Work projects</h2>
-        <div class="projectsContainer">
-            <div class="project">project X</div>
-            <div class="project">project X</div>
+        <div id="home" class="container flex v-center w-center">
+            <div id="about">
+                <h1>I'm Federico</h1>
+                <h2>an <span class="aba">user experience designer</span></h2>
+                very motivated to create solutions that fit perfectly for humans. I want to make an impact by helping to understand and improve the way we interact with the physical and virtual world. Talk to me about user behavoir, accessibility, usability, interactivity and comics!
+            </div>
+            <div id="profilePicture"></div>
         </div>
-        <h2></br>Personal projects</h2>
-        <div class="projectsContainer">
-            <div class="project">project X</div>
-            <div class="project">project X</div>
-        </div>
-        <h2></br>Clients</h2>
-        <div class="clientsContainer">
-            <div class="client">A</div>
-            <div class="client">B</div>
-            <div class="client">A</div>
-            <div class="client">B</div>
-            <div class="client">A</div>
-            <div class="client">B</div>
+
+        <div id="projects" class="container">
+            <h2 class="flex w-center"><span>Work</span>&nbsp;projects</h2>
+            <div class="projects">
+                
+                <div>
+                    <h3>Yoga Platform</h3>
+                    <div class="projectDescription">I partnered with D4NEXT, a progressive insuretech copany, aiming to enhance and improve the way insurance enterprises manage policies, quotations and claims with a special attention on users.</div>
+                    <h4>Explore ^</h4>
+                    <div id="previewYoga">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Widget design</h3>
+                    <div class="projectDescription">Investigation into the interaction with Electrolux appliances in one tap from the smartphone home screen.</div>
+                    <h4>Explore ^</h4>
+                    <div id="previewElux">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+
+                <div></div>
+            </div>
         </div>
     </main>
+    
+
+
 </body>
 
 </html>
