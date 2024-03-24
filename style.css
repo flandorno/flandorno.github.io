@@ -45,6 +45,7 @@ h3 {
 
 nav{
     position: sticky;
+    z-index: 100;
     top: 0;
     display: flex;
     align-items: center;
@@ -118,7 +119,7 @@ main{
 
 .container {
     gap: 4rem;
-    padding: 2rem;
+    padding: 4rem 2rem 0rem 2rem;
 }
 
 .flex {
@@ -152,6 +153,7 @@ main{
     width: 100%;
     display: flex;
     gap: 2rem;
+    margin-bottom: 4rem;
 }
 
 .projects > div {
