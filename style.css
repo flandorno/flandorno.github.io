@@ -73,6 +73,14 @@ button.circle {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+button.circle:nth-child(1){
+    background-image: url(assets/mail.svg);
+}
+button.circle:nth-child(2){
+    background-image: url(assets/linkedin.svg);
 }
 
 nav div a{
@@ -119,7 +127,7 @@ main{
 
 .container {
     gap: 4rem;
-    padding: 4rem 2rem 0rem 2rem;
+    padding: 4rem 2rem 2rem 2rem;
 }
 
 .flex {
@@ -194,7 +202,7 @@ main{
     border-radius: 1rem;
     background-color: #ffffff;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    
+    transition: .3s;
 }
 
 #previewYoga > div:nth-child(1) {
@@ -247,4 +255,76 @@ main{
 #previewElux > div:nth-child(3) {
     background-color: #dee8ea;
     margin-top: 2rem;
+}
+
+
+/* clients */
+
+#clients div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 2rem;
+}
+
+#clients div div {
+    aspect-ratio: 1;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* bookshelf */
+
+#bookshelf div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 2rem;
+}
+
+#bookshelf div div {
+    aspect-ratio: .65;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    border-radius: 1rem;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#bookshelf div div:nth-child(1){
+    background-image: url(https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1348700218i/10778139.jpg);
+}
+#bookshelf div div:nth-child(2){
+    background-image: url(https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1444644862i/26260972.jpg);
+}
+#bookshelf div div:nth-child(3){
+    background-image: url(https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1699169460i/137333683.jpg);
+}
+#bookshelf div div:nth-child(4){
+    background-image: url(https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1444647757i/25520974.jpg);
+}
+#bookshelf div div:nth-child(5){
+    background-image: url(https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1568717047l/50738922.jpg);
+}
+#bookshelf div div:nth-child(6){
+    background-image: url(https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1504898319i/36206716.jpg);
+}
+#bookshelf div div:nth-child(7){
+    background-image: url(https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1467346633i/30821309.jpg);
+}
+#bookshelf div div:nth-child(8){
+    background-image: url(https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1374032580i/16073227.jpg);
+}
+#bookshelf div div:nth-child(9){
+    background-image: url(https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1387770614i/17290807.jpg);
+}
+#bookshelf div div:nth-child(10){
+    background-image: url(https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1682157791i/125321030.jpg);
 }
