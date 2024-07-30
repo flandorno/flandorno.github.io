@@ -114,16 +114,19 @@ main {
     aspect-ratio: 1 / 1;
     padding: 2rem;
     background-color: #f8f7f8;
+    outline: 1px solid #f8f7f8;
     background-image: url("../assets/dot-grid.svg");
     background-repeat: repeat;
     background-size: 32px;
     border-radius: 1rem;
-    transition: .5s;
 }
-#topics .topic:hover {
-    background: #EC4899;
+#topics .topic:hover h2{
+    -webkit-animation:color .2s forwards;
 }
-
+@keyframes color {
+    0% {color:#222;}
+    100%{color:#FF29A8}
+}
 
 
 #clients {
@@ -146,7 +149,7 @@ main {
     font-size: 1.25rem;
 }
 #section a{
-    color:#EC4899;
+    color:#FF29A8;
 }
 #section h3{
     margin-top: .5rem;
@@ -181,4 +184,50 @@ main {
     bottom: 0px;
     right: 8px;
     border-radius: .5rem .5rem 0 0;
+}
+
+#what-is-yoga {
+    max-width: 58rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.25rem;
+    text-align: center;
+    margin-top: -2rem;
+}
+
+#users {
+    display: flex;
+    gap:4rem;
+    margin-top: 1rem;
+}
+.user-section {
+    width: 33%;
+    padding: 1rem 2rem;
+    background-color: #f8f7f8; 
+    background-image: url("../assets/dot-grid.svg");
+    background-repeat: repeat; 
+    background-size: 32px; 
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1rem;
+    text-align: center;
+}
+.user-section-icon {
+    height: 100px;
+    width: 100px;
+    background-color: #fff;
+    border-radius: 100%;
+    margin-bottom: .5rem;
+}
+.customer {
+    background: url("../assets/customer.svg");
+}
+.intermediary {
+    background: url("../assets/intermediary.svg");
+}
+.admin {
+    background: url("../assets/admin.svg");
 }
