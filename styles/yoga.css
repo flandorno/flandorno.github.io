@@ -1,0 +1,184 @@
+html{
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0 auto;
+    font-size: 1.5rem;
+    width: 100%;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #fff; 
+    color:#222;
+}
+
+h1 {
+    font-size: 4rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    font-family: "Quicksand", sans-serif;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin: 0rem;
+    font-family: "Quicksand", sans-serif;
+}
+
+h2 span {
+    background: -webkit-linear-gradient(left, #6366F1, #8B5CF6, #EC4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-top: 0rem;
+    margin-bottom: 1rem;
+    font-family: "Quicksand", sans-serif;
+}
+
+p {
+    margin: 2rem 0rem 0rem 0rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    max-width: 1400px;
+    margin: auto;
+}
+
+#heading {
+    padding: 8rem 4rem 0rem 4rem;
+    text-align: center;
+}
+
+#title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#title img{
+    height: 2.5rem;
+}
+
+#brief {
+    max-width: 54rem;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f8f7f8;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 1.25rem;
+}
+#brief > div:nth-child(1) {
+    display: flex;
+    gap: 2rem;
+}
+#brief .field {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+#brief .field > div:nth-child(1) {
+    font-size: 1rem;
+}
+#brief .field > div:nth-child(2) {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+#topics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4rem;
+    max-width: 58rem;
+    width: 100%;
+    margin: 0 auto;
+}
+#topics .topic {
+    aspect-ratio: 1 / 1;
+    padding: 2rem;
+    background-color: #f8f7f8;
+    background-image: url("../assets/dot-grid.svg");
+    background-repeat: repeat;
+    background-size: 32px;
+    border-radius: 1rem;
+    transition: .5s;
+}
+#topics .topic:hover {
+    background: #EC4899;
+}
+
+
+
+#clients {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    margin-bottom: 4rem;
+}
+
+
+/*YOGA*/
+#section {
+    max-width: 54rem;
+    margin: 0 auto;
+    padding: 2rem;
+    gap: 2rem;
+    font-size: 1.25rem;
+}
+#section a{
+    color:#EC4899;
+}
+#section h3{
+    margin-top: .5rem;
+}
+
+#atoms {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+#atoms div{
+    padding: 2rem;
+    background-color: #f8f7f8;
+    background-image: url("../assets/dot-grid.svg");
+    background-repeat: repeat;
+    background-size: 32px;
+    border-radius: 1rem;
+    width: calc(50% - 5rem);
+    position: relative;
+    font-weight: 700;
+}
+
+#typography img{
+    object-fit: cover;
+    object-position: top;
+    width: 50%;
+    height: calc(100% - 8px); 
+    position: absolute;
+    bottom: 0px;
+    right: 8px;
+    border-radius: .5rem .5rem 0 0;
+}

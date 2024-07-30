@@ -1,0 +1,45 @@
+nav {
+    position: fixed;
+    top:0;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 100;
+    
+}
+
+#pill {
+    margin-top: 1rem;
+    padding: .5rem 2rem;
+    border-radius: 2rem;
+    background-color: #000;
+    color: #8d8d8d;
+    font-size: 1rem;
+}
+
+#pill ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+    
+}
+
+#pill ul li {
+    display: inline;
+    cursor: pointer;
+    transition: .3s;
+}
+
+#pill ul li a{
+    color: inherit;
+    text-decoration: inherit;
+}
+
+#pill ul .selected {
+    color: #fff;
+}
+
+#pill ul :not(.selected):hover{
+    color: #fff;
+}
