@@ -60,7 +60,7 @@ main {
 }
 
 #heading {
-    padding: 8rem 4rem 0rem 4rem;
+    padding: 6rem 4rem 0rem 4rem;
     text-align: center;
 }
 
@@ -119,6 +119,7 @@ main {
     background-repeat: repeat;
     background-size: 32px;
     border-radius: 1rem;
+    transition: .2s;
 }
 #topics .topic:hover h2{
     -webkit-animation:color .2s forwards;
@@ -127,7 +128,9 @@ main {
     0% {color:#222;}
     100%{color:#FF29A8}
 }
-
+#topics .topic:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
 
 #clients {
     display: flex;
@@ -215,19 +218,27 @@ main {
     font-size: 1rem;
     text-align: center;
 }
+.user-section h3 {
+    margin-bottom: .5rem;
+}
 .user-section-icon {
-    height: 100px;
-    width: 100px;
-    background-color: #fff;
+    height: 6rem;
+    width: 6rem;
     border-radius: 100%;
     margin-bottom: .5rem;
 }
 .customer {
-    background: url("../assets/customer.svg");
+    background: url("../assets/customer.svg"), #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .intermediary {
-    background: url("../assets/intermediary.svg");
+    background: url("../assets/intermediary.svg"), #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .admin {
-    background: url("../assets/admin.svg");
+    background: url("../assets/admin.svg"), #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
