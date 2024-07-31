@@ -8,8 +8,8 @@
     <meta HTTP-EQUIV="keywords" content="UI/UX design Federico Landorno Portfolio User Experience Design Product Research">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
-    <link rel="stylesheet" href="styles/yoga.css">
-    <link rel="stylesheet" href="styles/menu.css">
+    <link rel="stylesheet" href="../styles/yoga.css">
+    <link rel="stylesheet" href="../styles/menu.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
@@ -35,7 +35,7 @@
         <div id="heading">
             <div id="title">
                 <h1>Yoga @</h1>
-                <img src="assets/d4x.svg" />
+                <img src="../assets/d4x.svg" />
             </div>
             <h2>Design system</h2>
         </div>
@@ -56,19 +56,19 @@
             <div id="atoms">
                 <div class="atom">
                     Typography
-                    <img src="assets/typography.svg" alt="examples of typography used in the design system"/>
+                    <img src="../assets/typography.svg" alt="examples of typography used in the design system"/>
                 </div>
                 <div class="atom">
                     Colors
-                    <img src="assets/colors.svg" alt="colors used in the design system"/>
+                    <img src="../assets/colors.svg" alt="colors used in the design system"/>
                 </div>
                 <div class="atom">
                     Icons
-                    <img src="assets/icons.svg" alt="subset of icons used in the design system"/>
+                    <img src="../assets/icons.svg" alt="subset of icons used in the design system"/>
                 </div>
                 <div class="atom">
                     Spacing
-                    <img src="assets/spacing.svg" alt="subset of spacing used in the design system"/>
+                    <img src="../assets/spacing.svg" alt="subset of spacing used in the design system"/>
                 </div>
             </div>
 
@@ -76,19 +76,29 @@
             <div id="molecules">
                 <div class="molecule">
                     Textfield
-                    <div id="properties">
-                        <img src="assets/molecules/textfield-default.svg"/>
+                    <!--
+                    Checkbox
+                    Button
+                    Toggle
+                    And more
+                    <label for="radio1">Textfield</label>
+                    <input type="radio" id="radio1" name="molecules">
+                    <label for="radio2">Checkbox</label>
+                    <input type="radio" id="radio2" name="molecules">-->
+                    
+                    <div id="textfield">
+                        <img src="../assets/molecules/textfield-default.svg"/>
                         <div class="adjusted-text-to-field">Default</div>     
-                        <img src="assets/molecules/textfield-placeholder.svg"/>
+                        <img src="../assets/molecules/textfield-placeholder.svg"/>
                         <div class="adjusted-text-to-field">Placeholder</div>
-                        <img src="assets/molecules/textfield-focus.svg"/>
+                        <img src="../assets/molecules/textfield-focus.svg"/>
                         <div class="adjusted-text-to-field">Focus</div>
-                        <img src="assets/molecules/textfield-filled.svg"/>
+                        <img src="../assets/molecules/textfield-filled.svg"/>
                         <div class="adjusted-text-to-field">Filled</div>
-                        <img src="assets/molecules/textfield-error.svg"/>
-                        <div>Error</div>
-                        <img src="assets/molecules/textfield-disabled.svg"/>
+                        <img src="../assets/molecules/textfield-disabled.svg"/>
                         <div class="adjusted-text-to-field">Disabled</div>
+                        <img src="../assets/molecules/textfield-error.svg"/>
+                        <div>Error</div>
                     </div>
                 </div>
             </div>
@@ -103,5 +113,16 @@
     </main>
     
 </body>
+
+<script>
+    document.getElementById('radio1').addEventListener('change', function() {
+        const targetDiv = document.getElementById('textfield');
+        if (this.checked) {
+            targetDiv.classList.add('active');
+        } else {
+            targetDiv.classList.remove('active');
+        }
+    });
+</script>
 
 </html>

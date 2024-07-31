@@ -258,7 +258,7 @@ main {
     gap: 1rem;
     font-weight: 700;
 }
-#properties{
+#textfield{
     display: grid;
     grid-template-columns: max-content auto;
     align-items: center;
@@ -267,4 +267,35 @@ main {
 }
 .adjusted-text-to-field {
     margin-top: 1.5rem;
+}
+
+input[type=radio] {
+    visibility: hidden;
+}
+#textfield.active {
+    visibility: visible;
+}
+
+/* RESEARCH */
+#brief-research {
+    max-width: 54rem;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f8f7f8;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 1.25rem;
+}
+#brief-research .research-method {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+#brief-research .research-method img {
+    height: 124px;
+}
+#brief-research .research-method div {
+    height: min-content;
 }
