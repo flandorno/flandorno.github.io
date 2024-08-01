@@ -1,64 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="author" content="Federico Landorno">
-    <meta name="robots" content="all">
-    <meta HTTP-EQUIV="keywords" content="UI/UX design Federico Landorno Portfolio User Experience Design Product Research">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Federico Landorno" />
+    <meta name="robots" content="all" />
+    <meta
+      http-equiv="keywords"
+      content="UI/UX design Federico Landorno Portfolio User Experience Design Product Research"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio</title>
-    <link rel="stylesheet" href="../styles/yoga.css">
-    <link rel="stylesheet" href="../styles/menu.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/yoga.css" />
+    <link rel="stylesheet" href="../styles/menu.css" />
+    <link rel="stylesheet" href="../styles/modal.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <nav>
-        <div id="pill">
-            <ul>
-                <li><a href="../index.html">Projects</a></li>
-                
-                    <!--li>Clients</li>
+      <div id="pill">
+        <ul>
+          <li><a href="../index.html">Projects</a></li>
+
+          <!--li>Clients</li>
                     <li>Bookshelf</li-->
-            </ul>
-        </div>
+        </ul>
+      </div>
     </nav>
 
     <main>
-
-        <div id="heading">
-            <div id="title">
-                <h1>Yoga @</h1>
-                <img src="../assets/d4x.svg" />
-            </div>
-            <h2>UX Research</h2>
+      <div id="heading">
+        <div id="title">
+          <h1>Yoga @</h1>
+          <img src="../assets/d4x.svg" />
         </div>
+        <h2>UX Research</h2>
+      </div>
 
-        <div id="brief-research">
-            My initial responsibility at D4Next was to deeply understand our user's behaviors, needs, problems, and desires. This task was challenging, as the company initially prioritized development over thorough research and analysis.
-            To achieve this understanding, I employed several research methods:
-            <div class="research-method">
-                <img src="../assets/research/field-study.svg"/>
-                <div><strong>Field Studies:</strong> Observing intermediaries and customers at the company office to gather real-world insights into their interactions and challenges.</div>
-            </div>
-            <div class="research-method">
-                <img src="../assets/research/interview.svg"/>
-                <div><strong>User Interviews:</strong> Conducting detailed interviews to explore users' pain points, needs, and desires.</div>
-            </div>
-            <div class="research-method">
-                <img src="../assets/research/requirements.svg"/>
-                <div><strong>Requirements Gathering:</strong> Understanding the company's goals, identifying gaps, and recognizing constraints to align user insights with business objectives.</div>
-            </div>
+      <div id="brief-research">
+        My initial responsibility at D4Next was to deeply understand our user's
+        behaviors, needs, problems, and desires. This task was challenging, as
+        the company initially prioritized development over thorough research and
+        analysis. To achieve this understanding, I employed several research
+        methods:
+        <div class="research-method">
+          <img src="../assets/research/field-study.svg" />
+          <div>
+            <strong>Field Studies:</strong> Observing intermediaries and
+            customers at the company office to gather real-world insights into
+            their interactions and challenges.
+          </div>
         </div>
+        <div class="research-method">
+          <img src="../assets/research/interview.svg" />
+          <div>
+            <strong>User Interviews:</strong> Conducting detailed interviews to
+            explore users' pain points, needs, and desires.
+            <button class="btn-open">Check out the interview plan!</button>
+          </div>
+        </div>
+        <div class="research-method">
+          <img src="../assets/research/requirements.svg" />
+          <div>
+            <strong>Requirements Gathering:</strong> Understanding the company's
+            goals, identifying gaps, and recognizing constraints to align user
+            insights with business objectives.
+          </div>
+        </div>
+      </div>
 
+      <section class="modal hidden">
+        <div class="title">
+          <h3>User Interview Plan</h3>
+          <button class="btn-close">⨉</button>
+        </div>
+        <div class="content">
+          <h4>Objective</h4>
+          <p>
+            To understand the behaviors, needs, and pain points of
+            intermediaries and customers involved in selling and buying
+            insurance policies. This will inform the design and development of
+            user-centered solutions that enhance their experience.
+          </p>
+          <h4>Participants</h4>
+          <ol>
+            <li>
+              <strong>Intermediaries</strong>: Insurance agents, brokers, and
+              other professionals who sell policies.
+            </li>
+            <li>
+              <strong>Customers</strong>: Individuals and businesses purchasing
+              insurance policies.
+            </li>
+          </ol>
+          <h4>Methodology</h4>
+          <p>
+            Conduct semi-structured interviews, allowing for in-depth
+            exploration while maintaining focus on key topics.
+          </p>
+          <h4>Preparation</h4>
+          <ol>
+            <li>
+              <strong>Develop Interview Guide</strong>: Prepare a set of
+              open-ended questions.
+            </li>
+            <li>
+              <strong>Recruit Participants</strong>: Identify and reach out to
+              intermediaries and customers for participation.
+            </li>
+            <li>
+              <strong>Consent</strong>: Obtain informed consent from all
+              participants, explaining the purpose and ensuring confidentiality.
+            </li>
+          </ol>
+          <h4>Interview Guide</h4>
+          <p><strong>Introduction:</strong></p>
+          <ul>
+            <li>
+              Introduce yourself and explain the purpose of the interview.
+            </li>
+            <li>
+              Assure confidentiality and explain how the data will be used.
+            </li>
+            <li>Obtain verbal consent to proceed.</li>
+          </ul>
+          <p><strong>Warm-up Questions:</strong></p>
+          <ol>
+            <li>Can you tell me a little about yourself and your role?</li>
+            <li>
+              How long have you been working as an intermediary/customer of
+              insurance policies?
+            </li>
+          </ol>
+          <div class="highlight-section">
+            <p><strong>For Intermediaries:</strong></p>
+            <p><strong>Understanding the Sales Process:</strong></p>
+            <ol>
+              <li>
+                Can you describe your typical process for selling an insurance
+                policy?
+              </li>
+              <li>
+                What tools or systems do you use to manage your sales process?
+              </li>
+            </ol>
+            <p>
+              <strong>Challenges and Pain Points:</strong>
+            </p>
+            <ol start="3">
+              <li>What are the biggest challenges you face in your role?</li>
+              <li>
+                Can you describe a recent difficult experience you had with a
+                client?
+              </li>
+            </ol>
+            <p>
+              <strong>Needs and Wishes:</strong>
+            </p>
+            <ol start="5">
+              <li>
+                What features or tools do you wish you had to make your job
+                easier?
+              </li>
+              <li>
+                How do you keep track of your clients' needs and follow up with
+                them?
+              </li>
+            </ol>
+            <p>
+              <strong>Behavior and Workflow:</strong>
+            </p>
+            <ol start="7">
+              <li>
+                How do you usually communicate with clients (e.g., in-person,
+                phone, email)?
+              </li>
+              <li>
+                How do you handle and resolve customer queries and complaints?
+              </li>
+            </ol>
+          </div>
+
+          <div class="highlight-section" style="margin-top: 1rem;">
+            <p><strong>For Customers:</strong></p>
+            <p><strong>Understanding the Buying Process:</strong></p>
+            <ol>
+              <li>
+                Can you describe the last time you bought an insurance policy?
+              </li>
+              <li>
+                What factors do you consider most important when choosing an
+                insurance policy?
+              </li>
+            </ol>
+            <p>
+              <strong>Challenges and Pain Points:</strong>
+            </p>
+            <ol start="3">
+              <li>
+                What difficulties have you encountered while buying insurance?
+              </li>
+              <li>
+                Can you share a frustrating experience you've had with an
+                insurance provider?
+              </li>
+            </ol>
+            <p>
+              <strong>Needs and Wishes:</strong>
+            </p>
+            <ol start="5">
+              <li>
+                What do you wish insurance companies would do differently to
+                improve your experience?
+              </li>
+              <li>
+                Are there any features or services you think are missing from
+                current insurance offerings?
+              </li>
+            </ol>
+            <p>
+              <strong>Behavior and Preferences:</strong>
+            </p>
+            <ol start="7">
+              <li>
+                How do you prefer to interact with insurance providers (e.g.,
+                online, in-person, via phone)?
+              </li>
+              <li>
+                How do you research and compare different insurance policies?
+              </li>
+            </ol>
+          </div>
+          <p><strong>Closing Questions:</strong></p>
+          <ol>
+            <li>
+              Is there anything else you would like to share about your
+              experience with insurance policies?
+            </li>
+            <li>
+              Would you be interested in participating in future research?
+            </li>
+          </ol>
+          <p><strong>Conclusion:</strong></p>
+          <ul>
+            <li>Thank the participant for their time and insights.</li>
+            <li>
+              Provide contact information for any follow-up questions or
+              additional feedback.
+            </li>
+          </ul>
+          <h4>Post-Interview</h4>
+          <ol>
+            <li>
+              <strong>Transcription</strong>: Transcribe the interviews for
+              detailed analysis.
+            </li>
+            <li>
+              <strong>Analysis</strong>: Identify key themes, patterns, and
+              insights.
+            </li>
+            <li>
+              <strong>Report</strong>: Summarize findings and present them to
+              stakeholders with actionable recommendations.
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <div class="overlay hidden"></div>
     </main>
-    
-</body>
-
+    <script src="../scripts/modal.js"></script>
+  </body>
 </html>

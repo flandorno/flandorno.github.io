@@ -299,3 +299,12 @@ input[type=radio] {
 #brief-research .research-method div {
     height: min-content;
 }
+
+.btn-open {
+    display: inline-block;
+    font-weight: 500;
+    color: #FF29A8;
+    background-color: #f8f7f8;
+    text-decoration: underline;
+    font-size: 1.25rem;
+  }
