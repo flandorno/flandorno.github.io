@@ -179,6 +179,7 @@ main {
     width: 6rem;
     border-radius: 100%;
     margin-bottom: .5rem;
+    flex-shrink: 0;
 }
 .customer {
     background: url("../assets/customer.svg"), #fff;
