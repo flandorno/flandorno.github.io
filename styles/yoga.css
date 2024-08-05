@@ -301,6 +301,10 @@ input[type=radio] {
     height: min-content;
 }
 
+#brief-research a{
+    color:#FF29A8;
+}
+
 .btn-open {
     display: inline-block;
     font-weight: 500;
