@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply bg-gray-950 text-white my-16;
+  }
+  
+  section {
+    @apply mt-16;
+  }
+
+
+  h1 {
+    @apply text-4xl font-bold tracking-tight;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold tracking-tight;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold mb-2;
+  }
+
+  h4 {
+    @apply text-xl font-semibold mt-4 mb-1;
+  }
+
+  p {
+    @apply text-xl leading-relaxed text-gray-300;
+  }
+
+  strong {
+    @apply text-violet-400;
+  }
+}
