@@ -7,7 +7,7 @@ export default function Hero() {
         Hi, I'm Federico Landorno
         <br />A UX Desinger with experience in
       </h1>
-      I'm a product designer with 4+ years building 0-to-1 B2B products. I work end-to-end: from research and ideation to design systems and developer handoff, balancing user needs with technical constraints in agile environments.
+      
       <div className="flex w-full justify-center text-xl font-semibold pt-4 gap-4">
         <Chip text={"Insurtech"} />
         <Chip text={"E-procurement"} />

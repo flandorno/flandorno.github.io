@@ -9,13 +9,13 @@ const Home = () => {
       <Hero />
       <div className="flex flex-col gap-16 justify-center mx-auto mt-8 max-w-7xl">
         <ProjectCard
-          title="Project 1"
-          subtitle="A sample project description."
+          title="From 45 to 3 minutes to issue a policy"
+          subtitle="Yoga - B2B2C SaaS Insurance Platform"
           link="/D4Next"
         />
         <ProjectCard
-          title="Project 1"
-          subtitle="A sample project description."
+          title='When surveys said "yes" but behavior said "no"'
+          subtitle="Electrolux Smart Home Widgets"
           link="/Electrolux"
         />
       </div>

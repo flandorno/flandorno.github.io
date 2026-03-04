@@ -4,11 +4,10 @@
   body {
     @apply bg-gray-950 text-white my-16;
   }
-  
+
   section {
     @apply mt-16;
   }
-
 
   h1 {
     @apply text-4xl font-bold tracking-tight;
@@ -26,11 +25,37 @@
     @apply text-xl font-semibold mt-4 mb-1;
   }
 
-  p {
+  p, li {
     @apply text-xl leading-relaxed text-gray-300;
   }
 
+  b {
+    @apply text-white;
+  }
   strong {
     @apply text-violet-400;
+  }
+
+  /* Table */
+  table {
+    @apply w-full border-separate border-spacing-x-0 border-spacing-y-2 mx-auto px-2 rounded-2xl border border-white/5 bg-white/10 font-semibold text-lg;
+  }
+  thead tr th {
+    @apply px-4 text-left;
+  }
+  tbody tr {
+    @apply bg-gray-950/80;
+  }
+  td:first-child {
+    @apply rounded-l-xl;
+  }
+  td:last-child {
+    @apply rounded-r-xl;
+  }
+  td, tr:last-child td {
+    @apply mb-2;
+  }
+  tbody tr td {
+    @apply p-4;
   }
 }

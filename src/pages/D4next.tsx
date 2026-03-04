@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import yoga1 from "../assets/yoga/yoga-1.png";
 import yoga2 from "../assets/yoga/yoga-2.png";
+import Banner from "../components/Banner";
 
 const D4Next = () => {
   return (
@@ -16,19 +17,18 @@ const D4Next = () => {
         </section>
 
         <section>
-          <h3 className="mb-2">Context & Challenge</h3>
+          <h3>Context & Challenge</h3>
           <p>
             When I joined D4NEXT in 2020, we were an 8-person startup trying to
             break into the Italian insurance software market, a space dominated
             by legacy systems from the '90s that insurance companies were
             reluctant to replace.
-            <div className="mt-4 -mx-4 w-auto p-4 rounded-2xl outline outline-white/15 backdrop-blur-md bg-white/10">
-              <strong>My challenge:</strong> Design a modern interface layer
-              that would sit on top of these existing systems, making them
-              accessible without requiring companies to rip out their
-              infrastructure.
-            </div>
           </p>
+          <Banner>
+            <strong>My challenge:</strong> Design a modern interface layer that
+            would sit on top of these existing systems, making them accessible
+            without requiring companies to rip out their infrastructure.
+          </Banner>
         </section>
 
         <section>
@@ -39,21 +39,23 @@ const D4Next = () => {
             <br />I expected to find complaints about confusing interfaces or
             missing features. Instead, I found two fundamental problems working
             together to kill productivity:
-            <ol className="list-decimal list-inside ml-4">
-              <li>
-                <strong>Task repetition</strong>, an agent helping a family
-                insure 3 cars and a house would repeat the same flow 4 times,
-                each time manually typing (or copy-pasting) the same customer
-                and assets data into disconnected screens. Every. Single. Time.
-              </li>
-              <li>
-                <strong>Non-linear navigation</strong>, the old system used a
-                "customizable card" interface where agents could jump between
-                sections freely. Sounds flexible, but in practice it meant
-                constantly hunting for the right card, losing context, and
-                forgetting which data was already entered.
-              </li>
-            </ol>
+          </p>
+          <ol className="list-decimal list-inside ml-4">
+            <li>
+              <strong>Task repetition</strong>, an agent helping a family insure
+              3 cars and a house would repeat the same flow 4 times, each time
+              manually typing (or copy-pasting) the same customer and assets
+              data into disconnected screens. Every. Single. Time.
+            </li>
+            <li>
+              <strong>Non-linear navigation</strong>, the old system used a
+              "customizable card" interface where agents could jump between
+              sections freely. Sounds flexible, but in practice it meant
+              constantly hunting for the right card, losing context, and
+              forgetting which data was already entered.
+            </li>
+          </ol>
+          <p>
             Agents took around <strong>45 minutes</strong> (avg) of navigation
             and copy-paste to get to the goal.
           </p>
@@ -141,35 +143,37 @@ const D4Next = () => {
 
         <section>
           <h3>The impact</h3>
-          <div className="mt-8 mx-auto grid grid-cols-1 w-auto p-2 items-center justify-center gap-2 rounded-2xl outline outline-white/15 backdrop-blur-md bg-white/10 font-semibold text-lg">
-            <div className="grid grid-cols-3">
-              <div></div>
-              <div className="px-4">Before</div>
-              <div className="px-4">After</div>
-            </div>
-            <div className="grid grid-cols-3 rounded-xl bg-gray-950/80">
-              <div className="p-4">Time per policy</div>
-              <div className="p-4">15-45 minutes</div>
-              <div className="p-4">1-10 minutes (avg 3)</div>
-            </div>
-            <div className="grid grid-cols-3 rounded-xl bg-gray-950/80">
-              <div className="p-4">Manual data entry</div>
-              <div className="p-4">11-111 fields</div>
-              <div className="p-4">1 field (existing customers)</div>
-            </div>
-
-            <div className="grid grid-cols-3 rounded-xl bg-gray-950/80">
-              <div className="p-4">Onboarding</div>
-              <div className="p-4">Days of training</div>
-              <div className="p-4">A few hours</div>
-            </div>
-
-            <div className="grid grid-cols-3 rounded-xl bg-gray-950/80">
-              <div className="p-4">Errors</div>
-              <div className="p-4">Frequent</div>
-              <div className="p-4">0 in 4 years</div>
-            </div>
-          </div>
+          <table className="mt-8">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Before</th>
+                <th>After</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Time per policy</td>
+                <td>15-45 minutes</td>
+                <td>1-10 minutes (avg 3)</td>
+              </tr>
+              <tr>
+                <td>Manual data entry</td>
+                <td>11-111 fields</td>
+                <td>1 field (existing customers)</td>
+              </tr>
+              <tr>
+                <td>Onboarding</td>
+                <td>Days of training</td>
+                <td>A few hours</td>
+              </tr>
+              <tr>
+                <td>Errors</td>
+                <td>Frequent</td>
+                <td>0 in 4 years</td>
+              </tr>
+            </tbody>
+          </table>
 
           <p className="mt-4">
             The solution didn't just win us DAS, it validated our approach and
