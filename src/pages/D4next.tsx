@@ -17,14 +17,14 @@ const D4Next = () => {
         </section>
 
         <section>
-          <h3 data-aos="fade-up" data-aos-duration="600">Context & Challenge</h3>
-          <p data-aos="fade-up" data-aos-duration="1200">
+          <h3>Context & Challenge</h3>
+          <p>
             When I joined D4NEXT in 2020, we were an 8-person startup trying to
             break into the Italian insurance software market, a space dominated
             by legacy systems from the '90s that insurance companies were
             reluctant to replace.
           </p>
-          <Banner data-aos="fade-up" data-aos-duration="1600">
+          <Banner data-aos="zoom-out" data-aos-duration="800">
             <strong>My challenge:</strong> Design a modern interface layer that
             would sit on top of these existing systems, making them accessible
             without requiring companies to rip out their infrastructure.
