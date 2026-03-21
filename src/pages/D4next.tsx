@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+import Header from "../components/NavBar";
 import yoga1 from "../assets/yoga/yoga-1.png";
 import yoga2 from "../assets/yoga/yoga-2.png";
 import Banner from "../components/Banner";

@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+import Header from "../components/NavBar";
 import Hero from "../components/Hero";
 import ProjectCard from "../components/ProjectCard";
 

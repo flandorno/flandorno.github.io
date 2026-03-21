@@ -1,5 +1,5 @@
 import AppIcon from "../components/AppIcon";
-import Header from "../components/Header";
+import Header from "../components/NavBar";
 import AppAura from "../assets/elux/aura-air.jpg";
 import AppBlue from "../assets/elux/blue-air.jpg";
 import AppCleanHome from "../assets/elux/clean-home.jpg";

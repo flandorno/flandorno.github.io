@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 
 const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Projects", href: "" },
+  { name: "Projects", href: "/" },
   { name: "About", href: "/About" },
   { name: "Resumee", href: "" },
 ];
@@ -20,7 +19,7 @@ export default function Header() {
           <Link
             key={name}
             to={href}
-            className="hover:bg-violet-800 px-4 py-2 rounded-full transition-colors duration-150"
+            className="hover:bg-violet-900 px-4 py-2 rounded-full transition-colors duration-150"
           >
             {name}
           </Link>
