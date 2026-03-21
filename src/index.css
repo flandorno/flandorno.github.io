@@ -30,10 +30,10 @@
   }
 
   b {
-    @apply text-white;
+    @apply text-white font-normal;
   }
   strong {
-    @apply text-violet-400;
+    @apply text-white;
   }
 
   /* Table */

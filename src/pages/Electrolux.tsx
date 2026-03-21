@@ -214,34 +214,32 @@ const Electrolux = () => {
 
         <section className="mt-16">
           <h3 className="mb-2">The Impact</h3>
-          <div className="overflow-x-auto mt-4">
-            <table>
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Initial Plan</th>
-                  <th>After Research</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Primary investment</td>
-                  <td>Home screen widgets</td>
-                  <td>Voice assistant integration</td>
-                </tr>
-                <tr>
-                  <td>Development priority</td>
-                  <td>High (6-month roadmap)</td>
-                  <td>Low (nice-to-have)</td>
-                </tr>
-                <tr>
-                  <td>Expected ROI</td>
-                  <td>Increased daily engagement</td>
-                  <td>Better strategic positioning</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table data-aos="zoom-out">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Initial Plan</th>
+                <th>After Research</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Primary investment</td>
+                <td>Home screen widgets</td>
+                <td>Voice assistant integration</td>
+              </tr>
+              <tr>
+                <td>Development priority</td>
+                <td>High (6-month roadmap)</td>
+                <td>Low (nice-to-have)</td>
+              </tr>
+              <tr>
+                <td>Expected ROI</td>
+                <td>Increased daily engagement</td>
+                <td>Better strategic positioning</td>
+              </tr>
+            </tbody>
+          </table>
           <p className="mt-6">
             Electrolux shifted resources to voice control development, aligning
             with where users were already comfortable controlling smart home

@@ -24,7 +24,7 @@ const D4Next = () => {
             by legacy systems from the '90s that insurance companies were
             reluctant to replace.
           </p>
-          <Banner data-aos="zoom-out" data-aos-duration="800">
+          <Banner>
             <strong>My challenge:</strong> Design a modern interface layer that
             would sit on top of these existing systems, making them accessible
             without requiring companies to rip out their infrastructure.
