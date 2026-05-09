@@ -242,7 +242,7 @@ export default function Hero() {
         Hi, I'm Federico Landorno
         <br />A UX Designer with experience in
       </h1>
-      <div className="relative z-10 flex w-full justify-center text-xl font-semibold pt-4 gap-4">
+      <div className="relative z-10 flex flex-col sm:flex-row w-full justify-center items-center text-base sm:text-xl font-semibold pt-4 gap-3 sm:gap-4">
         <Chip
           className="hero-chip"
           gradient="from-blue-500 to-violet-500"

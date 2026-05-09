@@ -29,39 +29,42 @@ export default function EluxSection() {
   useGSAP(() => {
     const robotEls = gsap.utils.toArray<HTMLElement>(".elux-robot", sectionRef.current);
 
-    // Hand all transforms to GSAP so it doesn't conflict with CSS
     robotEls.forEach((el, i) => {
       gsap.set(el, { rotation: robots[i].rotation });
     });
     gsap.set(imgRef.current, { xPercent: -50, rotation: 180 });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=1400",
-        pin: true,
-        scrub: 1.5,
-        pinSpacing: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      },
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 1024px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "+=1400",
+          pin: true,
+          scrub: 1.5,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      robotEls.forEach((el, i) => {
+        const { speed } = robots[i];
+        tl.to(el, {
+          y: -(speed * 320),
+          rotation: `+=${speed * 150}`,
+          opacity: 0,
+          duration: 0.5,
+          ease: "none",
+        }, 0);
+      });
+
+      tl.to(imgRef.current, { y: "90vh", ease: "none" }, 0);
     });
 
-    // Robots complete in the first half (duration 0.5 → 0–700px scroll)
-    robotEls.forEach((el, i) => {
-      const { speed } = robots[i];
-      tl.to(el, {
-        y: -(speed * 320),
-        rotation: `+=${speed * 150}`,
-        opacity: 0,
-        duration: 0.5,
-        ease: "none",
-      }, 0);
-    });
-
-    // Image spans the full timeline (0–1400px scroll)
-    tl.to(imgRef.current, { y: "90vh", ease: "none" }, 0);
+    return () => mm.revert();
   });
 
   return (
@@ -71,7 +74,7 @@ export default function EluxSection() {
     >
       <div
         onClick={() => navigate("/electrolux")}
-        className="relative flex-1 flex flex-col justify-between p-16 bg-elux-blue overflow-hidden rounded-4xl cursor-pointer
+        className="relative flex-1 flex flex-col justify-between p-6 sm:p-8 lg:p-16 bg-elux-blue overflow-hidden rounded-4xl cursor-pointer
                    transition-shadow duration-700
                    hover:shadow-[0_0_0_1px_rgba(30,120,255,0.5),0_0_60px_20px_rgba(0,90,220,0.28),0_0_140px_50px_rgba(0,70,190,0.1)]"
       >
@@ -90,16 +93,16 @@ export default function EluxSection() {
           />
         ))}
 
-        <img src={eluxLogo} alt="Electrolux logo" className="h-8 w-auto self-start relative z-10" />
+        <img src={eluxLogo} alt="Electrolux logo" className="h-6 sm:h-8 w-auto self-start relative z-10" />
 
         <div className="relative z-10">
           <p className="text-blue-400 font-semibold text-lg mb-2">02</p>
-          <h2 className="text-7xl font-semibold tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-7xl font-semibold tracking-tight">
             When surveys said "yes"
             <br />
             but behavior said "no"
           </h2>
-          <p className="text-2xl text-gray-400 mt-3">
+          <p className="text-base sm:text-lg lg:text-2xl text-gray-400 mt-3">
             Electrolux — Smart Home Widgets
           </p>
         </div>
@@ -108,7 +111,7 @@ export default function EluxSection() {
           ref={imgRef}
           src={robotVacuumCleaner}
           alt="robot vacuum"
-          className="absolute left-2/3 w-[25vw] pointer-events-none"
+          className="absolute left-2/3 w-[25vw] pointer-events-none hidden lg:block"
           style={{ top: "-50%", zIndex: 20 }}
         />
       </div>

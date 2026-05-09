@@ -69,7 +69,7 @@ const Electrolux = () => {
 
   return (
     <div ref={containerRef} className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-0">
-      <section className="mt-32 mb-16">
+      <section className="mt-24 sm:mt-32 mb-16">
         <p className="text-gray-400 mb-3 tracking-wide uppercase text-sm font-medium">
           Electrolux Smart Home Widgets
         </p>
@@ -183,13 +183,13 @@ const Electrolux = () => {
           used them in their daily lives while I tracked usage and conducted
           follow-up interviews.
         </p>
-        <div className="flex gap-3 my-8 items-end">
+        <div className="elux-screens-grid flex gap-2 sm:gap-3 my-8 items-end">
           {[Screen1, Screen2, Screen3, Screen4, Screen5].map((src, i) => (
             <img
               key={i}
               src={src}
               alt={`Screen ${i + 1}`}
-              className="flex-1 min-w-0 rounded-xl object-contain"
+              className="elux-screen flex-1 min-w-0 rounded-lg sm:rounded-xl object-contain"
             />
           ))}
         </div>
@@ -290,6 +290,7 @@ const Electrolux = () => {
 
       <section className="mb-16">
         <h3 className="mb-4">The Impact</h3>
+        <div className="overflow-x-auto">
         <table>
           <thead>
             <tr>
@@ -316,6 +317,7 @@ const Electrolux = () => {
             </tr>
           </tbody>
         </table>
+        </div>
         <p className="mt-6">
           Electrolux shifted resources to voice control development, aligning
           with where users were already comfortable controlling smart home

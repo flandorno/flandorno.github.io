@@ -32,7 +32,7 @@ const D4Next = () => {
   return (
     <div ref={containerRef} className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-0">
 
-      <section className="mt-32 mb-16">
+      <section className="mt-24 sm:mt-32 mb-16">
         <p className="text-gray-400 mb-3 tracking-wide uppercase text-sm font-medium">Yoga — B2B2C SaaS Insurance Platform</p>
         <h1>From 45 to 3 minutes to issue a policy</h1>
         <div className="w-full h-96 bg-gray-800 rounded-2xl mt-6"></div>
@@ -165,7 +165,8 @@ const D4Next = () => {
 
       <section className="mb-32">
         <h3 className="mb-4">The impact</h3>
-        <table className="mt-6">
+        <div className="overflow-x-auto mt-6">
+        <table>
           <thead>
             <tr>
               <th></th>
@@ -196,6 +197,7 @@ const D4Next = () => {
             </tr>
           </tbody>
         </table>
+        </div>
         <p className="mt-6">
           The solution didn't just win us DAS, it validated our approach and
           opened doors to Unipol, Generali, and Zurich. By 2024, 8+ insurance
