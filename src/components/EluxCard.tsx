@@ -76,8 +76,7 @@ export default function EluxSection() {
         aria-label="Electrolux case study: Smart Home Widgets research"
         className="relative flex-1 flex flex-col justify-between p-6 sm:p-8 lg:p-16 bg-elux-blue overflow-hidden rounded-4xl
                    transition-shadow duration-700
-                   hover:shadow-[0_0_0_1px_rgba(30,120,255,0.5),0_0_60px_20px_rgba(0,90,220,0.28),0_0_140px_50px_rgba(0,70,190,0.1)]
-                   focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950 focus-visible:outline-none"
+                   hover:shadow-[0_0_0_1px_rgba(30,120,255,0.5),0_0_60px_20px_rgba(0,90,220,0.28),0_0_140px_50px_rgba(0,70,190,0.1)]"
       >
         {robots.map((robot, i) => (
           <img

@@ -43,7 +43,7 @@ export default function App() {
       <a
         href="#main-content"
         onClick={(e) => { e.preventDefault(); document.getElementById("main-content")?.focus(); }}
-        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-100 focus-visible:px-4 focus-visible:py-2 focus-visible:bg-white focus-visible:text-gray-900 focus-visible:rounded-lg focus-visible:font-semibold"
+        className="fixed top-4 left-1/2 -translate-x-1/2 -translate-y-20 focus:translate-y-0 z-100 px-4 py-2 bg-white text-gray-900 rounded-lg font-semibold transition-transform duration-200"
       >
         Skip to main content
       </a>
