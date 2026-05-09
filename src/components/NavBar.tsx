@@ -2,9 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 const navLinks = [
-  { name: "Projects", href: "/" } /*
-  { name: "About", href: "/About" },
-  { name: "Resumee", href: "" },*/,
+  { name: "Projects", href: "/" },
 ];
 
 export default function Header() {

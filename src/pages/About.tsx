@@ -119,13 +119,11 @@ const About = () => {
     <>
       <Hero />
 
-      {/* Sezione pinnata */}
       <div className="relative w-full h-screen">
         <section
           ref={boxRef}
           className="absolute h-screen w-full flex flex-col justify-end p-16 bg-blue-950 overflow-hidden"
         >
-          {/* Robot parallax — sotto al testo */}
           {robots.map((robot, i) => (
             <img
               key={i}
@@ -143,7 +141,6 @@ const About = () => {
             />
           ))}
 
-          {/* Testo — sopra i robot */}
           <div className="relative z-10">
             <p className="text-blue-400 font-semibold text-lg mb-2">02</p>
             <h2 className="text-7xl font-semibold tracking-tight">
@@ -156,7 +153,6 @@ const About = () => {
             </p>
           </div>
 
-          {/* Robot animato — sopra tutto */}
           <img
             ref={imgRef}
             src={robotVacuumCleaner}
@@ -171,7 +167,6 @@ const About = () => {
         </section>
       </div>
 
-      {/* Sezione finale */}
       <section
         className="h-screen flex flex-col justify-end p-16"
         style={{ marginTop: 0 }}
