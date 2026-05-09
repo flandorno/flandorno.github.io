@@ -1,26 +1,49 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ScrollToTop from "./ScrollToTop";
+import Header from "./components/NavBar";
 import Home from "./pages/Home";
 import Electrolux from "./pages/Electrolux";
 import D4next from "./pages/D4next";
 import About from "./pages/About";
-import { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+
+gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
+
+function HomeLayout() {
+  const smoothWrapper = useRef<HTMLDivElement>(null);
+  const smoothContent = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const smoother = ScrollSmoother.create({
+      wrapper: smoothWrapper.current!,
+      content: smoothContent.current!,
+      smooth: 1.5,
+      effects: true,
+    });
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => smoother.kill();
+  }, { dependencies: [] });
+
+  return (
+    <div ref={smoothWrapper} id="smooth-wrapper">
+      <div ref={smoothContent} id="smooth-content">
+        <Home />
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
-useEffect(() => {
-    AOS.init({
-      duration: 800,   // durata animazione in ms
-      once: true,      // anima solo la prima volta
-    });
-  }, []);
-
   return (
     <HashRouter>
       <ScrollToTop />
+      <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomeLayout />} />
         <Route path="/d4next" element={<D4next />} />
         <Route path="/electrolux" element={<Electrolux />} />
         <Route path="/about" element={<About />} />

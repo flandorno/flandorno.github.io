@@ -1,13 +1,20 @@
+import gsap from "gsap";
+import { Draggable } from "gsap/all";
+
+gsap.registerPlugin(Draggable);
+
 type ChipProps = {
   text: string;
+  className?: string;
+  gradient: string;
 };
 
-function Chip({text}: ChipProps) {
+function Chip({ text, className, gradient }: ChipProps) {
   return (
-    <div className="px-4 py-2 rounded-full text-white bg-neutral-800">
-        {text}
+    <div className={`px-4 py-2 rounded-full text-white bg-linear-to-r ${gradient} ${className ?? ""}`}>
+      {text}
     </div>
-  )
+  );
 }
 
 export default Chip;
