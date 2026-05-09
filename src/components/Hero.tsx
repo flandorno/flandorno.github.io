@@ -50,6 +50,7 @@ function ShapeSVG({ shape }: { shape: Shape }) {
     height: size,
     viewBox: `0 0 ${size} ${size}`,
     style: { left: shape.left, top: shape.top },
+    "aria-hidden": true as const,
   };
 
   if (type === "ring") {
@@ -102,29 +103,6 @@ export default function Hero() {
 
   useGSAP(
     () => {
-      SplitText.create(titleRef.current, {
-        type: "lines",
-        mask: "lines",
-        autoSplit: true,
-        onSplit(self) {
-          return gsap.from(self.lines, {
-            y: "110%",
-            duration: 0.9,
-            ease: "power4.out",
-            stagger: 0.12,
-          });
-        },
-      });
-
-      gsap.from(".hero-chip", {
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        ease: "power3.out",
-        stagger: 0.1,
-        delay: 0.55,
-      });
-
       const shapeEls = gsap.utils.toArray<HTMLElement>(".hero-shape", container.current);
 
       shapeEls.forEach((el, i) => {
@@ -133,87 +111,63 @@ export default function Hero() {
         }
       });
 
-      gsap.from(shapeEls, {
-        opacity: 0,
-        scale: 0.3,
-        duration: 0.9,
-        stagger: { amount: 1.2, from: "random" },
-        ease: "back.out(1.7)",
-        delay: 0.15,
-      });
-
-      shapeEls.forEach((el, i) => {
-        const { floatY, floatDur, type } = shapes[i];
-        const phase = (i * 0.7) % floatDur;
-
-        // Vertical float — more pronounced
-        gsap.to(el, {
-          y: floatY * 1.8,
-          duration: floatDur,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          delay: phase,
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        SplitText.create(titleRef.current, {
+          type: "lines",
+          mask: "lines",
+          autoSplit: true,
+          onSplit(self) {
+            return gsap.from(self.lines, {
+              y: "110%",
+              duration: 0.9,
+              ease: "power4.out",
+              stagger: 0.12,
+            });
+          },
         });
 
-        // Horizontal drift for organic feel
-        gsap.to(el, {
-          x: floatY * 0.55,
-          duration: floatDur * 1.35,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          delay: phase * 0.6,
+        gsap.from(".hero-chip", {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: "power3.out",
+          stagger: 0.1,
+          delay: 0.55,
         });
 
-        // Rings: slow continuous rotation
-        if (type === "ring") {
-          gsap.to(el, {
-            rotation: "+=360",
-            duration: floatDur * 10,
-            repeat: -1,
-            ease: "none",
-          });
-        }
+        gsap.from(shapeEls, {
+          opacity: 0,
+          scale: 0.3,
+          duration: 0.9,
+          stagger: { amount: 1.2, from: "random" },
+          ease: "back.out(1.7)",
+          delay: 0.15,
+        });
 
-        // Plus: wobble rotation around initial angle
-        if (type === "plus") {
-          gsap.to(el, {
-            rotation: `+=${18}`,
-            duration: floatDur * 1.2,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-            delay: phase,
-          });
-        }
+        shapeEls.forEach((el, i) => {
+          const { floatY, floatDur, type } = shapes[i];
+          const phase = (i * 0.7) % floatDur;
 
-        // Diamond: gentle tilt
-        if (type === "diamond") {
-          gsap.fromTo(
-            el,
-            { rotation: -10 },
-            {
-              rotation: 10,
-              duration: floatDur * 1.5,
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-              delay: phase,
-            },
-          );
-        }
+          gsap.to(el, { y: floatY * 1.8, duration: floatDur, repeat: -1, yoyo: true, ease: "sine.inOut", delay: phase });
+          gsap.to(el, { x: floatY * 0.55, duration: floatDur * 1.35, repeat: -1, yoyo: true, ease: "sine.inOut", delay: phase * 0.6 });
+
+          if (type === "ring") {
+            gsap.to(el, { rotation: "+=360", duration: floatDur * 10, repeat: -1, ease: "none" });
+          }
+          if (type === "plus") {
+            gsap.to(el, { rotation: `+=${18}`, duration: floatDur * 1.2, repeat: -1, yoyo: true, ease: "sine.inOut", delay: phase });
+          }
+          if (type === "diamond") {
+            gsap.fromTo(el, { rotation: -10 }, { rotation: 10, duration: floatDur * 1.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: phase });
+          }
+        });
+
+        gsap.set(".hero-glow", { opacity: 0.5 });
+        gsap.to(".hero-glow", { opacity: 1, scale: 1.3, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
       });
 
-      gsap.set(".hero-glow", { opacity: 0.5 });
-      gsap.to(".hero-glow", {
-        opacity: 1,
-        scale: 1.3,
-        duration: 4,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
+      return () => mm.revert();
     },
     { scope: container },
   );
@@ -224,6 +178,7 @@ export default function Hero() {
       className="relative overflow-hidden h-screen justify-center content-center text-center p-6 sm:p-8 lg:p-16"
     >
       <div
+        aria-hidden="true"
         className="hero-glow absolute inset-0 pointer-events-none"
         style={{
           background:

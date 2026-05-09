@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -24,7 +24,6 @@ const robots = [
 export default function EluxSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
-  const navigate = useNavigate();
 
   useGSAP(() => {
     const robotEls = gsap.utils.toArray<HTMLElement>(".elux-robot", sectionRef.current);
@@ -72,11 +71,13 @@ export default function EluxSection() {
       ref={sectionRef}
       className="relative h-screen w-full flex p-6 md:p-12 lg:p-16 z-10"
     >
-      <div
-        onClick={() => navigate("/electrolux")}
-        className="relative flex-1 flex flex-col justify-between p-6 sm:p-8 lg:p-16 bg-elux-blue overflow-hidden rounded-4xl cursor-pointer
+      <Link
+        to="/electrolux"
+        aria-label="Electrolux case study: Smart Home Widgets research"
+        className="relative flex-1 flex flex-col justify-between p-6 sm:p-8 lg:p-16 bg-elux-blue overflow-hidden rounded-4xl
                    transition-shadow duration-700
-                   hover:shadow-[0_0_0_1px_rgba(30,120,255,0.5),0_0_60px_20px_rgba(0,90,220,0.28),0_0_140px_50px_rgba(0,70,190,0.1)]"
+                   hover:shadow-[0_0_0_1px_rgba(30,120,255,0.5),0_0_60px_20px_rgba(0,90,220,0.28),0_0_140px_50px_rgba(0,70,190,0.1)]
+                   focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950 focus-visible:outline-none"
       >
         {robots.map((robot, i) => (
           <img
@@ -114,7 +115,7 @@ export default function EluxSection() {
           className="absolute left-2/3 w-[25vw] pointer-events-none hidden lg:block"
           style={{ top: "-50%", zIndex: 20 }}
         />
-      </div>
+      </Link>
     </section>
   );
 }

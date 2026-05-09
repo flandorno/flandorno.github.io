@@ -5,6 +5,18 @@
   --color-d4-purple: #FF29A8;
 }
 
+/* Focus visible — ring visibile per navigazione da tastiera */
+:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Main riceve focus programmatico al cambio di route — nascondere l'outline */
+main:focus {
+  outline: none;
+}
+
 @layer base {
   body {
     @apply bg-gray-950 text-white;

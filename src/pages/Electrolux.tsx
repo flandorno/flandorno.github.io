@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -29,40 +29,46 @@ gsap.registerPlugin(ScrollTrigger);
 const Electrolux = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    document.title = "Electrolux Case Study | Federico Landorno";
+    return () => { document.title = "Portfolio | Federico Landorno"; };
+  }, []);
+
   useGSAP(
     () => {
-      gsap.utils
-        .toArray<HTMLElement>("section", containerRef.current)
-        .forEach((section) => {
-          gsap.from(section, {
-            opacity: 0,
-            y: 20,
-            duration: 0.65,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: section,
-              start: "top 88%",
-            },
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.utils
+          .toArray<HTMLElement>("section", containerRef.current)
+          .forEach((section) => {
+            gsap.from(section, {
+              opacity: 0,
+              y: 20,
+              duration: 0.65,
+              ease: "power3.out",
+              scrollTrigger: { trigger: section, start: "top 88%" },
+            });
           });
+
+        gsap.from(".elux-screen", {
+          opacity: 0,
+          scale: 0.4,
+          duration: 0.45,
+          stagger: { amount: 0.7, from: "start" },
+          ease: "back.out(1.6)",
+          scrollTrigger: { trigger: ".elux-screens-grid", start: "top 88%" },
         });
 
-      gsap.from(".elux-screen", {
-        opacity: 0,
-        scale: 0.4,
-        duration: 0.45,
-        stagger: { amount: 0.7, from: "start" },
-        ease: "back.out(1.6)",
-        scrollTrigger: { trigger: ".elux-screens-grid", start: "top 88%" },
+        gsap.from(".elux-app-icon", {
+          opacity: 0,
+          scale: 0.4,
+          duration: 0.45,
+          stagger: { amount: 0.7, from: "center" },
+          ease: "back.out(1.6)",
+          scrollTrigger: { trigger: ".elux-icons-grid", start: "top 88%" },
+        });
       });
-
-      gsap.from(".elux-app-icon", {
-        opacity: 0,
-        scale: 0.4,
-        duration: 0.45,
-        stagger: { amount: 0.7, from: "center" },
-        ease: "back.out(1.6)",
-        scrollTrigger: { trigger: ".elux-icons-grid", start: "top 88%" },
-      });
+      return () => mm.revert();
     },
     { scope: containerRef },
   );
@@ -83,7 +89,7 @@ const Electrolux = () => {
       </section>
 
       <section className="mb-16">
-        <h3 className="mb-4">Setting the Stage</h3>
+        <h2 className="text-2xl font-semibold mb-4">Setting the Stage</h2>
         <p>
           In 2019, I joined Electrolux as a junior designer working on their
           connected appliances app. Smart home adoption was growing, and the
@@ -105,16 +111,16 @@ const Electrolux = () => {
       </section>
 
       <section className="mb-16">
-        <h3 className="mb-4">Designing the Research</h3>
+        <h2 className="text-2xl font-semibold mb-4">Designing the Research</h2>
         <p>
           I structured the research in three phases to test the hypothesis from
           different angles. My senior mentor helped me refine the approach,
           ensuring each phase would give us actionable insights.
         </p>
 
-        <h4 className="mt-10 mb-2">
+        <h3 className="text-xl font-semibold mt-10 mb-2">
           Phase 1: Market research & competitive analysis
-        </h4>
+        </h3>
         <p>
           I started by understanding the landscape. What were other smart home
           apps doing? How were users actually controlling their devices? I
@@ -147,9 +153,9 @@ const Electrolux = () => {
           existed, but weren't a talked-about feature.
         </p>
 
-        <h4 className="mt-10 mb-2">
+        <h3 className="text-xl font-semibold mt-10 mb-2">
           Phase 2: User interviews (15 participants)
-        </h4>
+        </h3>
         <p>
           I interviewed current Electrolux app users to understand their daily
           routines with connected appliances. How often did they open the app?
@@ -174,9 +180,9 @@ const Electrolux = () => {
           <em>remembering</em> to use them at all.
         </p>
 
-        <h4 className="mt-10 mb-2">
+        <h3 className="text-xl font-semibold mt-10 mb-2">
           Phase 3: Prototype & field testing (20 participants, 2 weeks)
-        </h4>
+        </h3>
         <p>
           This is where it got real. I designed and developed functional widgets
           that participants installed on their smartphones. For two weeks, they
@@ -211,7 +217,7 @@ const Electrolux = () => {
       </section>
 
       <section className="mb-16">
-        <h3 className="mb-4">The Uncomfortable Truth</h3>
+        <h2 className="text-2xl font-semibold mb-4">The Uncomfortable Truth</h2>
         <p>
           After months of work, I had to present findings that weren't what
           anyone wanted to hear: <strong>the data was inconclusive</strong>.
@@ -232,7 +238,7 @@ const Electrolux = () => {
       </section>
 
       <section className="mb-16">
-        <h3 className="mb-4">The Real Insight</h3>
+        <h2 className="text-2xl font-semibold mb-4">The Real Insight</h2>
         <p>
           As I walked through the findings, a pattern emerged that was more
           valuable than widget validation:{" "}
@@ -274,7 +280,7 @@ const Electrolux = () => {
       </section>
 
       <section className="mb-16">
-        <h3 className="mb-4">The Recommendation</h3>
+        <h2 className="text-2xl font-semibold mb-4">The Recommendation</h2>
         <p>
           I presented Electrolux with a recommendation: don't invest heavily in
           widget development. The feature could exist as a low-effort addition,
@@ -289,29 +295,30 @@ const Electrolux = () => {
       </section>
 
       <section className="mb-16">
-        <h3 className="mb-4">The Impact</h3>
+        <h2 className="text-2xl font-semibold mb-4">The Impact</h2>
         <div className="overflow-x-auto">
         <table>
+          <caption className="sr-only">Comparison of investment plan before and after research</caption>
           <thead>
             <tr>
-              <th></th>
-              <th>Initial Plan</th>
-              <th>After Research</th>
+              <th scope="col" aria-label="Category"></th>
+              <th scope="col">Initial Plan</th>
+              <th scope="col">After Research</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Primary investment</td>
+              <th scope="row">Primary investment</th>
               <td>Home screen widgets</td>
               <td>Voice assistant integration</td>
             </tr>
             <tr>
-              <td>Development priority</td>
+              <th scope="row">Development priority</th>
               <td>High (6-month roadmap)</td>
               <td>Low (nice-to-have)</td>
             </tr>
             <tr>
-              <td>Expected ROI</td>
+              <th scope="row">Expected ROI</th>
               <td>Increased daily engagement</td>
               <td>Better strategic positioning</td>
             </tr>
@@ -332,7 +339,7 @@ const Electrolux = () => {
       </section>
 
       <section className="mb-32">
-        <h3 className="mb-4">What I learned</h3>
+        <h2 className="text-2xl font-semibold mb-4">What I learned</h2>
         <p>
           <strong>
             Research isn't about proving hypotheses right, it's about finding

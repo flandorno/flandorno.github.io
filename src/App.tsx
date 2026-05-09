@@ -40,14 +40,23 @@ function HomeLayout() {
 export default function App() {
   return (
     <HashRouter>
+      <a
+        href="#main-content"
+        onClick={(e) => { e.preventDefault(); document.getElementById("main-content")?.focus(); }}
+        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-100 focus-visible:px-4 focus-visible:py-2 focus-visible:bg-white focus-visible:text-gray-900 focus-visible:rounded-lg focus-visible:font-semibold"
+      >
+        Skip to main content
+      </a>
       <ScrollToTop />
       <Header />
-      <Routes>
-        <Route path="/" element={<HomeLayout />} />
-        <Route path="/d4next" element={<D4next />} />
-        <Route path="/electrolux" element={<Electrolux />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
+      <main id="main-content" tabIndex={-1}>
+        <Routes>
+          <Route path="/" element={<HomeLayout />} />
+          <Route path="/d4next" element={<D4next />} />
+          <Route path="/electrolux" element={<Electrolux />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </main>
     </HashRouter>
   );
 }

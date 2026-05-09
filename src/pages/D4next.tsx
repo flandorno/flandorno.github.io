@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,20 +11,26 @@ gsap.registerPlugin(ScrollTrigger);
 const D4Next = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    document.title = "D4Next Case Study | Federico Landorno";
+    return () => { document.title = "Portfolio | Federico Landorno"; };
+  }, []);
+
   useGSAP(
     () => {
-      gsap.utils.toArray<HTMLElement>("section", containerRef.current).forEach((section) => {
-        gsap.from(section, {
-          opacity: 0,
-          y: 20,
-          duration: 0.65,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 88%",
-          },
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.utils.toArray<HTMLElement>("section", containerRef.current).forEach((section) => {
+          gsap.from(section, {
+            opacity: 0,
+            y: 20,
+            duration: 0.65,
+            ease: "power3.out",
+            scrollTrigger: { trigger: section, start: "top 88%" },
+          });
         });
       });
+      return () => mm.revert();
     },
     { scope: containerRef },
   );
@@ -39,7 +45,7 @@ const D4Next = () => {
       </section>
 
       <section className="mb-16">
-        <h3 className="mb-4">Context & Challenge</h3>
+        <h2 className="text-2xl font-semibold mb-4">Context & Challenge</h2>
         <p>
           When I joined D4NEXT in 2020, we were an 8-person startup trying to
           break into the Italian insurance software market, a space dominated
@@ -56,7 +62,7 @@ const D4Next = () => {
       </section>
 
       <section className="mb-16">
-        <h3 className="mb-4">Finding the real problem</h3>
+        <h2 className="text-2xl font-semibold mb-4">Finding the real problem</h2>
         <p>
           I spent two weeks shadowing insurance agents at two agencies,
           watching how they actually worked.
@@ -92,9 +98,9 @@ const D4Next = () => {
       </section>
 
       <section className="mb-16">
-        <h3 className="mb-4">Designing the solution</h3>
+        <h2 className="text-2xl font-semibold mb-4">Designing the solution</h2>
 
-        <h4 className="mt-10 mb-2">Making the system remember</h4>
+        <h3 className="text-xl font-semibold mt-10 mb-2">Making the system remember</h3>
         <p>
           I redesigned the quote flow around a simple principle: the system
           does the remembering, agents take care of their customers.
@@ -123,7 +129,7 @@ const D4Next = () => {
         ></div>
         <p>The result: From 11-111 fields of manual entry → Just one.</p>
 
-        <h4 className="mt-10 mb-2">Preventing frustration before it happens</h4>
+        <h3 className="text-xl font-semibold mt-10 mb-2">Preventing frustration before it happens</h3>
         <p>
           Through shadowing, I'd also seen how errors broke flow. An agent
           would spend 20 minutes carefully building a quote, hit "Submit," and
@@ -143,7 +149,7 @@ const D4Next = () => {
           with errors. Almost zero rework requests from insurance companies.
         </p>
 
-        <h4 className="mt-10 mb-2">Guided, but not rigid</h4>
+        <h3 className="text-xl font-semibold mt-10 mb-2">Guided, but not rigid</h3>
         <p>
           Insurance products vary wildly between companies (auto, home,
           business, standard/custom coverage). I couldn't design one rigid
@@ -164,34 +170,35 @@ const D4Next = () => {
       </section>
 
       <section className="mb-32">
-        <h3 className="mb-4">The impact</h3>
+        <h2 className="text-2xl font-semibold mb-4">The impact</h2>
         <div className="overflow-x-auto mt-6">
         <table>
+          <caption className="sr-only">Impact metrics before and after redesign</caption>
           <thead>
             <tr>
-              <th></th>
-              <th>Before</th>
-              <th>After</th>
+              <th scope="col" aria-label="Metric"></th>
+              <th scope="col">Before</th>
+              <th scope="col">After</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Time per policy</td>
+              <th scope="row">Time per policy</th>
               <td>15-45 minutes</td>
               <td>1-10 minutes (avg 3)</td>
             </tr>
             <tr>
-              <td>Manual data entry</td>
+              <th scope="row">Manual data entry</th>
               <td>11-111 fields</td>
               <td>1 field (existing customers)</td>
             </tr>
             <tr>
-              <td>Onboarding</td>
+              <th scope="row">Onboarding</th>
               <td>Days of training</td>
               <td>A few hours</td>
             </tr>
             <tr>
-              <td>Errors</td>
+              <th scope="row">Errors</th>
               <td>Frequent</td>
               <td>0 in 4 years</td>
             </tr>

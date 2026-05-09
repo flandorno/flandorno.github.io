@@ -130,7 +130,7 @@ const About = () => {
             <img
               key={i}
               src={robotVacuumCleaner}
-              alt="robot"
+              alt=""
               data-speed={robot.speed}
               className={`absolute ${robot.size} pointer-events-none`}
               style={{
