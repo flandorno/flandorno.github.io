@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Electrolux from "./pages/Electrolux";
 import D4next from "./pages/D4next";
 import About from "./pages/About";
+import N4m from "./pages/N4m";
 
 gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
 
@@ -55,6 +56,7 @@ export default function App() {
           <Route path="/d4next" element={<D4next />} />
           <Route path="/electrolux" element={<Electrolux />} />
           <Route path="/about" element={<About />} />
+          <Route path="/n4m" element={<N4m />} />
         </Routes>
       </main>
     </HashRouter>
