@@ -1,119 +1,91 @@
-import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import robotVacuumCleaner from "../assets/elux/robot-vacuum-cleaner.png";
 import eluxLogo from "../assets/elux/elux-logo.svg";
+import vacuumNavy from "../assets/elux/robot-vacuum-cleaner.png";
+import vacuumGold from "../assets/elux/robot-vacuum-cleaner2.png";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const robots = [
-  { left: "10%", top: "20%", speed: 0.3, size: "w-16", opacity: 0.3, rotation: 45 },
-  { left: "25%", top: "60%", speed: 0.6, size: "w-24", opacity: 0.5, rotation: 120 },
-  { left: "40%", top: "10%", speed: 1.2, size: "w-20", opacity: 0.7, rotation: 200 },
-  { left: "55%", top: "75%", speed: 0.8, size: "w-32", opacity: 0.4, rotation: 90 },
-  { left: "70%", top: "30%", speed: 1.5, size: "w-12", opacity: 0.6, rotation: 270 },
-  { left: "80%", top: "50%", speed: 0.4, size: "w-28", opacity: 0.3, rotation: 15 },
-  { left: "15%", top: "85%", speed: 1.8, size: "w-16", opacity: 0.8, rotation: 180 },
-  { left: "90%", top: "15%", speed: 0.9, size: "w-20", opacity: 0.5, rotation: 330 },
-  { left: "60%", top: "5%",  speed: 1.3, size: "w-14", opacity: 0.4, rotation: 60 },
-  { left: "35%", top: "90%", speed: 0.7, size: "w-24", opacity: 0.6, rotation: 150 },
-];
-
-export default function EluxSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  useGSAP(() => {
-    const robotEls = gsap.utils.toArray<HTMLElement>(".elux-robot", sectionRef.current);
-
-    robotEls.forEach((el, i) => {
-      gsap.set(el, { rotation: robots[i].rotation });
-    });
-    gsap.set(imgRef.current, { xPercent: -50, rotation: 180 });
-
-    const mm = gsap.matchMedia();
-
-    mm.add("(min-width: 1024px)", () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "+=1400",
-          pin: true,
-          scrub: 1.5,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      robotEls.forEach((el, i) => {
-        const { speed } = robots[i];
-        tl.to(el, {
-          y: -(speed * 320),
-          rotation: `+=${speed * 150}`,
-          opacity: 0,
-          duration: 0.5,
-          ease: "none",
-        }, 0);
-      });
-
-      tl.to(imgRef.current, { y: "90vh", ease: "none" }, 0);
-    });
-
-    return () => mm.revert();
-  });
-
+export default function EluxCard2() {
   return (
-    <section
-      ref={sectionRef}
-      className="relative h-screen w-full flex p-6 md:p-12 lg:p-16 z-10"
-    >
+    <section className="relative h-[75svh] md:h-screen w-full flex p-6 md:p-12 lg:p-16 z-10">
       <Link
         to="/electrolux"
         aria-label="Electrolux case study: Smart Home Widgets research"
-        className="relative flex-1 flex flex-col justify-between p-6 sm:p-8 lg:p-16 bg-elux-blue overflow-hidden rounded-4xl
+        className="relative flex-1 flex flex-col justify-between
+                   p-6 sm:p-8 lg:px-[5.4cqw] lg:pt-[5cqw] lg:pb-[6cqw]
+                   overflow-hidden rounded-[30px] @container
+                   [background:radial-gradient(120%_95%_at_72%_6%,#1A3F77_0%,#102E5C_42%,#0A2348_100%)]
                    transition-shadow duration-700
                    hover:shadow-[0_0_0_1px_rgba(30,120,255,0.5),0_0_60px_20px_rgba(0,90,220,0.28),0_0_140px_50px_rgba(0,70,190,0.1)]"
       >
-        {robots.map((robot, i) => (
-          <img
-            key={i}
-            src={robotVacuumCleaner}
-            alt=""
-            className={`elux-robot absolute ${robot.size} pointer-events-none`}
-            style={{
-              left: robot.left,
-              top: robot.top,
-              opacity: robot.opacity,
-              zIndex: 0,
-            }}
-          />
-        ))}
+        {/* Logo */}
+        <img
+          src={eluxLogo}
+          alt="Electrolux logo"
+          className="relative z-10 h-8 sm:h-12 w-auto self-start"
+        />
 
-        <img src={eluxLogo} alt="Electrolux logo" className="h-6 sm:h-8 w-auto self-start relative z-10" />
-
-        <div className="relative z-10">
-          <p className="text-blue-400 font-semibold text-lg mb-2">02</p>
-          <h2 className="text-3xl sm:text-4xl lg:text-7xl font-semibold tracking-tight">
-            When surveys said "yes"
-            <br />
-            but behavior said "no"
-          </h2>
-          <p className="text-base sm:text-lg lg:text-2xl text-gray-400 mt-3">
-            Electrolux — Smart Home Widgets
-          </p>
+        {/* Robots mobile — centered flex child, hidden on lg */}
+        <div aria-hidden="true" className="flex-1 flex items-center justify-center overflow-hidden lg:hidden">
+          <div className="relative flex items-end">
+            <img
+              src={vacuumNavy}
+              alt=""
+              className="relative z-1 w-[52cqw] md:w-[30cqw] rotate-[9deg] -mr-[14cqw] md:-mr-[8cqw]"
+              style={{ filter: "drop-shadow(0 1.5cqw 2cqw rgba(0,0,0,.5))" }}
+            />
+            <img
+              src={vacuumGold}
+              alt=""
+              className="relative z-2 w-[62cqw] md:w-[38cqw] -rotate-6"
+              style={{ filter: "drop-shadow(0 2cqw 3cqw rgba(0,0,0,.55))" }}
+            />
+          </div>
         </div>
 
-        <img
-          ref={imgRef}
-          src={robotVacuumCleaner}
-          alt="robot vacuum"
-          className="absolute left-2/3 w-[25vw] pointer-events-none hidden lg:block"
-          style={{ top: "-50%", zIndex: 20 }}
-        />
+        {/* Robots desktop — absolute stage, hidden below lg */}
+        <div aria-hidden="true" className="hidden lg:block absolute inset-x-0 top-0 h-[62%] z-2 pointer-events-none">
+          {/* Glow */}
+          <div className="absolute rounded-full blur-[6px] z-1
+                          w-[46cqw] h-[46cqw] -top-[3cqw] right-[3cqw]
+                          [background:radial-gradient(circle,rgba(120,170,235,.32)_0%,rgba(120,170,235,0)_68%)]" />
+          {/* Navy shadow */}
+          <div className="absolute rounded-full blur-[3px] z-2
+                          w-[26cqw] h-[6cqw] top-[29cqw] right-[31cqw]
+                          [background:radial-gradient(ellipse,rgba(0,0,0,.45)_0%,rgba(0,0,0,0)_70%)]" />
+          {/* Gold shadow */}
+          <div className="absolute rounded-full blur-[3px] z-2
+                          w-[30cqw] h-[7cqw] top-[39cqw] right-[7cqw]
+                          [background:radial-gradient(ellipse,rgba(0,0,0,.45)_0%,rgba(0,0,0,0)_70%)]" />
+          {/* Navy robot */}
+          <img
+            src={vacuumNavy}
+            alt=""
+            className="absolute z-3 w-[25cqw] top-[5cqw] right-[30cqw] rotate-[9deg]"
+            style={{ filter: "drop-shadow(0 2cqw 3cqw rgba(0,0,0,.5))" }}
+          />
+          {/* Gold robot */}
+          <img
+            src={vacuumGold}
+            alt=""
+            className="absolute z-3 w-[33cqw] top-[11cqw] right-[5cqw] -rotate-6"
+            style={{ filter: "drop-shadow(0 3cqw 4cqw rgba(0,0,0,.55))" }}
+          />
+        </div>
+
+        {/* Text */}
+        <div className="relative z-10">
+          <p className="text-[#5B9BE0] font-bold tracking-widest mb-2 lg:mb-[1.5cqw]
+                        text-sm lg:text-[1.35cqw]">
+            03
+          </p>
+          <h2 className="text-white font-extrabold leading-none tracking-tight
+                         text-3xl sm:text-4xl md:text-5xl lg:text-[4.7cqw] lg:tracking-[-0.03em] lg:max-w-[62%]">
+            When surveys said &ldquo;yes&rdquo; but behavior said &ldquo;no&rdquo;
+          </h2>
+          <p className="text-[#8AA0C2] font-medium mt-3 lg:mt-[1.5cqw]
+                        text-base sm:text-lg lg:text-[1.7cqw]">
+            Electrolux &mdash; Smart Home Widgets
+          </p>
+        </div>
       </Link>
     </section>
   );

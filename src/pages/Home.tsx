@@ -7,9 +7,9 @@ const Home = () => {
   return (
     <>
       <Hero />
+      <N4MCard />
       <D4Card />
       <EluxCard />
-      <N4MCard />
     </>
   );
 };
