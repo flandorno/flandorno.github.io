@@ -22,3 +22,30 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# ── AI tooling ────────────────────────────────────────────────────────────
+# This portfolio was built with an AI pair. The method is recorded on purpose,
+# in DESIGN.md, PRODUCT.md and the commit trail. What is ignored below is the
+# exhaust, not the method: machine-local paths, session ids, personal
+# permission lists, caches, and explorations that were tried and dropped.
+# None of it is source, and none of it would mean anything to a reader.
+
+# Claude Code workspace: personal permission allowlist, enabled-plugin list,
+# vendored third-party skills, and a 944KB handoff bundle from a design
+# direction that was abandoned.
+.claude/
+
+# Impeccable: local runtime state.
+.taste-skill/
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/build/
+.impeccable/hook.cache.json
+
+# Design critiques are working records, like code-review threads. They are
+# candid about this site's own unfixed problems and are kept on disk, not shipped.
+.impeccable/critique/
+
+# Committed from .impeccable/ on purpose: config.json (detector exceptions, each
+# with its written reason), design.json (the token sidecar) and surfaces/ (the
+# direction contract). Those are the design system's record, not its scaffolding.

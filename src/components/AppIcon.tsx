@@ -1,15 +1,11 @@
-type AppIconProps = {
-  imgUrl: any;
-};
-
-function AppIcon({ imgUrl }: AppIconProps) {
+/* A competitor app icon from the Electrolux market scan.
+ * Decorative: the surrounding copy states what the set is. */
+export default function AppIcon({ imgUrl }: { imgUrl: string }) {
   return (
     <div
       aria-hidden="true"
-      className="rounded-lg bg-cover bg-center bg-no-repeat w-12 h-12 opacity-75 hover:opacity-100 transition-opacity duration-300"
+      className="fl-app-icon"
       style={{ backgroundImage: `url(${imgUrl})` }}
-    ></div>
+    />
   );
 }
-
-export default AppIcon;

@@ -1,0 +1,458 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T00:00:00.000Z",
+  "title": "Design System: Federico Landorno — Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "violet": {
+        "role": "primary",
+        "displayName": "Electric Violet",
+        "canonical": "#9B7CFF",
+        "tonalRamp": [
+          "#140A2E",
+          "#201248",
+          "#301C6B",
+          "#432796",
+          "#5B38C4",
+          "#7A5BE6",
+          "#9B7CFF",
+          "#CFC0FF"
+        ]
+      },
+      "on-violet": {
+        "role": "neutral",
+        "displayName": "On-Violet",
+        "canonical": "#0A0A0C",
+        "tonalRamp": [
+          "#0A0A0C",
+          "#141418",
+          "#1F1F25",
+          "#2E2E36",
+          "#4A4A55",
+          "#6F6F7B",
+          "#A1A1AA",
+          "#F4F4F5"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Graphite Black",
+        "canonical": "#0A0A0C",
+        "tonalRamp": [
+          "#0A0A0C",
+          "#141418",
+          "#1F1F25",
+          "#2E2E36",
+          "#4A4A55",
+          "#6F6F7B",
+          "#A1A1AA",
+          "#F4F4F5"
+        ]
+      },
+      "bg-2": {
+        "role": "neutral",
+        "displayName": "Quiet Step",
+        "canonical": "#141418",
+        "tonalRamp": [
+          "#0A0A0C",
+          "#141418",
+          "#1F1F25",
+          "#2E2E36",
+          "#4A4A55",
+          "#6F6F7B",
+          "#A1A1AA",
+          "#F4F4F5"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Near-White Ink",
+        "canonical": "#F4F4F5",
+        "tonalRamp": [
+          "#0A0A0C",
+          "#141418",
+          "#1F1F25",
+          "#2E2E36",
+          "#4A4A55",
+          "#6F6F7B",
+          "#A1A1AA",
+          "#F4F4F5"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Reading Grey",
+        "canonical": "#A1A1AA",
+        "tonalRamp": [
+          "#0A0A0C",
+          "#141418",
+          "#1F1F25",
+          "#2E2E36",
+          "#4A4A55",
+          "#6F6F7B",
+          "#A1A1AA",
+          "#F4F4F5"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Quiet Grey",
+        "canonical": "#8A8A95",
+        "tonalRamp": [
+          "#0A0A0C",
+          "#141418",
+          "#1F1F25",
+          "#2E2E36",
+          "#4A4A55",
+          "#6F6F7B",
+          "#A1A1AA",
+          "#F4F4F5"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(244, 244, 245, 0.13)",
+        "tonalRamp": [
+          "#0A0A0C",
+          "#141418",
+          "#1F1F25",
+          "#2E2E36",
+          "#4A4A55",
+          "#6F6F7B",
+          "#A1A1AA",
+          "#F4F4F5"
+        ]
+      },
+      "line-2": {
+        "role": "neutral",
+        "displayName": "Hairline Strong",
+        "canonical": "rgba(244, 244, 245, 0.26)",
+        "tonalRamp": [
+          "#0A0A0C",
+          "#141418",
+          "#1F1F25",
+          "#2E2E36",
+          "#4A4A55",
+          "#6F6F7B",
+          "#A1A1AA",
+          "#F4F4F5"
+        ]
+      },
+      "presence-product": {
+        "role": "tertiary",
+        "displayName": "Presence · Product",
+        "canonical": "#5B9BFF",
+        "tonalRamp": [
+          "#140A2E",
+          "#201248",
+          "#301C6B",
+          "#432796",
+          "#5B38C4",
+          "#7A5BE6",
+          "#9B7CFF",
+          "#CFC0FF"
+        ]
+      },
+      "presence-engineering": {
+        "role": "tertiary",
+        "displayName": "Presence · Engineering",
+        "canonical": "#49D6B8",
+        "tonalRamp": [
+          "#140A2E",
+          "#201248",
+          "#301C6B",
+          "#432796",
+          "#5B38C4",
+          "#7A5BE6",
+          "#9B7CFF",
+          "#CFC0FF"
+        ]
+      },
+      "presence-research": {
+        "role": "tertiary",
+        "displayName": "Presence · Research",
+        "canonical": "#F5A524",
+        "tonalRamp": [
+          "#140A2E",
+          "#201248",
+          "#301C6B",
+          "#432796",
+          "#5B38C4",
+          "#7A5BE6",
+          "#9B7CFF",
+          "#CFC0FF"
+        ]
+      },
+      "presence-data": {
+        "role": "tertiary",
+        "displayName": "Presence · Data",
+        "canonical": "#FF6FB5",
+        "tonalRamp": [
+          "#140A2E",
+          "#201248",
+          "#301C6B",
+          "#432796",
+          "#5B38C4",
+          "#7A5BE6",
+          "#9B7CFF",
+          "#CFC0FF"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home h1 only; case-study h1 at a deliberate step down to clamp(30px, 4.2vw, 58px) on a 22ch measure. Measures 78px at 1440, 38px at 390."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section h2s, the contact closing line (20ch cap), and case-row titles."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Hero subparagraph (46ch max), case-study subtitles, h3s, callout text."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All prose, list items, buttons, links, table cells. Set in Reading Grey, not full ink."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Section labels, case metadata, figure captions, table headers. Never uppercase, never above a heading."
+      },
+      "metric": {
+        "displayName": "Metric",
+        "purpose": "Geist Mono, tabular figures, violet. Numbers only — the sole permitted use of the mono face."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Reveal easing and the primary button's 1px rise."
+      },
+      {
+        "name": "duration-state",
+        "value": "0.18s",
+        "purpose": "Colour and transform state transitions on links, nav, buttons."
+      },
+      {
+        "name": "duration-dim",
+        "value": "0.2s",
+        "purpose": "Case-row list dimming to 0.4 opacity."
+      },
+      {
+        "name": "duration-reveal",
+        "value": "0.7s",
+        "purpose": "Reveal opacity + 14px translateY, staggered by 80-90ms per element."
+      },
+      {
+        "name": "canvas-advance",
+        "value": "t += 0.0042 per frame",
+        "purpose": "Hero field orientation drift. The only continuous animation in the system."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition-duration: 0.001ms !important",
+        "purpose": "Under prefers-reduced-motion all transitions collapse and the canvas draws one static frame without starting its loop."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "stack",
+        "value": "900px"
+      },
+      {
+        "name": "read-container",
+        "value": "1120px"
+      },
+      {
+        "name": "min-support",
+        "value": "360px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single filled action on a surface: the contact invitation. One per screen.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Get in touch</a>",
+      "css": ".ds-btn-primary { display: inline-block; background: var(--violet, var(--violet, #9B7CFF)); color: var(--on-violet, var(--on-violet, #0A0A0C)); font-family: var(--font-sans, \"Geist\", system-ui, sans-serif); font-size: 16px; font-weight: 500; padding: 12px 22px; border-radius: 6px; text-decoration: none; transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s; } .ds-btn-primary:hover { transform: translateY(-1px); opacity: 0.92; } .ds-btn-primary:focus-visible { outline: 2px solid var(--violet, var(--violet, #9B7CFF)); outline-offset: 3px; border-radius: 6px; }"
+    },
+    {
+      "name": "Underlined Text Link",
+      "kind": "button",
+      "refersTo": "link-underline",
+      "description": "The system's secondary action. There is no secondary button; the sibling of the filled button is this hairline-underlined link.",
+      "html": "<a class=\"ds-link\" href=\"#\">See the work</a>",
+      "css": ".ds-link { font-family: var(--font-sans, \"Geist\", system-ui, sans-serif); font-size: 16px; color: var(--ink-2, var(--ink-2, #A1A1AA)); text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid var(--line-2, var(--line-2, rgba(244,244,245,0.26))); transition: color 0.18s, border-color 0.18s; } .ds-link:hover { color: var(--ink, var(--ink, #F4F4F5)); border-color: var(--violet, var(--violet, #9B7CFF)); } .ds-link:focus-visible { outline: 2px solid var(--violet, var(--violet, #9B7CFF)); outline-offset: 3px; border-radius: 2px; }"
+    },
+    {
+      "name": "Masthead Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Text-only masthead: wordmark opposite two or three 14px links and the theme toggle. No chrome, no sticky bar, no active underline.",
+      "html": "<header class=\"ds-top\"><span class=\"ds-mark\">Federico Landorno</span><nav class=\"ds-nav\" aria-label=\"Sections\"><a href=\"#work\">Work</a><a href=\"#about\">About</a><button type=\"button\" class=\"ds-theme\" aria-pressed=\"false\">Dark</button></nav></header>",
+      "css": ".ds-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: clamp(18px, 2.4vw, 28px) 0; font-family: var(--font-sans, \"Geist\", system-ui, sans-serif); } .ds-mark { font-weight: 600; letter-spacing: -0.02em; color: var(--ink, var(--ink, #F4F4F5)); } .ds-nav { display: flex; align-items: center; gap: clamp(14px, 2vw, 26px); } .ds-nav a, .ds-theme { font-family: inherit; font-size: 16px; color: var(--ink-2, var(--ink-2, #A1A1AA)); text-decoration: none; background: none; border: 0; padding: 0; cursor: pointer; transition: color 0.18s; } .ds-nav a:hover, .ds-theme:hover { color: var(--ink, var(--ink, #F4F4F5)); } .ds-nav a:focus-visible, .ds-theme:focus-visible { outline: 2px solid var(--violet, var(--violet, #9B7CFF)); outline-offset: 3px; border-radius: 2px; }"
+    },
+    {
+      "name": "Case Row",
+      "kind": "card",
+      "refersTo": "art-frame",
+      "description": "The home work list's unit: a 16:10 art frame beside title, mono metric and metadata. Hovering the list dims every sibling to 0.4.",
+      "html": "<ul class=\"ds-list\"><li><a class=\"ds-case\" href=\"#\"><span class=\"ds-frame\" aria-hidden=\"true\"><svg class=\"ds-field\" viewBox=\"0 0 640 400\" preserveAspectRatio=\"xMidYMid slice\" role=\"presentation\"><g stroke-linecap=\"round\" stroke-width=\"1.2\"><line x1=\"40\" y1=\"46\" x2=\"54\" y2=\"54\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.42\"/><line x1=\"100\" y1=\"44\" x2=\"114\" y2=\"56\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.38\"/><line x1=\"160\" y1=\"48\" x2=\"175\" y2=\"52\" stroke=\"var(--violet, var(--violet, #9B7CFF))\" stroke-opacity=\"0.85\"/><line x1=\"220\" y1=\"50\" x2=\"235\" y2=\"50\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.45\"/><line x1=\"70\" y1=\"110\" x2=\"84\" y2=\"120\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.40\"/><line x1=\"130\" y1=\"114\" x2=\"145\" y2=\"118\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.35\"/><line x1=\"190\" y1=\"112\" x2=\"204\" y2=\"122\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.48\"/><line x1=\"250\" y1=\"116\" x2=\"265\" y2=\"114\" stroke=\"var(--violet, var(--violet, #9B7CFF))\" stroke-opacity=\"0.85\"/><line x1=\"40\" y1=\"178\" x2=\"53\" y2=\"188\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.36\"/><line x1=\"100\" y1=\"182\" x2=\"115\" y2=\"184\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.44\"/><line x1=\"160\" y1=\"180\" x2=\"174\" y2=\"190\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.41\"/><line x1=\"220\" y1=\"184\" x2=\"235\" y2=\"182\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.33\"/></g></svg></span><span class=\"ds-case-body\"><span class=\"ds-title\">From UI kit to shared language</span><span class=\"ds-metric\"><b>600+</b> disconnected files &rarr; one source of truth</span><span class=\"ds-meta\">Net4Market &middot; Design system &middot; B2B SaaS</span></span></a></li></ul>",
+      "css": ".ds-list { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(28px, 3.5vw, 48px); font-family: var(--font-sans, \"Geist\", system-ui, sans-serif); } .ds-case { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: clamp(20px, 3.5vw, 48px); align-items: center; text-decoration: none; color: inherit; transition: opacity 0.2s; } .ds-list:hover > li > .ds-case { opacity: 0.4; } .ds-list > li > .ds-case:hover { opacity: 1; } .ds-case:focus-visible { outline: 2px solid var(--violet, var(--violet, #9B7CFF)); outline-offset: 3px; border-radius: 2px; } .ds-frame { display: block; position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--bg-2, var(--bg-2, #141418)); border-radius: 4px; } .ds-field { position: absolute; inset: 0; width: 100%; height: 100%; } .ds-case-body { display: grid; gap: 6px; min-width: 0; } .ds-title { font-size: clamp(24px, 2.9vw, 38px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.08; color: var(--ink, var(--ink, #F4F4F5)); } .ds-metric { font-size: 16px; color: var(--ink-2, var(--ink-2, #A1A1AA)); margin-top: 8px; font-variant-numeric: tabular-nums; } .ds-metric b { font-family: var(--font-mono, \"Geist Mono\", ui-monospace, Menlo, monospace); color: var(--violet, var(--violet, #9B7CFF)); font-weight: 600; } .ds-meta { font-size: 13px; color: var(--ink-3, var(--ink-3, #8A8A95)); margin-top: 6px; } @media (max-width: 900px) { .ds-case { grid-template-columns: 1fr; gap: 16px; } .ds-frame { max-width: 420px; } }"
+    },
+    {
+      "name": "Callout",
+      "kind": "card",
+      "refersTo": "callout",
+      "description": "A raised statement inside the reading column, separated by the single tone step rather than by glass, blur or a coloured rule.",
+      "html": "<aside class=\"ds-callout\">I was the first to say out loud that something was structurally wrong. Not just with the files, but with how the team operated.</aside>",
+      "css": ".ds-callout { max-width: 62ch; margin: clamp(24px, 3vw, 36px) 0 0; padding: clamp(20px, 2.4vw, 28px); background: var(--bg-2, var(--bg-2, #141418)); border-radius: 6px; font-family: var(--font-sans, \"Geist\", system-ui, sans-serif); font-size: clamp(17px, 1.45vw, 21px); line-height: 1.5; color: var(--ink, var(--ink, #F4F4F5)); } .ds-callout strong { font-weight: 600; }"
+    },
+    {
+      "name": "Figure",
+      "kind": "card",
+      "refersTo": "figure-frame",
+      "description": "The reading surface's one figure treatment: a 16:9 tone-step frame holding a real image or the seeded segment field, plus an optional label-size caption.",
+      "html": "<figure class=\"ds-figure\"><div class=\"ds-figure-frame\"><svg viewBox=\"0 0 640 360\" preserveAspectRatio=\"xMidYMid slice\" aria-hidden=\"true\" role=\"presentation\"><g stroke-linecap=\"round\" stroke-width=\"1.2\"><line x1=\"60\" y1=\"80\" x2=\"74\" y2=\"88\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.40\"/><line x1=\"120\" y1=\"84\" x2=\"135\" y2=\"86\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.35\"/><line x1=\"180\" y1=\"78\" x2=\"194\" y2=\"90\" stroke=\"var(--violet, var(--violet, #9B7CFF))\" stroke-opacity=\"0.85\"/><line x1=\"240\" y1=\"86\" x2=\"255\" y2=\"82\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.46\"/><line x1=\"90\" y1=\"170\" x2=\"104\" y2=\"180\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.42\"/><line x1=\"150\" y1=\"176\" x2=\"165\" y2=\"174\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.33\"/><line x1=\"210\" y1=\"172\" x2=\"224\" y2=\"182\" stroke=\"var(--ink, var(--ink, #F4F4F5))\" stroke-opacity=\"0.44\"/><line x1=\"270\" y1=\"178\" x2=\"285\" y2=\"176\" stroke=\"var(--violet, var(--violet, #9B7CFF))\" stroke-opacity=\"0.85\"/></g></svg></div><figcaption>Placeholder generative field, replaced one-for-one when the real mockup lands.</figcaption></figure>",
+      "css": ".ds-figure { margin: clamp(32px, 4vw, 56px) 0; font-family: var(--font-sans, \"Geist\", system-ui, sans-serif); } .ds-figure-frame { position: relative; overflow: hidden; aspect-ratio: 16 / 9; background: var(--bg-2, var(--bg-2, #141418)); border-radius: 6px; } .ds-figure-frame svg, .ds-figure-frame img { width: 100%; height: 100%; display: block; object-fit: cover; } .ds-figure figcaption { margin-top: 10px; font-size: 13px; color: var(--ink-3, var(--ink-3, #8A8A95)); max-width: 62ch; }"
+    },
+    {
+      "name": "Skip Link",
+      "kind": "nav",
+      "refersTo": "skip-link",
+      "description": "A violet pill fixed above the viewport that translates into view on focus. The first thing a keyboard visitor meets.",
+      "html": "<a class=\"ds-skip\" href=\"#main-content\">Skip to main content</a>",
+      "css": ".ds-skip { position: absolute; top: 12px; left: 50%; z-index: 100; transform: translate(-50%, -200%); background: var(--violet, var(--violet, #9B7CFF)); color: var(--on-violet, var(--on-violet, #0A0A0C)); padding: 10px 18px; border-radius: 6px; font-family: var(--font-sans, \"Geist\", system-ui, sans-serif); font-size: 16px; font-weight: 500; text-decoration: none; transition: transform 0.2s; } .ds-skip:focus, .ds-skip:focus-visible { transform: translate(-50%, 0); outline: 2px solid var(--violet, var(--violet, #9B7CFF)); outline-offset: 3px; }"
+    },
+    {
+      "name": "Data Table",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The reading surface's tabular treatment: mono label-size headers in Quiet Grey over tone-step rows with rounded outer ends. Tabular figures throughout.",
+      "html": "<table class=\"ds-table\"><thead><tr><th>Metric</th><th>Before</th><th>After</th></tr></thead><tbody><tr><td>Time to issue a policy</td><td>45 min</td><td>3 min</td></tr><tr><td>Source files</td><td>600+</td><td>1</td></tr></tbody></table>",
+      "css": ".ds-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; text-align: left; font-family: var(--font-sans, \"Geist\", system-ui, sans-serif); font-size: 16px; font-variant-numeric: tabular-nums; } .ds-table thead th { padding: 8px 16px; font-family: var(--font-mono, \"Geist Mono\", ui-monospace, Menlo, monospace); font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-3, var(--ink-3, #8A8A95)); } .ds-table tbody td { padding: 12px 16px; background: var(--bg-2, var(--bg-2, #141418)); color: var(--ink-2, var(--ink-2, #A1A1AA)); } .ds-table tbody td:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; color: var(--ink, var(--ink, #F4F4F5)); font-weight: 500; } .ds-table tbody td:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }"
+    },
+    {
+      "name": "Reveal Wrapper",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The shared reveal mechanism: a 14px rise and fade over 0.7s, staggered by an explicit per-element delay. The hidden start state is applied by script only when motion is welcome.",
+      "html": "<div class=\"ds-anim\"><h2 class=\"ds-reveal is-in\">Let&rsquo;s make the next boring interface less boring.</h2><p class=\"ds-reveal is-in\" style=\"transition-delay: 90ms\">Sequenced, not scattered.</p></div>",
+      "css": ".ds-anim .ds-reveal { opacity: 0; transform: translateY(14px); font-family: var(--font-sans, \"Geist\", system-ui, sans-serif); color: var(--ink, var(--ink, #F4F4F5)); } .ds-anim .ds-reveal.is-in { opacity: 1; transform: none; transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); } .ds-anim h2.ds-reveal { font-size: clamp(24px, 2.9vw, 38px); font-weight: 600; line-height: 1.06; letter-spacing: -0.025em; max-width: 20ch; } .ds-anim p.ds-reveal { font-size: 16px; line-height: 1.6; color: var(--ink-2, var(--ink-2, #A1A1AA)); } @media (prefers-reduced-motion: reduce) { .ds-anim .ds-reveal { opacity: 1; transform: none; } .ds-anim .ds-reveal.is-in { transition-duration: 0.001ms; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Measured Field",
+    "overview": "A sober personal portfolio built on a near-black ground, near-white ink, and exactly one electric violet — with a single field of generative line segments carrying all of the visual ambition. The field is the metaphor the whole system is named for: a complex orientation field that resolves into local order wherever the pointer passes. Order emerging from a complex field is the claim the work itself makes, so the artwork makes it before any sentence does. Everything else in the system is engineered restraint: a five-token type scale, two typefaces, a flat material with no shadow vocabulary at all, and radii small enough (2-8px) that no surface ever reads as a toy card.\n\nThe atmosphere is premium and cinematic meeting precise and engineered. The premium half comes from air and scale: a home page of 2.1 screens and 117 words, a hero where the artwork takes an equal half of the viewport and bleeds past the right gutter, and a display size that reaches 78px at 1440. The engineered half comes from how little is permitted: one accent, no second hue, no gradient, no blur, no lift. Components are tactile and responsive — a 1px button rise, a link underline that turns violet, a case row that dims its siblings to 0.4 on hover — but the tactility lives in colour and a single pixel of translation, never in a shadow.\n\nThis is a person seeking a role, not a studio selling services. The world was pinned from three references: kigo.studio for the headline-beside-dominant-artwork composition, roofstudio.tv for five-step type discipline and canvas craft, onlines.com.ar for radical restraint — their typographic confidence without their agency swagger. Confirmed rejections: two earlier discarded worlds (a cosmic violet/orange dark site; a drafting blueprint world in cyanotype and Overpass), and the generic AI-portfolio vocabulary of centred heroes, equal rounded cards, soft gradients and uppercase eyebrows. There is one theme, and it is dark. An earlier build shipped a light default with a dark companion and an in-page toggle; the owner judged the light side unnecessary and it was removed. The ground is #0A0A0C and never anything else: no prefers-color-scheme branch, no data-theme attribute, no toggle, no stored preference. The accent is #9B7CFF because that is the violet this ground can carry — the #5B21E0 of the light build was chosen against white and sinks into near-black.",
+    "keyCharacteristics": [
+      "Near-black ground, near-white ink, one electric violet accent and no second hue",
+      "One theme only: no light mode, no toggle, no theme state anywhere in the code",
+      "Five type tokens, two typefaces, mono reserved for numbers",
+      "Flat by construction: zero box-shadow in the system, depth by tone step and hairline only",
+      "One ambitious moment (the hero's live generative canvas); everything else is sequenced reveals",
+      "Rows and bleeds instead of a grid of equal rounded cards",
+      "Every colour is a semantic token; no component writes a literal hex"
+    ],
+    "rules": [
+      {
+        "name": "The One Voice Rule",
+        "body": "There is exactly one accent. Violet appears on roughly a tenth of any screen and never acquires a partner hue, a tint ramp, or a warm counterpart. If a new element needs emphasis, it gets ink weight or a tone step — not a second colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Presence-Colour Exception",
+        "section": "colors",
+        "body": "The heros collaborator cursors are the single sanctioned break in the One Voice Rule. In a multiplayer cursor, colour IS identity: four presence colours name four people who are not the author, and flattening them to violet would delete the idea rather than discipline it. They are confined to the cursor layer - pointer glyph, label pill and a 7% halo - never a surface, control, text colour, border or chart, and no fifth may be added. Labels are roles, never invented names."
+      },
+      {
+        "name": "The Semantic-Only Rule",
+        "body": "No component ever writes a literal colour. Every surface, stroke and glyph reads var(--bg), var(--bg-2), var(--ink), var(--ink-2), var(--ink-3), var(--line), var(--line-2), var(--violet) or var(--on-violet). Even the Canvas2D artwork samples the tokens from the computed root style rather than hardcoding its strokes. The rule survives the removal of the second theme: it is what keeps the palette changeable from one block of CSS.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Ground Rule",
+        "body": "The page has one ground and one step above it. There is no third surface level; anything that needs separation gets bg-2, a hairline, or whitespace.",
+        "section": "colors"
+      },
+      {
+        "name": "The Five-Step Rule",
+        "body": "Five size tokens exist — display, head, lead, body, label — and nothing between them. A new surface picks a step; it does not interpolate one.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono-Is-Measurement Rule",
+        "body": "Geist Mono appears only where a number is the proof: the metric figures on case rows and column headers above tabular data. It is never used for labels as decoration, never for running text, and never to signal \"technical\".",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Eyebrow Rule",
+        "body": "Nothing sits above a heading. Client and discipline go under the title as metadata in Quiet Grey — the case layout's prop comment states it explicitly. There is no uppercase kicker, eyebrow, or small-caps pretitle anywhere in the system, and none may be added.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Ambitious Moment Rule",
+        "body": "The hero's generative canvas is the only thing in the system allowed to animate continuously. Any other motion is a one-shot reveal or a state transition under 0.25s.",
+        "section": "layout"
+      },
+      {
+        "name": "The Rows-Not-Cards Rule",
+        "body": "Page structure is rows, lists and bleeds. A grid of equally sized rounded cards is not a layout available to this system.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat-Material Rule",
+        "body": "Surfaces never lift. No box-shadow, no filter: drop-shadow, no hard offset shadow, no glass, no backdrop-filter, no decorative gradient. If something needs to come forward, it changes tone or gains a hairline.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Small-Radius Rule",
+        "body": "Nothing exceeds 8px except the 48px external app icons. A radius large enough to read as a bubble or a pill is out of the world.",
+        "section": "shapes"
+      },
+      {
+        "name": "The One Imagery Family Rule",
+        "body": "All generated imagery in this system comes from the segment field — live in the hero, seeded and static everywhere else. No stock photography, no 3D render, no gradient mesh, no illustration in a second visual language.",
+        "section": "components"
+      },
+      {
+        "name": "The Decorative-Is-Hidden Rule",
+        "body": "Every piece of generated or decorative imagery carries aria-hidden=\"true\" and role=\"presentation\", and its meaning is stated in adjacent copy.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do read colour from the semantic tokens (var(--ink-2), var(--violet), var(--bg-2)) rather than literals — including inside canvas and SVG — so the palette stays changeable from one block of CSS.",
+      "Do pick one of the five type steps (display / head / lead / body / label); hold the home display to clamp(38px, 5.4vw, 80px) and give case-study titles the deliberate step down to clamp(30px, 4.2vw, 58px).",
+      "Do keep prose on the 62ch measure (var(--measure)) and let figures, tables and strips break it.",
+      "Do use Geist Mono only where a number is the proof, with font-variant-numeric: tabular-nums.",
+      "Do separate surfaces with the single tone step (bg-2) or a hairline, at 2-8px radius.",
+      "Do keep the accent to roughly a tenth of a screen, with exactly one filled violet action per view.",
+      "Do place client/discipline metadata under the title, in 13px Quiet Grey.",
+      "Do build page structure as rows, lists and bleeds, and let the artwork cancel the gutter rather than sit in a box.",
+      "Do gate every hidden start state on prefers-reduced-motion and apply it by script, so a reduced-motion or no-JS visitor sees the finished page.",
+      "Do pause any continuous animation off-screen and on tab hide, and cap DPR at 2."
+    ],
+    "donts": [
+      "Don't add a second accent colour, a tint ramp off the violet, or a warm counterpart. One voice.",
+      "Don't use box-shadow, drop-shadow, or any offset shadow for lift — the system has no shadow vocabulary.",
+      "Don't use glass, backdrop-filter, or blur of any kind.",
+      "Don't use a gradient as decoration.",
+      "Don't build a grid of equally sized rounded cards as page structure.",
+      "Don't put an uppercase eyebrow, kicker, or pretitle above any heading.",
+      "Don't write a literal colour value in a component, inline style, or canvas call.",
+      "Don't interpolate a sixth type size between the five steps.",
+      "Don't exceed an 8px radius (the 48px external app icons at 12px are the single documented exception).",
+      "Don't animate anything continuously except the hero canvas; everything else is a one-shot reveal or a sub-0.25s state transition.",
+      "Don't introduce imagery from outside the segment-field family — no stock photos, no gradient meshes, no second illustration language.",
+      "Dont reintroduce a light theme, a theme toggle, or a prefers-color-scheme branch: the single dark ground is a settled decision, not an omission.",
+      "Dont spend a presence colour anywhere but a collaborator cursor, and dont add a fifth one."
+    ]
+  }
+}

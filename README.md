@@ -1,73 +1,67 @@
-# React + TypeScript + Vite
+# flandorno.github.io
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Federico Landorno's UX design portfolio. React 19 + TypeScript + Vite, deployed
+to GitHub Pages.
 
-Currently, two official plugins are available:
+**Live:** [flandorno.github.io](https://flandorno.github.io/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## How this was built
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This site was designed and built in collaboration with an AI pair, working from
+a written brief rather than from prompts in a chat window. That choice is the
+reason two files exist that a portfolio normally would not have:
 
-## Expanding the ESLint configuration
+- **[PRODUCT.md](PRODUCT.md)** — product truth. Who the site is for, what it has
+  to earn, which metrics are cleared for public use, and an explicit list of
+  things that must never be invented: no testimonials, no stated seniority, no
+  employer claim, no fabricated bio. Every content decision is checked against it.
+- **[DESIGN.md](DESIGN.md)** — the design system as built, not as intended. Tokens,
+  the two type ramps, the spacing grid, the motion budget, and a set of named
+  rules with the reasoning behind each one, including the ones that were learned
+  by getting them wrong first.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Both are written for the next person to open this repo, which is usually a
+future version of me. They are the reason the system held together across a full
+redesign instead of drifting.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Rules this codebase holds itself to
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| | |
+|---|---|
+| **Spacing** | Every length is `rem` on an 8px grid, `0.25rem` the only half-step. Enforced by `npm run audit:spacing`, which fails the build on a violation. |
+| **Type** | Two ramps, one per surface mode — the home is scanned, a case study is read — and nothing between their steps. |
+| **Colour** | One accent. One tone step for surfaces. No shadow vocabulary anywhere. |
+| **Motion** | Exactly one continuously animating element, the hero canvas, measured at a locked 60fps. Everything else is a one-shot reveal under 0.25s. |
+| **Accessibility** | Keyboard-operable, visible focus, real heading outline, `prefers-reduced-motion` honoured by drawing one static frame rather than by stopping mid-animation. |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Running it
+
+```bash
+npm install
+npm run dev              # http://localhost:5173
+npm run build            # tsc -b && vite build
+npm run lint
+npm run audit:spacing    # the spacing grid, checked across every .css and .tsx
+npm run deploy           # build + publish dist/ to gh-pages
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+  pages/        one file per surface — home and three case studies
+  components/   FieldCanvas (the hero's generative field), CaseLayout, Figure,
+                Callout, SegmentField (its static sibling), FormComparison
+  lib/          reveals, in-page scrolling, the document title
+scripts/
+  audit-spacing.mjs   the spacing grid's enforcement, with its exemptions and
+                      the reason for each one written into the file
+```
+
+## Case studies
+
+- **Net4Market** — 600+ disconnected files consolidated into one source of truth
+- **Yoga** — issuing an insurance policy, from 45 minutes to 3
+- **Electrolux** — research that argued against shipping the feature everyone wanted
