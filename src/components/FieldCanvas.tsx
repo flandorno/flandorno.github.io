@@ -77,9 +77,9 @@ const clamp01 = (t: number) => (t < 0 ? 0 : t > 1 ? 1 : t);
 function readPalette() {
   const cs = getComputedStyle(document.documentElement);
   return {
-    ink: cs.getPropertyValue("--ink").trim() || "#F4F4F5",
-    violet: cs.getPropertyValue("--violet").trim() || "#9B7CFF",
-    onViolet: cs.getPropertyValue("--on-violet").trim() || "#0A0A0C",
+    ink: cs.getPropertyValue("--ink").trim() || "#F3F2F7",
+    accent: cs.getPropertyValue("--accent").trim() || "#9B7CFF",
+    onAccent: cs.getPropertyValue("--on-accent").trim() || "#16151B",
   };
 }
 
@@ -196,7 +196,7 @@ export default function FieldCanvas() {
 
     const spawnBurst = (x: number, y: number) => {
       particles = [];
-      const colors = [palette.violet, ...COLLABS.map((c) => c.color)];
+      const colors = [palette.accent, ...COLLABS.map((c) => c.color)];
       const N = 64;
       for (let i = 0; i < N; i++) {
         const a = (i / N) * Math.PI * 2 + Math.random() * 0.35;
@@ -249,7 +249,7 @@ export default function FieldCanvas() {
       ctx.fill();
       ctx.lineJoin = "round";
       ctx.lineWidth = 1.4;
-      ctx.strokeStyle = palette.onViolet;
+      ctx.strokeStyle = palette.onAccent;
       ctx.globalAlpha = alpha * 0.55;
       ctx.stroke();
       ctx.globalAlpha = alpha;
@@ -282,7 +282,7 @@ export default function FieldCanvas() {
         ctx.closePath();
         ctx.fillStyle = color;
         ctx.fill();
-        ctx.fillStyle = palette.onViolet;
+        ctx.fillStyle = palette.onAccent;
         ctx.textBaseline = "middle";
         ctx.fillText(label, bx + padX, by + bh / 2 + 0.5);
       }
@@ -356,7 +356,7 @@ export default function FieldCanvas() {
           let vx = Math.cos(a), vy = Math.sin(a);
           let alpha = 0.46;
           const hash = (col * 73856093) ^ (row * 19349663);
-          let tint: string | null = (hash >>> 0) % 11 === 0 ? palette.violet : null;
+          let tint: string | null = (hash >>> 0) % 11 === 0 ? palette.accent : null;
 
           for (const inf of influencers) {
             const dx = inf.x - x, dy = inf.y - y;
@@ -403,7 +403,7 @@ export default function FieldCanvas() {
         const a = i / (STEPS - 1);
         ctx.globalAlpha = a;
         if (inkUsed[i]) { ctx.strokeStyle = palette.ink; ctx.stroke(inkPaths[i]); }
-        if (accUsed[i]) { ctx.strokeStyle = palette.violet; ctx.stroke(accPaths[i]); }
+        if (accUsed[i]) { ctx.strokeStyle = palette.accent; ctx.stroke(accPaths[i]); }
       }
       ctx.globalAlpha = 1;
 
@@ -461,7 +461,7 @@ export default function FieldCanvas() {
           if (age < 0 || age > 900) continue;
           const k = age / 900;
           ctx.globalAlpha = (1 - k) * (0.85 - ri * 0.18);
-          ctx.strokeStyle = ri === 0 ? palette.violet : COLLABS[ri].color;
+          ctx.strokeStyle = ri === 0 ? palette.accent : COLLABS[ri].color;
           ctx.lineWidth = 2.6 - k * 2 - ri * 0.4;
           ctx.beginPath();
           ctx.arc(bx, by, 12 + easeOutExpo(k) * radius * (1.5 - ri * 0.28), 0, Math.PI * 2);
@@ -485,7 +485,7 @@ export default function FieldCanvas() {
       if (!still && lead.on && e <= T_BURST) {
         // Oversized on arrival, scaling down along the travel, label legible
         // the whole way. Reaching full size is the cue to go off — no hold.
-        drawCursor(lead.x, lead.y, palette.violet, LEAD_LABEL, leadEntry, 1, 1);
+        drawCursor(lead.x, lead.y, palette.accent, LEAD_LABEL, leadEntry, 1, 1);
       }
       for (const { c, p } of collabStates) {
         if (!p.on) continue;

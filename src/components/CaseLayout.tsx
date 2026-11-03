@@ -2,6 +2,8 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useReveals } from "../lib/useReveals";
 import { BASE_TITLE } from "../lib/title";
+import { LINKEDIN } from "../lib/contact";
+import LinkedInIcon from "./LinkedInIcon";
 
 type Props = {
   title: string;
@@ -36,8 +38,16 @@ export default function CaseLayout({ title, meta, docTitle, children }: Props) {
       {children}
 
       <footer className="fl-read-end">
-        <Link to="/" className="fl-link">All work</Link>
-        <a className="fl-link" href="https://linkedin.com/in/federicolandorno" target="_blank" rel="noopener noreferrer">Get in touch</a>
+        <Link to="/" className="fl-link fl-tap">All work</Link>
+        <a
+          className="fl-icon-link"
+          href={LINKEDIN}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Get in touch on LinkedIn (opens in a new tab)"
+        >
+          <LinkedInIcon size={22} />
+        </a>
       </footer>
     </div>
   );

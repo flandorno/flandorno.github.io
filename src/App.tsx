@@ -8,10 +8,24 @@ import N4m from "./pages/N4m";
 export default function App() {
   return (
     <HashRouter>
+      {/* The masthead is rendered inside each route, so it sits inside <main>.
+          Focusing <main> therefore landed the visitor *before* the wordmark and
+          the nav — the link skipped nothing, which is worse than not having it.
+          Focusing the page's own <h1> skips the chrome and puts the reader on
+          the content. tabIndex is set on the heading only for this, then taken
+          off again so it never enters the tab order. */}
       <a
         href="#main-content"
-        onClick={(e) => { e.preventDefault(); document.getElementById("main-content")?.focus(); }}
         className="fl-skip"
+        onClick={(e) => {
+          e.preventDefault();
+          const main = document.getElementById("main-content");
+          const target = main?.querySelector("h1") ?? main;
+          if (!target) return;
+          target.setAttribute("tabindex", "-1");
+          (target as HTMLElement).focus();
+          target.addEventListener("blur", () => target.removeAttribute("tabindex"), { once: true });
+        }}
       >
         Skip to main content
       </a>

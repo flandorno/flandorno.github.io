@@ -1,3 +1,21 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   An exhibit, not a surface.
+
+   This renders the Net4Market legacy form beside its token-based replacement,
+   on the N4M case study. The hand-written colours, sizes and radii inside the
+   `.lg-*` (legacy) and `.ds-*` (the client's real tokens) rules ARE the evidence
+   the component exists to show — 40 colour, 8 font-size and 1 radius findings,
+   every one of them from those selectors. Normalising them to DESIGN.md would
+   turn a demonstration into a decoration, so this file is listed in
+   `.impeccable/config.json` under `detector.ignoreFiles`. That config format
+   takes a bare path and carries no reason field, which is why the reason is
+   here and in DESIGN.md instead.
+
+   What is NOT exempt: the widget's own chrome, `.dsx-*`, which follows the grid
+   through the local --s1..--s6 scale below, and `npm run audit:spacing`, which
+   still reads this file and still has to pass.
+   ───────────────────────────────────────────────────────────────────────────── */
+
 import { useState, useEffect, useRef } from "react";
 
 // ─── WCAG contrast helpers ────────────────────────────────────────────────────

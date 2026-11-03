@@ -75,7 +75,7 @@ export default function SegmentField({ seed }: { seed: number }) {
           y1={s.y1}
           x2={s.x2}
           y2={s.y2}
-          stroke={s.accent ? "var(--violet)" : "var(--ink)"}
+          stroke={s.accent ? "var(--accent)" : "var(--ink)"}
           strokeOpacity={s.accent ? 0.85 : s.o}
           strokeWidth={1.2}
           strokeLinecap="round"

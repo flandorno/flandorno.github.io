@@ -4,10 +4,11 @@ import FieldCanvas from "../components/FieldCanvas";
 import SegmentField from "../components/SegmentField";
 import { useReveals } from "../lib/useReveals";
 import { scrollToSection } from "../lib/scrollToSection";
+import { LINKEDIN, READCV } from "../lib/contact";
+import LinkedInIcon from "../components/LinkedInIcon";
 
 /* No email on the page: the portfolio travels as an attachment to applications,
    so the recipient already has the address. LinkedIn carries the contact. */
-const LINKEDIN = "https://linkedin.com/in/federicolandorno";
 
 /* The three case studies. Text and metrics preserved verbatim. */
 const WORK = [
@@ -49,22 +50,29 @@ export default function Home() {
       <header className="fl-top">
         <span className="fl-mark">Federico Landorno</span>
         <nav className="fl-nav" aria-label="Sections">
-          <button type="button" onClick={() => scrollToSection("work")}>Work</button>
+          <button type="button" className="fl-tap" onClick={() => scrollToSection("work")}>Work</button>
         </nav>
       </header>
 
       {/* ── Hero: statement + the one ambitious moment ─────────────────────── */}
       <section className="fl-hero" aria-label="Introduction">
         <div className="fl-hero-copy">
-          <h1 data-reveal>I design systems you can measure.</h1>
+          <h1 data-reveal>I design the decisions a team makes once.</h1>
           <p className="fl-lead" data-reveal data-reveal-delay="90">
-            UX designer working across product strategy, design systems and research —
-            rarely alone in the file. Three case studies below, each with the numbers
-            before and after.
+            UX designer working in B2B product: design systems, platform strategy,
+            and the research that decides what not to build.
           </p>
           <div className="fl-actions" data-reveal data-reveal-delay="180">
-            <a className="fl-btn" href={LINKEDIN} target="_blank" rel="noopener noreferrer">Get in touch</a>
-            <button className="fl-link" type="button" onClick={() => scrollToSection("work")}>
+            <a
+              className="fl-btn fl-btn-icon"
+              href={LINKEDIN}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Get in touch on LinkedIn (opens in a new tab)"
+            >
+              <LinkedInIcon />
+            </a>
+            <button className="fl-link fl-tap" type="button" onClick={() => scrollToSection("work")}>
               See the work
             </button>
           </div>
@@ -85,7 +93,11 @@ export default function Home() {
         <ul className="fl-list">
           {WORK.map((w, i) => (
             <li key={w.to} data-reveal data-reveal-delay={String(i * 80)}>
-              <Link to={w.to} className="fl-case">
+              {/* The link's name is the destination, not its contents. Without this the
+                  accessible name was the whole row concatenated — 19 to 20 words with
+                  no separators ("shared language600+ disconnected files…") — which is
+                  what a screen reader reads out in a list of links. */}
+              <Link to={w.to} className="fl-case" aria-label={`${w.title} — ${w.client} case study`}>
                 <span className="fl-frame" aria-hidden="true">
                   <SegmentField seed={w.seed} />
                 </span>
@@ -104,15 +116,25 @@ export default function Home() {
 
       {/* ── Contact ────────────────────────────────────────────────────────── */}
       <footer className="fl-end" aria-label="Contact">
-        <h2 data-reveal>Let’s make the next boring interface less boring.</h2>
+        <h2 data-reveal>Three systems above. Happy to talk through any of them.</h2>
         {/* The filled action belongs here as well as in the hero. The hero offers it
             before the visitor has seen any evidence; this is the moment after all of
             it, where someone convinced decides to act — and it used to carry the
             weakest control on the page, a 58px text link. The two are 2.1 screens
-            apart and never co-visible, so "one filled violet action per view" holds. */}
+            apart and never co-visible, so "one filled accent action per view" holds. */}
         <div className="fl-end-links" data-reveal data-reveal-delay="90">
-          <a className="fl-btn" href={LINKEDIN} target="_blank" rel="noopener noreferrer">Get in touch</a>
-          <a href="https://read.cv/federicolandorno" target="_blank" rel="noopener noreferrer">Read.cv</a>
+          <a
+              className="fl-btn fl-btn-icon"
+              href={LINKEDIN}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Get in touch on LinkedIn (opens in a new tab)"
+            >
+              <LinkedInIcon />
+            </a>
+          <a className="fl-tap" href={READCV} target="_blank" rel="noopener noreferrer">
+            Read.cv<span className="sr-only"> (opens in a new tab)</span>
+          </a>
         </div>
       </footer>
     </div>

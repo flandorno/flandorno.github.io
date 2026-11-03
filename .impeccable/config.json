@@ -1,19 +1,21 @@
 {
   "detector": {
     "ignoreRules": [],
-    "ignoreFiles": [],
+    "ignoreFiles": [
+      "src/components/FormComparison.tsx"
+    ],
     "ignoreValues": [
       {
         "rule": "design-system-font",
         "value": "roboto",
         "createdAt": "2026-11-02T20:28:03.128Z",
-        "reason": "FormComparison documents the real Net4Market design system on the N4M case study; Roboto is that system's actual typeface. Rendering the exhibit in Geist would make it a fiction, not evidence. Scoped to that component only \u2014 the portfolio's own type is Geist."
+        "reason": "FormComparison documents the real Net4Market design system on the N4M case study; Roboto is that system's actual typeface. Rendering the exhibit in Geist would make it a fiction, not evidence. Scoped to that component only — the portfolio's own type is Geist."
       },
       {
         "rule": "overused-font",
         "value": "roboto",
         "createdAt": "2026-11-02T20:33:24.085Z",
-        "reason": "FormComparison documents the real Net4Market design system on the N4M case study; Roboto is that system's actual typeface. Rendering the exhibit in Geist would make it a fiction, not evidence. Scoped to that component only \u2014 the portfolio's own type is Geist."
+        "reason": "FormComparison documents the real Net4Market design system on the N4M case study; Roboto is that system's actual typeface. Rendering the exhibit in Geist would make it a fiction, not evidence. Scoped to that component only — the portfolio's own type is Geist."
       }
     ]
   }

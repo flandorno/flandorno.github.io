@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useReveals } from "../lib/useReveals";
 import { BASE_TITLE, pageTitle } from "../lib/title";
+import { LINKEDIN, READCV } from "../lib/contact";
 
 /* No email on the page — see the note in Home.tsx. */
 
@@ -44,8 +45,8 @@ export default function About() {
       </section>
 
       <footer className="fl-read-end">
-        <a className="fl-link" href="https://linkedin.com/in/federicolandorno" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a className="fl-link" href="https://read.cv/federicolandorno" target="_blank" rel="noopener noreferrer">Read.cv</a>
+        <a className="fl-link fl-tap" href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn<span className="sr-only"> (opens in a new tab)</span></a>
+        <a className="fl-link fl-tap" href={READCV} target="_blank" rel="noopener noreferrer">Read.cv<span className="sr-only"> (opens in a new tab)</span></a>
       </footer>
     </div>
   );

@@ -40,7 +40,7 @@ Experienced as a website on desktop and mobile web. A hash-routed single-page ap
 
 - Name: **Federico Landorno**. Role stated on the site: "UX Designer". The document title is `Federico Landorno — UX Designer` (one source: `src/lib/title.ts`; `index.html` carries its own copy) — it states the role because the site is compared in a row of browser tabs.
 - Voice in the existing copy is direct, concrete, and lightly wry — e.g. the contact headline "Let's make the next boring interface less boring." Keep claims specific and unembellished.
-- Contact handles, binding: `linkedin.com/in/federicolandorno`, `read.cv/federicolandorno`.
+- Contact handles, binding: `www.linkedin.com/in/flandorno/`, `read.cv/federicolandorno`. They live in `src/lib/contact.ts` and nowhere else; the handle was wrong in three hand-written copies before that.
 - **No email address anywhere on the site, and no `mailto:` link.** The owner decided this on 2026-11-02: the portfolio is sent as an attachment to job applications, so the recipient already holds the address, and publishing it only exposes it to scrapers. "Get in touch" points to LinkedIn. Do not reintroduce an email, in copy, in a link, in structured data, or in a contact form.
 
 ## Evidence on Hand
