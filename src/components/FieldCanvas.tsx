@@ -40,6 +40,32 @@ type Collab = {
 
 const LEAD_LABEL = "Join me!";
 
+/* The cast was composed inside a rectangle; the mask is a circle inscribed in
+   it, which is smaller. The four anchors below are fractions of the box, and a
+   cursor at (0.70, 0.22) of a 674 × 773 box sits at 76% of the mask radius
+   before it starts roaming — measured, the swing took it past 100% and it
+   dissolved on its way out. Scaling every settled position and every roaming
+   offset toward the centre by this factor fits the whole arrangement inside the
+   disc while keeping its proportions: the relative geometry is untouched, it is
+   simply more compact. The fly-in is deliberately NOT scaled — the four still
+   enter from outside the frame.
+
+   **The value is derived, not tuned by eye.** Each cursor's radius has a
+   supremum: its anchor's offset from the centre plus the full roaming
+   amplitude — the three sinusoids per axis are incommensurable, so their sum
+   does reach the sum of their amplitudes (0.46 + 0.34 + 0.20 = 1) — and the
+   centre visits only ever move inward. Worst case is Engineering at **1.055R**
+   unscaled. Allow ~0.09R for the arrow and for the pill corner perpendicular
+   to whichever inward placement it took, and a label stays inside the mask's
+   82% solid stop only while `1.055 x CAST_FIT + 0.09 <= 0.82`, so CAST_FIT
+   must not exceed 0.69.
+   Sampling is not a check here. An earlier pass sampled eight moments at
+   CAST_FIT 0.82, measured 83% and passed it — the true bound at that value is
+   96%, and the cycles are long enough that no feasible number of samples finds
+   it. Redo the arithmetic if the anchors, the amplitudes or the mask stop
+   change; they are one decision. */
+const CAST_FIT = 0.66;
+
 const COLLABS: Collab[] = [
   { label: "Product",     color: "#5B9BFF", from: [-0.18, 0.14], to: [0.28, 0.28], delay: 0,   ax: 0.10, ay: 0.09, wx: 1.26, wy: 1.00, beat: 2.3, visit: 19300, visitPhase: 0 },
   { label: "Engineering", color: "#49D6B8", from: [1.20, 0.08],  to: [0.70, 0.22], delay: 80,  ax: 0.08, ay: 0.11, wx: 1.07, wy: 1.39, beat: 3.1, visit: 26900, visitPhase: 9700 },
@@ -88,6 +114,44 @@ type Particle = { x: number; y: number; vx: number; vy: number; color: string; r
 type Ring = { x: number; y: number; color: string; born: number };
 const RING_MS = 440;
 
+/* ── Furniture scale ───────────────────────────────────────────────────────
+   Everything in this piece except the field grid — the arrow, the label pill,
+   the click ring, the burst — was authored in absolute pixels against a canvas
+   about this wide. Those pixels do not shrink when the box does, so in a
+   narrower frame the furniture grows relative to everything around it.
+   Measured: the "Engineering" pill is 84px on every device, which is 12% of a
+   674px desktop canvas and 23% of a 363px phone one; four pills end to end are
+   38% of the desktop width and 71% of the phone width, and at 390px two of the
+   four visibly overlap. `ui` puts the proportion back.
+   The floor stops the glyph disappearing on a very small canvas: at 0.55 the
+   arrow is 2.9% of the width at phone size, which is what it is at desktop. */
+const REF_W = 680;
+const UI_MIN = 0.55;
+
+/* Below this canvas width the names come off and the four keep only their
+   colours — in a multiplayer cursor, colour IS identity. It is a legibility
+   floor, derived: the label is 12px x `ui`, and `ui` at this width is
+   510/680 = 0.75, so the text lands at 9px. Below that it is not a label, it
+   is a smudge, and scaling the pill to fit only makes it smaller.
+   It must stay under the smallest canvas that actually ships. The stacked
+   artwork is capped in CSS, and at a 30rem cap the canvas came out 509px — one
+   pixel under this floor — and every tablet silently lost its four names. The
+   cap is 34rem for that reason; the two are one decision. The lead's "Join
+   me!" is never dropped: it arrives oversized and is the only copy in the
+   piece. */
+const LABEL_MIN_W = 510;
+
+/* ── Coming to rest ────────────────────────────────────────────────────────
+   The piece loops forever only where you can reach into it. On a touch device
+   the pointer layer is dead — measured, a finger drag across the canvas yields
+   one `pointermove` before the browser takes the gesture for scrolling — so
+   what is left is an animation playing at the reader with no way to join in,
+   on the screen where it has the least room. There it runs its sequence once
+   and decelerates onto the resolved field, which is the truer picture anyway:
+   the work got done. A tap runs it again. */
+const T_REST = 8000;   // real ms before the slowdown starts
+const REST_MS = 2500;  // how long the slowdown takes
+
 export default function FieldCanvas() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -103,10 +167,23 @@ export default function FieldCanvas() {
     const palette = readPalette();
 
     let w = 0, h = 0, dpr = 1;
+    let ui = 1;            // furniture scale, see REF_W
+    let showLabels = true; // see LABEL_MIN_W
+    /* A phone hides `.fl-hero-art` outright, so the box is 0 x 0 here. Nothing
+       starts: no loop, no field, no cost. Re-read on every resize, because the
+       box comes back if the window widens past the breakpoint. */
+    let hidden = false;
     let raf = 0, running = false, onScreen = true;
     let t = 0;              // field phase
-    let elapsed = 0;        // ms since the sequence started
+    let elapsed = 0;        // ms of story time — the slowdown stretches this
+    let wall = 0;           // real ms since the run started — the slowdown does not
+    let rested = false;     // the sequence has finished and the loop is parked
     let last = 0;
+
+    /* Only where there is no pointer to revive it. `(hover: none)` is the exact
+       test: it is the same capability the interactive layer needs, so the piece
+       keeps looping precisely where looping still earns something. */
+    const restsWhenDone = window.matchMedia("(hover: none)").matches;
     let particles: Particle[] = [];
     let burstDone = false;
     let rings: Ring[] = [];
@@ -120,6 +197,7 @@ export default function FieldCanvas() {
 
     const resize = () => {
       const rect = wrap.getBoundingClientRect();
+      hidden = rect.width < 2 || rect.height < 2;
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = Math.max(1, Math.round(rect.width));
       h = Math.max(1, Math.round(rect.height));
@@ -128,6 +206,8 @@ export default function FieldCanvas() {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ui = Math.min(1, Math.max(UI_MIN, w / REF_W));
+      showLabels = w >= LABEL_MIN_W;
     };
 
     /* ── the lead cursor's path: a curve in from the bottom-left ─────────── */
@@ -167,7 +247,11 @@ export default function FieldCanvas() {
       const since = e - (T_BURST + 90 + c.delay);
       const k = easeOutExpo(clamp01(since / 420));
       const fx = c.from[0] * w, fy = c.from[1] * h;
-      const tx = c.to[0] * w, ty = c.to[1] * h;
+      /* Settled stations pulled into the mask's disc; entry points left alone,
+         so the arrival still comes from off the frame. */
+      const cxm = w / 2, cym = h / 2;
+      const tx = cxm + (c.to[0] * w - cxm) * CAST_FIT;
+      const ty = cym + (c.to[1] * h - cym) * CAST_FIT;
       const s = e / 1000;
       const ph = c.delay * 0.012;
       // three incommensurable components per axis, including one very slow
@@ -176,10 +260,10 @@ export default function FieldCanvas() {
       // of the path, it must not become the motion the eye reads
       const ox = (Math.sin(s * c.wx + ph) * 0.46
                 + Math.sin(s * c.wx * 2.37 + ph * 1.7) * 0.34
-                + Math.sin(s * c.wx * 0.31 + ph * 0.6) * 0.20) * c.ax * w * k;
+                + Math.sin(s * c.wx * 0.31 + ph * 0.6) * 0.20) * c.ax * w * k * CAST_FIT;
       const oy = (Math.cos(s * c.wy + ph) * 0.44
                 + Math.cos(s * c.wy * 1.93 + ph * 1.3) * 0.36
-                + Math.cos(s * c.wy * 0.27 + ph * 0.9) * 0.20) * c.ay * h * k;
+                + Math.cos(s * c.wy * 0.27 + ph * 0.9) * 0.20) * c.ay * h * k * CAST_FIT;
       const roamX = fx + (tx - fx) * k + ox;
       const roamY = fy + (ty - fy) * k + oy;
 
@@ -200,13 +284,13 @@ export default function FieldCanvas() {
       const N = 64;
       for (let i = 0; i < N; i++) {
         const a = (i / N) * Math.PI * 2 + Math.random() * 0.35;
-        const sp = 2.6 + Math.random() * 7.4;
+        const sp = (2.6 + Math.random() * 7.4) * ui;
         particles.push({
           x, y,
           vx: Math.cos(a) * sp,
           vy: Math.sin(a) * sp,
           color: colors[i % colors.length],
-          r: 1.3 + Math.random() * 2.3,
+          r: (1.3 + Math.random() * 2.3) * ui,
         });
       }
     };
@@ -233,7 +317,11 @@ export default function FieldCanvas() {
       ctx.save();
       ctx.globalAlpha = alpha;
       ctx.translate(x, y);
-      ctx.scale(scale, scale);
+      /* One multiplier for the whole glyph: the arrow, the pill and the label
+         all live inside this transform, so the text renders at 12 × scale × ui
+         and the pill around it follows without a second set of numbers. */
+      const sc = scale * ui;
+      ctx.scale(sc, sc);
 
       // arrow
       ctx.beginPath();
@@ -257,22 +345,51 @@ export default function FieldCanvas() {
       // label pill
       if (label && labelAlpha > 0.01) {
         ctx.globalAlpha = alpha * labelAlpha;
-        ctx.font = "600 12px Geist, system-ui, sans-serif";
+        /* The page face, not a second one. This asked for Geist, which this
+           project has never loaded, so every role label has in fact been
+           drawing in the system fallback — a different typeface from the
+           rest of the page, by accident. Canvas takes no CSS variable, so
+           the family is spelled out; it must track --font-sans. */
+        ctx.font = '600 12px "Schibsted Grotesk", system-ui, sans-serif';
         const padX = 8;
         const tw = ctx.measureText(label).width;
-        const bw = tw + padX * 2, bh = 22, by = 16, r = 5;
-        /* The pill sits to the right of the arrow and flips to its left rather
-           than run into the edge — a dissolved role label is the one thing in
-           this layer that actually carries meaning.
-           The limit is not the canvas edge but the point where the CSS radial
-           mask (`.fl-canvas-wrap`, solid to 82% of a 50% radius) starts fading,
-           which is 91% of the width. Flipping at the canvas edge was not enough:
-           at mobile width a 70–84px pill reaches the fade long before the edge.
-           SOLID_EDGE must track that mask stop; they are one decision. */
-        const SOLID_EDGE = 0.91;
-        const overRight = x + (14 + bw) * scale > w * SOLID_EDGE;
-        const fitsLeft = x - (10 + bw) * scale > w * (1 - SOLID_EDGE);
-        const bx = overRight && fitsLeft ? -(bw + 10) : 14;
+        const bw = tw + padX * 2, bh = 22, r = 5;
+
+        /* The pill goes below-right of the arrow, and steps to whichever side
+           of it points further INTO the circle rather than run into the fade —
+           a dissolved role label is the one thing in this layer that actually
+           carries meaning.
+           **It is a radius test on both axes, not an x test.** The mask is a
+           circle (`circle closest-side`, solid to 82% of the radius), so what
+           matters is a pill's distance from the CENTRE. The old test compared x
+           against 91% of the width and saw nothing wrong with a pill sitting
+           high and to the right: measured at 1440, "Engineering" was at 86% of
+           the width — inside the old limit — and at 97% of the radius, so it
+           dissolved mid-word, reading "Engineerin". Flipping left could not
+           save it either, because the excursion that took it out there was
+           vertical. Hence four placements, and the furthest corner of each is
+           what is measured, not its anchor.
+           SOLID must track the mask's solid stop; they are one decision. */
+        const SOLID = 0.82;
+        const R = Math.min(w, h) / 2;   // closest-side, as in the mask
+        const cx0 = w / 2, cy0 = h / 2;
+        const farCorner = (ox: number, oy: number) => {
+          let m = 0;
+          for (const qx of [ox, ox + bw]) {
+            for (const qy of [oy, oy + bh]) {
+              m = Math.max(m, Math.hypot(x + qx * sc - cx0, y + qy * sc - cy0));
+            }
+          }
+          return m;
+        };
+        let bx = 14, by = 16;
+        if (farCorner(bx, by) > SOLID * R) {
+          let best = Infinity;
+          for (const [qx, qy] of [[14, 16], [-(bw + 10), 16], [14, -(bh + 6)], [-(bw + 10), -(bh + 6)]]) {
+            const m = farCorner(qx, qy);
+            if (m < best) { best = m; bx = qx; by = qy; }
+          }
+        }
         ctx.beginPath();
         ctx.moveTo(bx + r, by);
         ctx.arcTo(bx + bw, by, bx + bw, by + bh, r);
@@ -323,7 +440,15 @@ export default function FieldCanvas() {
       /* the field */
       const step = Math.max(20, Math.min(34, w / 26));
       const len = step * 0.52;
-      const radius = Math.min(230, Math.max(130, w * 0.24));
+      /* The floor used to be 130, which binds for any canvas under 542px and
+         so never shrank on a phone: 130 is 36% of a 363px canvas against 24%
+         of a 674px one, and four cursors at that reach nominally covered 196%
+         of the box against 63% on desktop. Every segment was being pulled all
+         of the time, which leaves no calm field for the order to emerge
+         against — the whole claim of the piece, invisible. At 70 the floor
+         stops binding above 292px and the reach stays 24% of the width
+         everywhere. */
+      const radius = Math.min(230, Math.max(70, w * 0.24));
       const r2 = radius * radius;
       ctx.lineCap = "round";
       ctx.lineWidth = 1.25;
@@ -434,7 +559,7 @@ export default function FieldCanvas() {
           ctx.strokeStyle = r.color;
           ctx.lineWidth = 1.6 - k;
           ctx.beginPath();
-          ctx.arc(r.x, r.y, 4 + easeOutExpo(k) * 34, 0, Math.PI * 2);
+          ctx.arc(r.x, r.y, (4 + easeOutExpo(k) * 34) * ui, 0, Math.PI * 2);
           ctx.stroke();
         }
         ctx.globalAlpha = 1;
@@ -451,7 +576,7 @@ export default function FieldCanvas() {
           ctx.globalAlpha = fk * 0.5;
           ctx.fillStyle = fg;
           ctx.beginPath();
-          ctx.arc(bx, by, 150, 0, Math.PI * 2);
+          ctx.arc(bx, by, 150 * ui, 0, Math.PI * 2);
           ctx.fill();
         }
         // three rings leaving at staggered speeds
@@ -464,7 +589,7 @@ export default function FieldCanvas() {
           ctx.strokeStyle = ri === 0 ? palette.accent : COLLABS[ri].color;
           ctx.lineWidth = 2.6 - k * 2 - ri * 0.4;
           ctx.beginPath();
-          ctx.arc(bx, by, 12 + easeOutExpo(k) * radius * (1.5 - ri * 0.28), 0, Math.PI * 2);
+          ctx.arc(bx, by, 12 * ui + easeOutExpo(k) * radius * (1.5 - ri * 0.28), 0, Math.PI * 2);
           ctx.stroke();
         }
         ctx.globalAlpha = 1;
@@ -489,13 +614,26 @@ export default function FieldCanvas() {
       }
       for (const { c, p } of collabStates) {
         if (!p.on) continue;
-        drawCursor(p.x, p.y, c.color, c.label, 1, Math.min(1, p.k * 1.4));
+        drawCursor(p.x, p.y, c.color, showLabels ? c.label : "", 1, Math.min(1, p.k * 1.4));
       }
     };
 
     const frame = (now: number) => {
-      const dt = last ? Math.min(48, now - last) : 16;
+      const real = last ? Math.min(48, now - last) : 16;
       last = now;
+      wall += real;
+
+      /* The ramp is read off `wall`, not off `elapsed`. Scaling the clock that
+         decides how far the slowdown has got makes it slow its own approach:
+         it asymptotes and the loop never actually stops. One multiplier on dt
+         then decelerates the field, the roaming, the beats and the rings
+         together, because all of them are driven from it. */
+      const restK =
+        !restsWhenDone || wall <= T_REST
+          ? 1
+          : 1 - easeInOutCubic(clamp01((wall - T_REST) / REST_MS));
+      const dt = real * restK;
+
       elapsed += dt;
       t += dt * 0.00026;
 
@@ -532,11 +670,20 @@ export default function FieldCanvas() {
       if (rings.length) rings = rings.filter((r) => elapsed - r.born < RING_MS);
 
       draw();
+      if (restK <= 0) {
+        rested = true;
+        stop();
+        return;
+      }
       raf = window.requestAnimationFrame(frame);
     };
 
     const start = () => {
-      if (running || reduce.matches || !onScreen || document.hidden) return;
+      /* `rested` is checked here and not only in `frame`: the piece sits at the
+         top of the page, so it leaves and re-enters the viewport every time the
+         reader comes back up. Replaying on each return is the opposite of
+         coming to rest. Only a tap starts it again. */
+      if (running || rested || hidden || reduce.matches || !onScreen || document.hidden) return;
       running = true;
       last = 0;
       raf = window.requestAnimationFrame(frame);
@@ -549,10 +696,12 @@ export default function FieldCanvas() {
 
     const replay = () => {
       if (reduce.matches) return;
-      elapsed = 0; burstDone = false; particles = []; rings = []; last = 0;
+      elapsed = 0; wall = 0; rested = false;
+      burstDone = false; particles = []; rings = []; last = 0;
       nextPulse = COLLABS.map((c, i) => T_IDLE + 500 + i * 420 + c.beat * 160);
       lastPulse = COLLABS.map(() => -9999);
       atCentre = COLLABS.map(() => false);
+      start(); // after a rest there is no loop left to pick the reset up
     };
 
     const onPointerMove = (ev: PointerEvent) => {
@@ -563,7 +712,11 @@ export default function FieldCanvas() {
     };
     const onPointerLeave = () => { hasPointer = false; px = -9999; py = -9999; };
 
-    const ro = new ResizeObserver(() => { resize(); draw(reduce.matches); });
+    const ro = new ResizeObserver(() => {
+      resize();
+      if (hidden) { stop(); return; }   /* a phone: nothing to draw into */
+      draw(reduce.matches);
+    });
     ro.observe(wrap);
     const io = new IntersectionObserver(([entry]) => {
       onScreen = entry.isIntersecting;
@@ -575,8 +728,8 @@ export default function FieldCanvas() {
     const onMotionChange = () => { stop(); if (reduce.matches) draw(true); else { replay(); start(); } };
 
     resize();
-    draw(reduce.matches);
-    if (!reduce.matches) {
+    if (!hidden) draw(reduce.matches);
+    if (!hidden && !reduce.matches) {
       canvas.addEventListener("pointermove", onPointerMove);
       canvas.addEventListener("pointerleave", onPointerLeave);
       canvas.addEventListener("click", replay);

@@ -19,8 +19,6 @@ export default function About() {
 
   return (
     <div className="fl-read" ref={root}>
-      <Link to="/" className="fl-back">Federico Landorno</Link>
-
       <header className="fl-read-head">
         <h1 data-reveal>About</h1>
         <p className="fl-read-meta" data-reveal data-reveal-delay="80">UX Designer</p>
@@ -44,7 +42,7 @@ export default function About() {
         </p>
       </section>
 
-      <footer className="fl-read-end">
+      <footer id="contact" className="fl-read-end" tabIndex={-1}>
         <a className="fl-link fl-tap" href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn<span className="sr-only"> (opens in a new tab)</span></a>
         <a className="fl-link fl-tap" href={READCV} target="_blank" rel="noopener noreferrer">Read.cv<span className="sr-only"> (opens in a new tab)</span></a>
       </footer>

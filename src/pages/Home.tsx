@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import FieldCanvas from "../components/FieldCanvas";
 import SegmentField from "../components/SegmentField";
 import { useReveals } from "../lib/useReveals";
@@ -45,19 +45,28 @@ export default function Home() {
   const root = useRef<HTMLDivElement>(null);
   useReveals(root);
 
+  /* "My work" from another surface navigates here and asks for the list. The
+     jump waits a frame so it lands after ScrollToTop has reset the position,
+     rather than racing it. */
+  const { state } = useLocation() as { state: { scrollTo?: string } | null };
+  useEffect(() => {
+    if (state?.scrollTo !== "work") return;
+    const id = window.requestAnimationFrame(() => scrollToSection("work"));
+    return () => window.cancelAnimationFrame(id);
+  }, [state]);
+
   return (
     <div className="fl" ref={root}>
-      <header className="fl-top">
-        <span className="fl-mark">Federico Landorno</span>
-        <nav className="fl-nav" aria-label="Sections">
-          <button type="button" className="fl-tap" onClick={() => scrollToSection("work")}>Work</button>
-        </nav>
-      </header>
-
       {/* ── Hero: statement + the one ambitious moment ─────────────────────── */}
       <section className="fl-hero" aria-label="Introduction">
         <div className="fl-hero-copy">
-          <h1 data-reveal>I design the decisions a team makes once.</h1>
+          <h1 data-reveal>
+            {/* One heading, two weights. A smaller line ABOVE an h1 is a kicker,
+                which the craft floor bans outright; a smaller line that is part
+                of the h1 is not a label for the heading — it is the heading. */}
+            <span className="fl-greet">Hi, I&rsquo;m <b>Federico Landorno</b>.</span>{" "}
+            I design the decisions a team makes once.
+          </h1>
           <p className="fl-lead" data-reveal data-reveal-delay="90">
             UX designer working in B2B product: design systems, platform strategy,
             and the research that decides what not to build.
@@ -115,7 +124,7 @@ export default function Home() {
       </section>
 
       {/* ── Contact ────────────────────────────────────────────────────────── */}
-      <footer className="fl-end" aria-label="Contact">
+      <footer id="contact" className="fl-end" aria-label="Contact" tabIndex={-1}>
         <h2 data-reveal>Three systems above. Happy to talk through any of them.</h2>
         {/* The filled action belongs here as well as in the hero. The hero offers it
             before the visitor has seen any evidence; this is the moment after all of

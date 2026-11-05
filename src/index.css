@@ -44,12 +44,25 @@
   /* ── Type ── */
   --font-sans: "Schibsted Grotesk", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
 
-  /* The home ramp: Experience mode. In rem so browser text settings apply. */
-  --t-display: clamp(2.375rem, 5.4vw, 5rem);        /* 38 → 80 */
-  --t-head:    clamp(1.5rem, 2.9vw, 2.375rem);      /* 24 → 38 */
-  --t-lead:    clamp(1.0625rem, 1.45vw, 1.3125rem); /* 17 → 21 */
-  --t-body:    1rem;                                /* 16 — the base */
-  --t-label:   0.8125rem;                           /* 13 */
+  /* The home ramp: Experience mode. In rem so browser text settings apply.
+
+     Every step is `rem + vw`, never a bare vw. A bare-vw middle term makes the
+     page a linear photocopy of itself instead of a layout that adapts, and the
+     measurements were plain: --t-lead sat on its 17px floor from 320px all the
+     way to 1180px, so every laptop got the phone size; --t-display held 38px
+     flat to 700px and then stretched to 80px, so a 1024px window showed a 69%
+     reduction of the 1440px design rather than a composition of its own.
+     The rem term is the floor the text never drops below. The vw term is the
+     growth. Each pair is solved through two real points — a 390px phone and a
+     1440px desktop — so the size is right at both ends AND on the laptop in
+     between, which is the width a hiring manager actually opens this on.
+     Nothing in this ramp came out smaller: the floors are equal or one step up,
+     and only the middle of the range moved. */
+  --t-display: clamp(2.375rem, 1.375rem + 4.1vw, 5rem);        /* 38 → 80 */
+  --t-head:    clamp(1.5rem, 1.1875rem + 1.34vw, 2.375rem);    /* 24 → 38 */
+  --t-lead:    clamp(1.125rem, 1.0625rem + 0.29vw, 1.3125rem); /* 18 → 21 */
+  --t-body:    1rem;                                           /* 16 — base */
+  --t-label:   0.8125rem;                                      /* 13 */
 
   /* Two more steps, and they belong to the reading surface alone. A case study
      is Read mode, not Experience: it carries 4–7 section headings against one
@@ -59,17 +72,18 @@
      body text, barely reading as headings at all.
      The reading ramp is 58 / 29 / 20 / 16: ratios 2.0, 1.45, 1.25, tightening
      downward, which is the same shape as the home ramp (2.05, 1.82, 1.31). */
-  --t-read:    clamp(1.0625rem, 0.9rem + 0.55vw, 1.1875rem);  /* 17 → 19 */
+  --t-read:    clamp(1.125rem, 1.0625rem + 0.23vw, 1.1875rem); /* 18 → 19 */
   --t-sub:     clamp(1.1875rem, 1rem + 0.7vw, 1.5rem);        /* 19 → 24 */
   --t-section: clamp(1.5rem, 1.2rem + 1.1vw, 2.0625rem);      /* 24 → 33 */
 
-  --measure: 62ch;
-  /* The same column expressed as a length. `ch` is the right unit for prose —
-     it wraps on character count — but it is computed against the element's own
-     font-size, so any block set larger than 16px gets a WIDER column from the
-     same token and breaks the right edge. Headings, callouts and captions use
-     --col so the reading surface has one column, not four. 41rem = 656px = the
-     62ch the 16px body actually resolves to. */
+  /* One reading column, as a length rather than in `ch`. `ch` is the natural
+     unit for prose — it wraps on character count — but it resolves against each
+     element's OWN font-size, so a single token hands a 29px heading a column
+     half again as wide as the 19px prose beneath it, and the reading surface
+     ends up with four different right edges. A length gives it one.
+     Measured at 19px in Schibsted Grotesk, 1ch = 11.6px, so 52rem is 72ch —
+     inside the 65–75 a measure wants. (The note here used to claim 65ch; that
+     figure was never measured. 72ch is the real one, and still in range.) */
   --col: 52rem;
 
   /* The two radii in the world, both on the grid */
@@ -145,14 +159,44 @@
 
 /* ── Home surface ─────────────────────────────────────────────────────────── */
 
-.fl { --pad: clamp(1.5rem, 4vw, 3.5rem); padding: 0 var(--pad) clamp(3rem, 6vw, 6rem); }
+.fl { --pad: clamp(1.5rem, 4vw, 3.5rem); padding: clamp(1rem, 2vw, 2rem) var(--pad) clamp(3rem, 6vw, 6rem); }
 
-.fl-top {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1.5rem; padding: clamp(1rem, 2.4vw, 2rem) 0;
+/* ── Site navigation ──────────────────────────────────────────────────────
+   Centred and sticky on every surface, and it changes shape rather than
+   appearing. At the top it is bare and spread, part of the page; past 180px it
+   draws itself into a filled pill of --bg-2 on a hairline. Never glass: the
+   craft floor refuses blur as decoration, and the glassmorphic floating pill is
+   the pattern this site is trying not to be.
+   The morph is a 0.22s state transition, not a continuous animation, which is
+   what keeps the hero canvas the only thing allowed to move unasked. */
+.fl-nav {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; justify-content: center;
+  padding: clamp(0.75rem, 1.6vw, 1.25rem) clamp(1.5rem, 4vw, 3.5rem);
+  pointer-events: none;      /* only the bar itself takes the pointer */
 }
-.fl-mark { font-weight: 600; letter-spacing: -0.02em; }
-.fl-nav { display: flex; align-items: center; gap: clamp(1rem, 2vw, 1.5rem); }
+.fl-nav-inner {
+  pointer-events: auto;
+  display: flex; align-items: center;
+  gap: clamp(1.5rem, 3.4vw, 3rem);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 62.5rem;    /* 1000px — a pill, and on the 8px grid */
+  background: transparent;
+  transition: background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              gap 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* --line-2, not --line: the bar floats over live text with nothing behind it,
+   and a 13% hairline is not enough edge to separate the pill from whatever is
+   passing underneath. */
+.fl-nav.is-condensed .fl-nav-inner {
+  gap: clamp(1rem, 2vw, 1.5rem);
+  padding: 0.5rem 1rem;
+  background: var(--bg-2);
+  border-color: var(--line-2);
+}
 .fl-nav a, .fl-nav button {
   position: relative;
   font-family: var(--font-sans);
@@ -161,6 +205,7 @@
   text-decoration: none;
   background: none; border: 0; padding: 0; cursor: pointer;
   transition: color 0.18s;
+  white-space: nowrap;
 }
 .fl-nav a:hover, .fl-nav button:hover { color: var(--ink); }
 
@@ -177,6 +222,18 @@
   min-height: min(78svh, 47.5rem);
   padding: clamp(1rem, 3vw, 2.5rem) 0 clamp(3rem, 7vw, 6.5rem);
 }
+/* One heading, two weights. The greeting is part of the h1, not a line above
+   it: a smaller line above a heading is a kicker, which the craft floor bans
+   outright. The name is the one proper noun on the page that earns the accent. */
+.fl-greet {
+  display: block;
+  font-size: var(--t-head);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.75rem;
+}
+.fl-greet b { color: var(--accent); font-weight: 600; }
+
 .fl-lead { max-width: 46ch; margin: clamp(1rem, 2vw, 1.5rem) 0 0; font-size: var(--t-lead); color: var(--ink-2); }
 .fl-actions { display: flex; align-items: center; gap: clamp(1rem, 2vw, 1.5rem); margin-top: clamp(1.5rem, 3vw, 2.5rem); flex-wrap: wrap; }
 .fl-btn {
@@ -231,23 +288,26 @@
 .fl-canvas-wrap {
   position: absolute;
   inset: -8% 0 -8% -6%;
-  /* The fade must finish inside the box. With the field inset from the viewport
-     the box edge is visible, so the gradient's radius cannot exceed the distance
-     from its centre to the edge — 50% at 50% reaches zero exactly at both sides,
-     leaving no rectangle. The old 115% at 72% was tuned for a full-bleed field
-     and clipped hard on the right once the bleed was removed.
+  /* `circle closest-side`, not `50% 50%`. A percentage-sized radial gradient
+     takes the box's aspect ratio, so the field was an ELLIPSE that squashed and
+     stretched with the layout — a tall oval at 1440, a wide one on a tablet.
+     `circle` fixes the shape and `closest-side` is the size that keeps the fade
+     finishing inside the box: the radius is the distance to the nearest edge, so
+     the gradient reaches zero exactly there and never leaves a cut rectangle.
+     The field is now round at every width, and narrowing the window makes the
+     circle smaller rather than oval.
      The solid stop sits at 82%, not lower: the roaming cursors carry role labels
      that are the only meaning in this layer, and a fade starting nearer the
      centre dissolves them. The dissolve happens in the outer edge only. */
-  -webkit-mask-image: radial-gradient(50% 50% at 50% 50%, #000 82%, transparent 100%);
-  mask-image: radial-gradient(50% 50% at 50% 50%, #000 82%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, #000 82%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side at 50% 50%, #000 82%, transparent 100%);
 }
 .fl-canvas-wrap canvas { display: block; width: 100%; height: 100%; }
 
 /* Work — rows, not a grid of equal cards */
 /* Scroll target for "Work" / "See the work": land with air above the first case,
    and draw the keyboard ring inside so a full-width section can't clip it. */
-.fl-work { scroll-margin-top: clamp(1.5rem, 5vh, 4rem); }
+.fl-work { scroll-margin-top: clamp(4rem, 5vh + 3rem, 6rem); }
 .fl-work:focus-visible { outline-offset: -0.25rem; }
 
 .fl-list { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(2rem, 3.5vw, 3rem); }
@@ -330,14 +390,6 @@
   transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (max-width: 900px) {
-  .fl-hero { grid-template-columns: 1fr; min-height: 0; align-items: start; gap: 2rem; }
-  .fl-hero-art { order: 2; height: min(48svh, 25rem); }
-  .fl-hero-copy { order: 1; }
-  .fl-case { grid-template-columns: 1fr; gap: 1rem; }
-  .fl-frame { max-width: 26rem; }
-}
-
 /* Skip link — off-screen until focused */
 .fl-skip {
   position: fixed; top: 0.75rem; left: 50%; z-index: 100;
@@ -355,21 +407,15 @@
   --pad: clamp(1.5rem, 4vw, 3.5rem);
   max-width: 70rem;
   margin: 0 auto;
-  padding: 0 var(--pad) clamp(4rem, 8vw, 7.5rem);
+  padding: clamp(1rem, 2vw, 2rem) var(--pad) clamp(4rem, 8vw, 7.5rem);
 }
-.fl-back {
-  display: inline-block;
-  padding: clamp(1rem, 2.4vw, 2rem) 0;
-  font-weight: 600; letter-spacing: -0.02em;
-  color: var(--ink); text-decoration: none;
-}
-.fl-back:hover { color: var(--accent); }
 
-.fl-read-nav { padding-bottom: clamp(1rem, 3vw, 2rem); }
 .fl-read-head { padding: clamp(1.5rem, 5vw, 4rem) 0 clamp(2rem, 4vw, 3rem); }
 /* Case titles are sentences, not one-word statements: a step below the home
-   display size, on a measure wide enough to keep them to two lines. */
-.fl-read-head h1 { font-size: clamp(1.875rem, 4.2vw, 3.625rem); max-width: 22ch; }
+   display size, on a measure wide enough to keep them to two lines. Anchored
+   like the home ramp — a bare 4.2vw held this at 30px from 320px to 714px, so
+   a 600px tablet got exactly the title a 320px phone got. */
+.fl-read-head h1 { font-size: clamp(2rem, 1.375rem + 2.5vw, 3.625rem); max-width: 22ch; }
 /* --t-sub, not --t-lead: once the reading body moved to 19px the lead step (21)
    sat 1.1x above it and read as slightly larger body text rather than as part
    of the title block. */
@@ -380,12 +426,12 @@
 
 /* One reading measure for prose; figures and tables are allowed to be wider */
 .fl-read section { margin: 0 0 clamp(3rem, 6vw, 5.5rem); }
-/* One column for everything that is read in sequence. It is `--col`, not
-   `--measure`: 62ch of 16px body resolved to 658px inside a 1008px content band,
-   leaving 350px — a third of the width — dead on the right, at 61 characters a
-   line, below the 65–75 the measure wants. --col is 832px, which is 65ch at the
-   19px reading size and 73ch at the 17px mobile one: inside the range at both
-   ends, where a ch-based measure would have drifted with the font size. */
+/* One column for everything that is read in sequence, and it is a length, not
+   a `ch` value: 62ch of 16px body resolved to 658px inside a 1008px content
+   band, leaving a third of the width dead on the right at 61 characters a line,
+   under the 65–75 a measure wants. --col is 832px — measured at 72ch at the
+   19px reading size and 74ch at the 18px phone one, inside the range at both
+   ends, where a ch-based token drifts with whatever font-size it lands on. */
 .fl-read section > p,
 .fl-read section > ul,
 .fl-read section > ol,
@@ -457,6 +503,9 @@
 
 .fl-bleed { margin: clamp(2rem, 3vw, 2.5rem) 0; }
 .fl-table-wrap { margin: clamp(2rem, 3vw, 2.5rem) 0; overflow-x: auto; }
+/* Drawn inside: on a phone this element runs out into the gutter, where a
+   positive offset would put half the ring past the edge of the window. */
+.fl-table-wrap:focus-visible { outline-offset: -0.25rem; }
 .fl-read .fl-table-wrap + p { margin-top: 0; }
 
 /* Competitor icons and prototype screens */
@@ -485,6 +534,84 @@
   display: flex; flex-wrap: wrap; align-items: center;
   gap: clamp(1rem, 2.4vw, 2rem);
   padding-top: clamp(2rem, 4vw, 3rem);
+}
+
+/* ── Breakpoints ──────────────────────────────────────────────────────────
+   Three ranges, and each one changes the composition rather than scaling it.
+   Size is the type ramp's job and it covers the whole span continuously; these
+   rules carry only the decisions that cannot be interpolated — how many columns
+   a section has, which way a figure sits, what is allowed out into the gutter.
+   There used to be one of them, at 900px, which is why a phone got the desktop
+   composition rendered at its floor sizes.
+
+   This block belongs at the END of the file and must stay there. These rules
+   carry no extra specificity, so they win on source order alone: written
+   higher up, `.fl-table-wrap { margin-inline: … }` lost to the plain
+   `.fl-table-wrap { margin: … 0 }` further down and the phone bleed silently
+   did nothing — measured, the table still sat inside both gutters.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* ≤ 1079px — the hero becomes one column.
+   Two columns want about 1080px before the copy track is wide enough to hold a
+   display heading. Measured at 1024px: a ~420px track, 64px type, and an h1
+   four lines deep, where the same heading stacked at 900px ran three. */
+@media (max-width: 1079px) {
+  .fl-hero { grid-template-columns: 1fr; min-height: 0; align-items: start; gap: 2rem; }
+  /* Capped and centred, not full width. Stacked, the artwork gets the whole
+     content band — 749 × 464 at 768px — and a circle inscribed in that box is
+     only as wide as the box is tall, leaving 142px of dead page on each side.
+     At 34rem the box is roughly square and the circle fills it.
+     34rem and not 30: at 30 the canvas came out 509px wide, below the 510px
+     label floor, and every tablet silently lost the four names. The cap and
+     LABEL_MIN_W are one decision — check both if either moves. */
+  .fl-hero-art {
+    order: 2;
+    height: min(48svh, 25rem);
+    width: min(100%, 34rem);
+    margin-inline: auto;
+  }
+  .fl-hero-copy { order: 1; }
+}
+
+/* ≤ 900px — case rows become one column, the image above its own title. */
+@media (max-width: 900px) {
+  .fl-case { grid-template-columns: 1fr; gap: 1rem; }
+  .fl-frame { max-width: 26rem; }
+}
+
+/* ≤ 600px — phone, and three things change shape rather than shrink:
+   · the artwork turns landscape instead of standing as a 400px portrait in a
+     272px-wide column, which is the one place the field's roaming cursors had
+     no room to roam;
+   · the client-and-discipline line under each case title steps UP, because
+     13px is an interface size that assumes a mouse and a desk, and on the home
+     page that line is the only place the client's name appears;
+   · the data tables are let out into the page gutter, so the fact that they
+     scroll sideways is visible at the edge instead of being guessed at. */
+@media (max-width: 600px) {
+  /* No artwork on a phone. Three arrangements were built and none of them
+     earned the space: a block under the copy (298px, 42% of a 707px hero, all
+     of it pushing the first case study off the first screen), a block with the
+     cast scaled to fit, and a ring behind the copy acting as a container for
+     the words. The owner rejected all three. The piece is a desktop piece: it
+     needs a pointer to be joined, and a frame wide enough for four people to
+     work in without crowding each other.
+     `display: none` and not an empty element — FieldCanvas sees a zero-size box
+     and never starts its loop, so a phone pays nothing: no canvas, no raf, no
+     field. The first case row moves up to y=448 in an 844px viewport.
+     Do not reintroduce an artwork here without asking. */
+  .fl-hero-art { display: none; }
+
+  .fl-meta { font-size: 0.875rem; }
+  .fl-table-wrap {
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+  }
+}
+
+/* The bar snaps between states rather than easing. */
+@media (prefers-reduced-motion: reduce) {
+  .fl-nav-inner { transition: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

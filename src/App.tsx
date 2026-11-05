@@ -1,6 +1,8 @@
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
+import SiteNav from "./components/SiteNav";
 import Home from "./pages/Home";
+import About from "./pages/About";
 import Electrolux from "./pages/Electrolux";
 import D4next from "./pages/D4next";
 import N4m from "./pages/N4m";
@@ -30,12 +32,14 @@ export default function App() {
         Skip to main content
       </a>
       <ScrollToTop />
+      <SiteNav />
       <main id="main-content" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/d4next" element={<D4next />} />
           <Route path="/electrolux" element={<Electrolux />} />
           <Route path="/n4m" element={<N4m />} />
+          <Route path="/about" element={<About />} />
           {/* Any unknown hash — a stale /#/about, the old /#/experience, a
               mistyped share — lands on the home page instead of a blank
               black screen with no wordmark and no way back. */}

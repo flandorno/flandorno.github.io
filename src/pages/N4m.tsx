@@ -209,7 +209,12 @@ export default function N4m() {
           and deploy. The component exists once. The backend configuration does the rest.
         </p>
 
-        <div className="fl-table-wrap">
+        {/* A table that scrolls sideways has to be reachable without a mouse:
+            role="region" + tabindex makes it a focus stop so the keyboard can
+            scroll it (WCAG 2.1.1), and the name tells a screen reader what the
+            stop is. On a phone the stylesheet lets it out into the page gutter
+            so the cut edge is visible rather than inferred. */}
+        <div className="fl-table-wrap" role="region" tabIndex={0} aria-label="Impact metrics before and after the design system">
           <table>
             <caption className="sr-only">Impact metrics before and after the design system</caption>
             <thead>

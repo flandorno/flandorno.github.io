@@ -125,7 +125,12 @@ export default function D4Next() {
 
       <section data-reveal>
         <h2>The impact</h2>
-        <div className="fl-table-wrap">
+        {/* A table that scrolls sideways has to be reachable without a mouse:
+            role="region" + tabindex makes it a focus stop so the keyboard can
+            scroll it (WCAG 2.1.1), and the name tells a screen reader what the
+            stop is. On a phone the stylesheet lets it out into the page gutter
+            so the cut edge is visible rather than inferred. */}
+        <div className="fl-table-wrap" role="region" tabIndex={0} aria-label="Impact metrics before and after redesign">
           <table>
             <caption className="sr-only">Impact metrics before and after redesign</caption>
             <thead>

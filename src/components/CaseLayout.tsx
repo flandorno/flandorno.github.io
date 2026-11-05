@@ -1,5 +1,4 @@
 import { useEffect, useRef, type ReactNode } from "react";
-import { Link } from "react-router-dom";
 import { useReveals } from "../lib/useReveals";
 import { BASE_TITLE } from "../lib/title";
 import { LINKEDIN } from "../lib/contact";
@@ -26,10 +25,6 @@ export default function CaseLayout({ title, meta, docTitle, children }: Props) {
 
   return (
     <div className="fl-read" ref={root}>
-      <nav className="fl-read-nav" aria-label="Site">
-        <Link to="/" className="fl-back">Federico Landorno</Link>
-      </nav>
-
       <header className="fl-read-head">
         <h1 data-reveal>{title}</h1>
         <p className="fl-read-meta" data-reveal data-reveal-delay="80">{meta}</p>
@@ -37,8 +32,7 @@ export default function CaseLayout({ title, meta, docTitle, children }: Props) {
 
       {children}
 
-      <footer className="fl-read-end">
-        <Link to="/" className="fl-link fl-tap">All work</Link>
+      <footer id="contact" className="fl-read-end" tabIndex={-1}>
         <a
           className="fl-icon-link"
           href={LINKEDIN}

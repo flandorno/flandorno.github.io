@@ -189,13 +189,13 @@ Every text pair above passes WCAG AA; the figures are measured, not estimated.
 
 ## Typography
 
-**Two ramps, one per mode.** The home is Experience: one title, one section, one lead — 78 / 38 / 21 / 16, ratios 2.05 / 1.82 / 1.31. A case study is Read, and it differs in two ways that both matter. It carries **four to seven** section headings against one title, so reusing the home's `--t-head` (38) put sections at 1.53x below a 58px title and they competed with it. And it is read top to bottom rather than scanned, so **16px is the wrong body size** — that is an interface size. The reading ramp is **58 / 33 / 24 / 19** at desktop and **30 / 24 / 19 / 17** at phone width: ratios 1.76 / 1.38 / 1.26, tightening downward like the home ramp. `--t-read`, `--t-sub` and `--t-section` belong to this surface and are never used on the home.
+**Two ramps, one per mode.** The home is Experience: one title, one section, one lead — 78 / 38 / 21 / 16, ratios 2.05 / 1.82 / 1.31. A case study is Read, and it differs in two ways that both matter. It carries **four to seven** section headings against one title, so reusing the home's `--t-head` (38) put sections at 1.53x below a 58px title and they competed with it. And it is read top to bottom rather than scanned, so **16px is the wrong body size** — that is an interface size. The reading ramp is **58 / 33 / 24 / 19** at desktop and **32 / 24 / 19 / 18** at phone width: ratios 1.76 / 1.38 / 1.26, tightening downward like the home ramp. `--t-read`, `--t-sub` and `--t-section` belong to this surface and are never used on the home.
 
 Raising the body forced the rest: at a 19px body the old 20px subsection heading would have sat 1.05x above the text and stopped reading as a heading at all. A ramp moves as one piece or not at all.
 
 **One column, and it is `--col`, not `--measure`.** A `ch` measure resolves against each element's *own* font-size, so one token produced a different column for every size on the page: a 29px heading given `62ch` claimed ~1800px and ran to the container, 1008px of heading over a 658px column of prose — two page widths at once. Worse, that 658px was **61 characters a line inside a 1008px content band**, below the 65–75 a measure wants, with 350px — a third of the width — dead on the right.
 
-Everything read in sequence now shares `--col` = `52rem` (832px): prose, lists, section and subsection headings, callouts, captions and the page subtitle. At the 19px desktop body that is 65 characters a line; at the 17px phone body, 73. Both inside the range, where a `ch` value drifts out of it as soon as the font size moves. Measured after: every one of them spans 216 → 1048, and the dead band fell from 350px to 176px. The page title is deliberately wider, at `22ch`; figures, tables and screen strips are still allowed past `--col` entirely — that is what the wider container is for.
+Everything read in sequence now shares `--col` = `52rem` (832px): prose, lists, section and subsection headings, callouts, captions and the page subtitle. At the 19px desktop body that is **72** characters a line; at the 18px phone body, 74. (This document and the stylesheet both used to say 65ch. Nobody had measured it: `1ch` of Schibsted Grotesk at 19px is 11.6px, so 832px is 72ch. The number was wrong; the column is not — 72 is inside the range, and the figure has been corrected in both places rather than the column changed to match a claim.) Both inside the range, where a `ch` value drifts out of it as soon as the font size moves. Measured after: every one of them spans 216 → 1048, and the dead band fell from 350px to 176px. The page title is deliberately wider, at `22ch`; figures, tables and screen strips are still allowed past `--col` entirely — that is what the wider container is for.
 
 
 **Display Font:** Schibsted Grotesk (variable, 400–900, with `system-ui`, `-apple-system`, `Helvetica Neue`, Arial)
@@ -204,14 +204,18 @@ Everything read in sequence now shares `--col` = `52rem` (832px): prose, lists, 
 **Character:** A single variable grotesque doing all the talking, tightened hard at display size (−0.04em) and relaxed to neutral at body size. The effect is engineered rather than expressive: the type never performs, so the generative field can.
 
 ### Hierarchy
-- **Display** (600, `clamp(38px, 5.4vw, 80px)`, 0.98 line-height, −0.04em): the home `h1` only, and the case-study `h1` at a deliberate step down (`clamp(30px, 4.2vw, 58px)`, capped to a 22ch measure so sentence-length titles land on two lines). Measures 78px at 1440, 38px at 390.
-- **Headline** (600, `clamp(24px, 2.9vw, 38px)`, 1.06, −0.025em): section `h2`s, the contact closing line (capped at 20ch), and case-row titles (1.08 line-height).
-- **Lead** (400, `clamp(17px, 1.45vw, 21px)`, 1.25): the hero subparagraph (46ch max), case-study subtitles, `h3`s, and callout text.
+- **Display** (600, `clamp(2.375rem, 1.375rem + 4.1vw, 5rem)`, 0.98 line-height, −0.04em): the home `h1` only, and the case-study `h1` at a deliberate step down (`clamp(2rem, 1.375rem + 2.5vw, 3.625rem)`, capped to a 22ch measure so sentence-length titles land on two lines). Measures 80px at 1440, 64px at 1024, 38px at 390.
+- **Headline** (600, `clamp(1.5rem, 1.1875rem + 1.34vw, 2.375rem)`, 1.06, −0.025em): section `h2`s, the contact closing line (capped at 20ch), and case-row titles (1.08 line-height). 38 / 33 / 24.
+- **Lead** (400, `clamp(1.125rem, 1.0625rem + 0.29vw, 1.3125rem)`, 1.25): the hero subparagraph (46ch max), case-study subtitles, `h3`s, and callout text. 21 / 20 / 18.
 - **Body** (400, 16px, 1.6, colour Reading Grey): all prose, list items, buttons, links, table cells. Paragraph rhythm is 1.1em between siblings.
-- **Label** (500, 13px): case metadata, figure captions, and table headers (+0.04em, Quiet Grey). The home work section carries no visible label — its heading was removed as an eyebrow and the section is named by `aria-label` alone.
+- **Label** (500, 13px, and **14px below 600px**): case metadata, figure captions, and table headers (+0.04em, Quiet Grey). The home work section carries no visible label — its heading was removed as an eyebrow and the section is named by `aria-label` alone.
 - **Metric** (700, head size on the home rows, tabular figures, violet): numbers only.
 
 ### Named Rules
+**The Anchored Clamp Rule.** Every fluid type step is `clamp(min, rem + vw, max)`. **A bare `vw` middle term is a defect, not a shorthand.** With nothing but `vw` between the ends, the page stops being a layout that adapts and becomes a linear photocopy of itself: measured across fifteen widths, `--t-lead` sat on its 17px floor from 320px *all the way to 1180px*, so every laptop in the world got the phone size, while `--t-display` held 38px flat to 700px and then stretched to 80px, so a 1024px window rendered a 69% reduction of the 1440px design. The `rem` term is the floor the text never drops below; the `vw` term is the growth above it. Each pair is solved through two real points — a 390px phone and a 1440px desktop — so the size is right at both ends *and* on the laptop between them, which is the width this portfolio is actually opened at.
+
+Nothing in the repaired ramp came out smaller than it was. Floors are equal or one step up (`--t-lead` 17→18, `--t-read` 17→18, case `h1` 30→32); only the middle of the range moved. Verified by sweep: the home `h1` now climbs continuously 38 → 80 instead of standing still for the first 380px of the range, and the hero lead reaches 20px at 1024 where it used to reach 17px.
+
 **The Five-Step Rule.** Five size tokens exist — display, head, lead, body, label — and nothing between them. A new surface picks a step; it does not interpolate one.
 
 **The One Family Rule.** There is no monospace. Numbers that are the proof get `font-variant-numeric: tabular-nums` and the accent, in the same face as everything else. The system used to pair the sans with a mono for metrics; on a page that contains no code, a monospace is a costume for "technical" rather than a tool, and dropping it removed a family, a font request, and a tell.
@@ -226,7 +230,19 @@ Two layout models, one per surface class.
 
 **Reading surface** (`.fl-read*`): centred, 70rem max container, same fluid gutter. Prose, headings, lists, callouts and captions all share the `--col` reading column (52rem); figures, tables, icon grids and screen strips are deliberately allowed to exceed it. Sections are separated by `clamp(3rem,6vw,5.5rem)`.
 
-**Responsive:** one breakpoint at 900px, where the hero collapses to a single column (copy first, artwork second at `min(48svh,25rem)`), case rows stack with the image capped at 26rem, and the hero's minimum height is released. Everything else is fluid by clamp from 360px up. Verified at 1440 / 1280 / 900 / 390.
+**Responsive: three ranges, and each one changes the composition rather than scaling it.** Size is the type ramp's job and it covers the whole span continuously (see The Anchored Clamp Rule); a breakpoint exists only for a decision that cannot be interpolated — how many columns a section has, which way a figure sits, what is allowed out into the gutter.
+
+| Range | What changes |
+|---|---|
+| ≤ **1079px** | The hero collapses to one column, copy first, artwork second at `min(48svh, 25rem)`, and the hero's minimum height is released. |
+| ≤ **900px** | Case rows stack, image above its own title, capped at 26rem. |
+| ≤ **600px** | Phone. **The hero artwork is removed** — see the Segment Field. The case meta line steps up to 14px; the data tables are let out into the page gutter so the fact that they scroll sideways is visible at the edge. |
+
+The hero breakpoint was at 900px and is now 1079px. Two columns want about 1080px before the copy track is wide enough to hold a display heading: measured at 1024px, a ~420px track, 64px type and an `h1` **four lines deep**, where the same heading stacked at 900px ran three.
+
+**The breakpoint block lives at the end of `src/index.css` and must stay there.** These rules carry no extra specificity and win on source order alone. Written higher up, `.fl-table-wrap { margin-inline: … }` lost to the plain `.fl-table-wrap { margin: … 0 }` further down and the phone bleed silently did nothing — measured, the table still sat inside both gutters while the CSS looked correct.
+
+Verified by measurement sweep at 320 / 360 / 390 / 414 / 480 / 600 / 700 / 768 / 834 / 900 / 1024 / 1180 / 1280 / 1440 / 1728: zero horizontal page overflow at every width, zero console errors.
 
 **Rhythm:** every vertical measure is a clamp pair, not a fixed step — masthead `clamp(1rem,2.4vw,2rem)`, hero bottom `clamp(3rem,7vw,6.5rem)`, contact top `clamp(3.5rem,8vw,7.5rem)`. Tight local stacks use `0.5rem`.
 
@@ -246,7 +262,7 @@ Two layout models, one per surface class.
 
 *What the grid binds.* The **endpoints** of every `clamp()`, not the fluid value between them. The `vw` term is continuous by definition, so at intermediate widths the computed spacing lands off-grid — measured in-browser at 100% on-grid at 390px, 94% at 1440px, and 57% at 1280px, where most clamps sit mid-range. This is an accepted trade, not an oversight: spacing that flows without jumping is worth more here than grid adherence at every pixel. Converting the clamps to stepped breakpoint values was considered and **rejected**; do not "fix" it.
 
-*Exempt, deliberately.* Border and outline **widths** are not spacing. The 900px breakpoint is not spacing. `sr-only` uses −1px insets by definition. `.dsx-switch::after` offsets by 2px because that is centring arithmetic, (16 − 12) ÷ 2, not a chosen value. And the `FormComparison` exhibit keeps its off-grid values on purpose: `.lg-*` is the Net4Market legacy form and `.ds-*` quotes the client's real tokens, so the hand-written 6px / 5px / 3px / 2px **is the evidence** the component exists to show. Normalising it would turn a demonstration into a decoration. Only the widget's own chrome (`.dsx-*`) follows the grid, through its local `--s1`…`--s6` scale. The file is listed in `.impeccable/config.json` under `detector.ignoreFiles` for the same reason — that entry takes a bare path and has no field for a justification, so the justification lives in the component's own header and here. **`npm run audit:spacing` still reads the file and still has to pass**, so the exemption covers the colour and type rules a detector cannot reason about, not the spacing grid. Roboto is exempt for the same reason and is registered in `.impeccable/config.json` with its reason, not silently suppressed.
+*Exempt, deliberately.* Border and outline **widths** are not spacing. The 1079 / 900 / 600px breakpoints are not spacing. `sr-only` uses −1px insets by definition. `.dsx-switch::after` offsets by 2px because that is centring arithmetic, (16 − 12) ÷ 2, not a chosen value. And the `FormComparison` exhibit keeps its off-grid values on purpose: `.lg-*` is the Net4Market legacy form and `.ds-*` quotes the client's real tokens, so the hand-written 6px / 5px / 3px / 2px **is the evidence** the component exists to show. Normalising it would turn a demonstration into a decoration. Only the widget's own chrome (`.dsx-*`) follows the grid, through its local `--s1`…`--s6` scale. The file is listed in `.impeccable/config.json` under `detector.ignoreFiles` for the same reason — that entry takes a bare path and has no field for a justification, so the justification lives in the component's own header and here. **`npm run audit:spacing` still reads the file and still has to pass**, so the exemption covers the colour and type rules a detector cannot reason about, not the spacing grid. Roboto is exempt for the same reason and is registered in `.impeccable/config.json` with its reason, not silently suppressed.
 
 *Enforcement.* `npm run audit:spacing` reads every `.css` and `.tsx` file under `src/`, including stylesheets embedded in template literals, and exits non-zero on any violation. It catches off-grid px, off-grid rem, any `em`, Tailwind spacing utilities (including arbitrary values like `gap-[13px]`) and inline style objects. Every exemption above is encoded in the script with its reason attached, and the script reports the exemption count so a silently growing list is visible. It must print **PASS** before any commit that touches a stylesheet or a page.
 
@@ -255,6 +271,8 @@ Two layout models, one per surface class.
 **The Link Names Its Destination Rule.** A link that wraps a block of content carries an `aria-label` naming where it goes. The three case rows had accessible names of 19 to 20 words, with the title, metric and meta concatenated without separators — `"shared language600+ disconnected files…"` — which is what a screen reader announces in a list of links. The visible content is unchanged; only the name is.
 
 **The New Tab Is Announced Rule.** Every `target="_blank"` says so, through the `aria-label` where one exists and a `sr-only` span where the text stands alone. Opening a tab without warning takes the back button away from someone who cannot see that it happened.
+
+**The Name Is In The Heading Rule.** The hero `h1` carries two weights: `Hi, I'm Federico Landorno.` at head size with the name in the accent, then the statement at display size. It is one heading, not a line above one — a smaller line above a heading is a kicker, which the craft floor bans outright and which no brief earns back. Being inside the `h1` is what makes it copy rather than a label. The two sentences are separated by an explicit space in the JSX: without it the heading's text content runs them together as `Landorno.I design`, which is what a screen reader announces.
 
 **The One Ambitious Moment Rule.** The hero's generative canvas is the only thing in the system allowed to animate continuously. Any other motion is a one-shot reveal or a state transition under 0.25s.
 
@@ -296,7 +314,30 @@ Components are tactile and responsive — they answer the pointer in colour and 
 - **Internal Padding:** callouts use `clamp(20px, 2.4vw, 28px)`. Art and figure frames have no padding — the content fills the frame edge to edge.
 
 ### Navigation
-Text-only, no chrome. The masthead is the wordmark (weight 600, −0.02em) opposite one link at body size in Reading Grey, going to full ink on hover over 0.18s. There is no theme control: the single dark ground leaves nothing to switch. On reading surfaces the whole nav reduces to the wordmark as a back link, wrapped in its own `<nav>` landmark so it is read as site chrome rather than a label above the title, and it turns violet on hover. No mobile hamburger, no sticky bar, no active-state underline. The skip link is a violet pill fixed above the viewport that translates into view on focus, and it focuses the page's `<h1>`, not `<main>` — see The Skip Link Lands On Content Rule.
+**One navigation, on every surface, and it is the only masthead.** The site used to carry the wordmark at the top: plain text on the home page, a link back everywhere else. The same words meant two different things depending on where you stood. That is gone — the name now lives inside the hero heading, and `SiteNav` is the only chrome.
+
+It is centred and sticky, and **it changes shape rather than appearing**: bare and spread at the top, drawing itself into a filled pill of `--bg-2` on a hairline once there is text underneath it. It is never glass. The craft floor refuses blur as decoration, and the glassmorphic floating pill is the single most borrowed navigation of 2026 — this one earns its shape from the `--bg-2` tone step the system already owns.
+
+**It is always present, and nothing sits behind it.** An opaque pill over a centred reading column does cover words as they pass beneath it — swept across a case study it overlapped prose at 15 of 19 scroll positions at 1440 and 23 of 26 at 390. Two fixes were built and both were rejected by the owner: retracting the bar on the way down (it should stay visible) and laying a gradient scrim of the ground colour behind it (it read as a dark band fixed to the top, and it cost the reader the first 96px of every viewport). The bar floats over live text instead, and text runs to the top edge of the window. The occlusion is the accepted cost of the pattern: it is a 241–249px band, the pill is opaque so nothing shows through garbled, and a reader loses at most a word for the moment it passes. Do not reintroduce a scrim or a retraction without asking — both have been tried and turned down.
+
+Because the pill floats on live text rather than on flat ground, its condensed border is `--line-2` rather than `--line`: 13% is not enough edge to hold the shape against whatever is moving behind it.
+
+**The threshold is measured, not chosen.** It used to be a hard-coded `CONDENSE_AT = 180`, and 180 was correct for exactly one case — the home page at 1440 — because that is the one it was tuned against. Everywhere else the first heading reached the bar long before 180px of scroll and spent the difference sliding behind bare, unbacked links, which is the worst state the bar has: white text over white text with no fill to separate them.
+
+| surface | width | text reaches the bar at | bare overlap at the old 180 |
+|---|---|---|---|
+| home | 390px | 44px | **136px** |
+| home | 1024px | 68px | 112px |
+| case study | 390px | 52px | 128px |
+| case study | 1440px | 113px | 67px |
+
+`SiteNav` now computes the distance from the bottom of the pill to the top of the page's own `h1`, less an 8px lead-in so the fill is already there when the text gets there, with a 16px floor, a 240px ceiling against a failed measurement, and 16px of hysteresis so the two states cannot strobe when a trackpad holds the boundary. It re-measures on route change and through a `ResizeObserver` on `document.body` — one observer rather than a `resize` listener, because the body also changes size when the web font swaps in, and that moves the heading too.
+
+The heading's position is read by walking `offsetTop` up the `offsetParent` chain, **not** with `getBoundingClientRect`. The rect includes transforms, and on mount the heading is still held at `translateY(1rem)` by the reveal, so every rect-based threshold came out 16px too late — the exact failure the measured threshold exists to remove.
+
+The morph is a **0.22s state transition, not continuous animation**, which is what keeps it inside The One Ambitious Moment Rule. Under `prefers-reduced-motion` it snaps.
+
+Items are `My work · About · Contact`, and **the words never change between surfaces**. The first item briefly read `Work` on the home page and `All work` on a case study — one control wearing two names, which is exactly the ambiguity the wordmark had before it. It now carries one label with one meaning, *take me to the list of projects*: on the home page it scrolls to the list; anywhere else it navigates home and lands on it, carried by router state so `ScrollToTop` does not race it. `Contact` scrolls to the page's own `#contact` footer on every surface. No hamburger at any width: three items fit a 216px pill at 390px. `nav` sits outside `<main>`, which is where a banner belongs and which is also what makes the skip link skip something.
 
 In-page jumps are buttons, not fragment links, and this is not negotiable: the app runs on `HashRouter`, so `location.hash` is the route. An `href="#work"` rewrites `#/` to `#work`, the router finds no matching route, and the page empties. The two "Work" triggers call `scrollToSection("work")`, which moves focus to the section (`tabIndex={-1}`) with `preventScroll`, then scrolls — smooth at ~465ms, instant under `prefers-reduced-motion`. Focus moves first so a keyboard visitor's next Tab lands on the first case rather than back at the top; because the target is non-interactive, `:focus-visible` shows the violet ring for keyboard activation and nothing for a mouse click. The ring is inset (`outline-offset: -0.25rem`) so a full-bleed section cannot clip it, and `scroll-margin-top` leaves air above the first row. The cost of this approach is that `#work` is not linkable or openable in a new tab — the price of hash routing, not a detail to fix by restoring an `href`.
 
@@ -311,9 +352,21 @@ One figure treatment across the reading surface: a 16:9 `bg-2` frame holding eit
 ### Signature Component: The Segment Field
 The system's signature exists in two forms built from the same geometry, and it is the only imagery the project owns.
 
-The field **has no edges of its own**. A radial mask on `.fl-canvas-wrap` dissolves it into the page: `radial-gradient(50% 50% at 50% 50%, #000 82%, transparent 100%)`. The 50% radius is a hard constraint — anything larger cannot reach zero before the box ends and leaves a visible rectangle, which is what happened when the earlier full-bleed mask (`115% 96% at 72% 50%`) was kept after the artwork was pulled inside the gutter. The 82% solid stop is the other half of the constraint: the roaming cursors carry role labels, and a fade starting nearer the centre dissolves them mid-word. **`SOLID_EDGE` in `FieldCanvas.tsx` is derived from this stop (0.5 + 0.82 × 0.5 = 0.91) and the two must change together** — it is where a label pill flips to the left of its arrow rather than drift into the fade. Flipping at the canvas edge is not sufficient: at mobile width a 70–84px pill reaches the fade long before the edge.
+The field **has no edges of its own**, and **it is a circle at every width**. A radial mask on `.fl-canvas-wrap` dissolves it into the page: `radial-gradient(circle closest-side at 50% 50%, #000 82%, transparent 100%)`.
 
-**FieldCanvas** (hero, live): a Canvas2D field of short line segments on a staggered grid — spacing `clamp`ed to `w/26` between 20 and 34px, segment length 0.52× spacing, 1.25px round-capped strokes. Orientation comes from a smooth three-term trigonometric field. Base segments are `ink` at 0.46 alpha; a deterministic hash makes roughly one segment in eleven `violet`. Any number of *influencers* bend the field: inside a `clamp(130, 0.24w, 230)` radius, segments rotate tangentially around each one and brighten.
+`circle`, not a percentage pair. A percentage-sized radial gradient takes the box's aspect ratio, so the field was an **ellipse** that squashed and stretched with the layout — a tall oval at 1440, a wide one stacked on a tablet. It now stays round and narrowing the window makes the circle smaller rather than oval. `closest-side` is the size that keeps the fade finishing inside the box: the radius is the distance to the nearest edge, so the gradient reaches zero exactly there and never leaves a cut rectangle — the failure that appeared when the earlier full-bleed mask (`115% 96% at 72% 50%`) was kept after the artwork was pulled inside the gutter. Stacked, `.fl-hero-art` is capped at **34rem and centred**, because a circle inscribed in a 749 × 464 band is only as wide as the band is tall and leaves 142px of dead page on each side. 34 and not 30: at a 30rem cap the canvas came out 509px, one pixel under the 510px label floor, and every tablet silently lost its four names. The cap and `LABEL_MIN_W` are one decision.
+
+The 82% solid stop is the other half of the constraint: the roaming cursors carry role labels, and a fade starting nearer the centre dissolves them mid-word.
+
+**Fitting the cast inside the circle.** The four anchors are fractions of a rectangle and the mask is a circle inscribed in it, which is smaller — so the composition no longer fitted its own frame. Two things follow, and both are arithmetic, not taste.
+
+*The label flip is a radius test on both axes.* The old test compared `x` against 91% of the width. Measured at 1440, "Engineering" sat at 86% of the width — inside that limit — and at **97% of the radius**, and rendered as "Engineerin". Flipping left could not save it either, because the excursion that took it out there was vertical. `drawCursor` now measures the furthest **corner** of the pill against the centre and, when the default below-right placement breaches `SOLID × R`, picks whichever of four placements lands nearest the centre. `SOLID` must track the mask's solid stop; they are one decision.
+
+*`CAST_FIT` (0.66) is derived.* Every settled station and every roaming offset is scaled toward the centre by it; the fly-in is deliberately not, so the four still enter from off the frame. Each cursor's radius has a supremum — its anchor's offset from the centre plus the **full** roaming amplitude, since the three sinusoids per axis are incommensurable and so do reach the sum of their amplitudes, and the centre visits only move inward. Worst case is Engineering at **1.055R**. Allowing ~0.09R for the arrow and the pill corner, a label clears the 82% stop only while `1.055 × CAST_FIT + 0.09 ≤ 0.82`, so CAST_FIT must not exceed 0.69.
+
+**Sampling is not a check here, and this is worth remembering.** An earlier pass sampled eight moments at CAST_FIT 0.82, measured a worst pill corner of 83% and passed it. The true bound at that value is 96%. The four visit periods are mutually incommensurable by design, which is exactly what makes the worst case unreachable by sampling — the same property that makes the loop unfindable makes the bug unfindable. Redo the arithmetic when the anchors, the amplitudes or the mask stop change.
+
+**FieldCanvas** (hero, live): a Canvas2D field of short line segments on a staggered grid — spacing `clamp`ed to `w/26` between 20 and 34px, segment length 0.52× spacing, 1.25px round-capped strokes. Orientation comes from a smooth three-term trigonometric field. Base segments are `ink` at 0.46 alpha; a deterministic hash makes roughly one segment in eleven `violet`. Any number of *influencers* bend the field: inside a `clamp(70, 0.24w, 230)` radius, segments rotate tangentially around each one and brighten.
 
 The influencers are the piece's subject. A violet lead cursor enters from the lower left at **7× size**, its **"Join me!"** label legible from the first frame, and scales down along its travel on a power-1.5 curve so the shrink lags the movement and it is still enormous as it crosses the middle of the field. Its pull on the field scales with it, so the arrival bends a correspondingly wider patch and reads as presence rather than as a big drawing.
 
@@ -324,6 +377,47 @@ Reaching full size at 1.15s **is** the cue: there is no hold, and it detonates 6
 **And each one goes to the centre alone.** Every cursor has its own visit cycle — 19.3s, 26.9s, 23.3s and 31.7s, with staggered phases — so they take turns rather than performing a synchronised convergence, which would read as choreography instead of four people working. A visit is 1.3s in, 900ms of actual work at the centre (a burst of clicks, ~280ms apart, which is what separates a visit from a fly-past), then 1.5s back to its zone, halo lifting from 24% to 38% while it is there.
 
 Measured over five minutes: **78% of the time nobody is at the centre, 20% exactly one, 1.7% two overlapping, and never three or four.** Because the four periods are mutually incommensurable, the combined pattern does not repeat for over 100,000 hours — the loop is unfindable by construction, not by being long. The field organises locally under all of them, so the longer they stay the more order appears — the page's claim, acted out rather than asserted. The visitor's own pointer joins as another influencer, and a click replays the sequence from the top.
+
+#### On a small canvas
+
+**Everything in this piece except the field grid is authored in absolute pixels, and the canvas is fluid.** That mismatch is the whole of what went wrong on a phone, and it is worth stating as a general hazard: a drawing whose furniture is written in literals does not scale, it just gets proportionally bigger as the frame shrinks.
+
+| | phone (canvas 363px) | desktop (canvas 674px) |
+|---|---|---|
+| `"Engineering"` pill (84px on every device) | **23%** of the width | 12% |
+| four pills end to end | **71%** | 38% |
+| influence radius | **36%** | 24% |
+| four cursors' nominal reach | **196%** of the box | 63% |
+
+At 390px two of the four labels overlapped, and with the influence radius floored at 130px — which binds for any canvas under 542px — every segment was being pulled every frame, so there was no calm field left for order to emerge *against*. The piece's one claim was invisible on the device it was most often opened on. It was never a performance problem: measured at **60fps with the CPU throttled 6×**.
+
+Two constants fix it. **`REF_W` (680) and `UI_MIN` (0.55)** give a `ui` multiplier, `clamp(w / REF_W, 0.55, 1)`, applied to the arrow, the pill, the label text, the click ring, the burst flare and the particle sizes — one multiplier inside the cursor's own transform, so the pill and its text follow the glyph without a second set of numbers. **`LABEL_MIN_W` (510)** takes the four names off below that canvas width, leaving the four their colours — in a multiplayer cursor, colour IS identity. It is derived, not picked: the label is 12px × `ui`, and `ui` at 510px is 510/680 = 0.75, so the text lands at exactly 9px. Below that it is not a label, it is a smudge, and scaling the pill only makes it smaller. The lead's **"Join me!"** stays at every size — it arrives oversized, it is legible the whole way, and it is the only copy in the piece. The influence floor dropped from 130 to 70, which stops binding above 292px and holds the reach at 24% of the width everywhere.
+
+#### Not on a phone
+
+**Below 600px there is no artwork.** `.fl-hero-art { display: none }`, and that is the end of it.
+
+Three arrangements were built for this range and the owner rejected all three: a block under the copy, the same block with the cast scaled to fit it, and a ring behind the copy acting as a container for the words. Each was a worse answer to the same question, and the question turned out to be wrong. **The piece is a desktop piece.** It wants a pointer to be joined — measured, a finger drag yields one `pointermove` before the browser takes the gesture — and a frame wide enough for four people to work in without crowding each other. A phone gives it neither.
+
+What the phone gains is the argument. Measured at 390 × 844, the first case row and its metric moved from below the fold to **y=502**, inside the first screen, and the page lost 288px — which is what Product Principle 1 asks for in the first place: *the work and its impact must register in the first viewport.*
+
+`display: none` rather than an empty element, and `FieldCanvas` reads the consequence rather than the breakpoint: `resize()` sets `hidden` when the box measures under 2px on either axis, `start()` refuses while it is set, and the `ResizeObserver` stops the loop if the box ever goes away. Verified by counting `clearRect` calls — the first thing every frame does — over two seconds: **0 on a 390px phone and on a 320px one, 120 at every width above the breakpoint.** A phone pays nothing: no loop, no field, no canvas.
+
+The flag is derived from layout, not from a media query repeated in script. The stylesheet decides; the component only notices.
+
+**Do not reintroduce an artwork in this range without asking.** Three have been built and turned down.
+
+#### Coming to rest
+
+**It loops forever only where you can reach into it.** On a touch device the pointer layer is dead: measured, a finger drag across the canvas produces **one** `pointermove` before the browser takes the gesture for scrolling, where a mouse produces a continuous stream. What is left there is an animation playing at the reader, in the frame where it has the least room — which is what the owner named as the problem.
+
+Where `(hover: none)` matches, the piece runs its sequence once and then decelerates: after `T_REST` (8s of real time) a `restK` ramps 1 → 0 over `REST_MS` (2.5s), multiplying the frame's `dt`. One multiplier slows the field, the roaming, the beats and the rings together, because all four are driven from it, and at zero the loop calls `stop()` and the canvas holds the resolved field — which is the truer picture anyway: the work got done.
+
+`(hover: none)` is the test, not a width, because it is the same capability the interactive layer needs: the piece keeps looping exactly where looping still earns something.
+
+Two details that are not optional. The ramp is read off a **separate real-time clock** (`wall`), never off `elapsed`: scaling the clock that measures the slowdown makes the slowdown slow its own approach, so it asymptotes and the loop never stops. And `rested` is checked **inside `start()`**, not only in the frame — the artwork sits at the top of the page and leaves and re-enters the viewport every time the reader scrolls back up, and replaying on each return is the opposite of coming to rest. Only a tap restarts it, and `replay()` therefore calls `start()` itself, because after a rest there is no loop left to pick the reset up.
+
+Verified: on a touch viewport the canvas is still between 13s and 16s, stays still across a scroll away and back, and runs again after a tap; on a hover device it is still moving at 16s.
 
 The entire arrival is settled by ~1.7s, inside the load-sequence budget, and nothing in the page waits on it: the headline and the action are plain HTML painted on the first frame. The layer is decorative (`aria-hidden`), and the collaboration it depicts is stated in the adjacent copy. Engineering is part of the component's definition: DPR capped at 2, loop paused by `IntersectionObserver` when off-screen and by `visibilitychange` when the tab is hidden, palette sampled once from the computed root style (there is no theme to watch for), and under `prefers-reduced-motion` a single static frame is drawn with no pointer listeners attached and no loop ever started.
 
@@ -342,13 +436,16 @@ Two things are non-negotiable for the field to hold 60fps, and both were learned
 - **Do** write every length in rem on the 8px grid, with `0.25rem` as the only half-step, and run `npm run audit:spacing` before committing. See The Spacing Grid Rule.
 - **Do** declare spacing in `src/index.css` and only there — the case-study pages and About carry `.fl-*` class names and nothing else.
 - **Do** read colour from the semantic tokens (`var(--ink-2)`, `var(--accent)`, `var(--bg-2)`) rather than literals — including inside canvas and SVG — so the palette stays changeable from one block of CSS.
-- **Do** pick a step from the ramp that belongs to the surface: display / head / lead / body / label on the home, and title / section / sub / body / label on a reading surface. Hold the home display to `clamp(2.375rem, 5.4vw, 5rem)` and the case-study title to `clamp(1.875rem, 4.2vw, 3.625rem)`.
-- **Do** keep prose on the 62ch measure (`var(--measure)`) and let figures, tables and strips break it.
+- **Do** pick a step from the ramp that belongs to the surface: display / head / lead / body / label on the home, and title / section / sub / body / label on a reading surface. Hold the home display to `clamp(2.375rem, 1.375rem + 4.1vw, 5rem)` and the case-study title to `clamp(2rem, 1.375rem + 2.5vw, 3.625rem)`.
+- **Do** keep prose and everything read in sequence on the one reading column, `var(--col)` (52rem = 72ch at the 19px reading size), and let figures, tables and strips break it. `--measure` was a second, `ch`-based column token that nothing consumed; it has been deleted rather than left in the file looking authoritative.
 - **Do** set numbers that are the proof in tabular figures and the accent — never in a second family.
 - **Do** separate surfaces with the single tone step (`bg-2`) or a hairline, at `--r` (4px) or `--r-2` (8px) radius — there is no third radius.
 - **Do** keep the accent to roughly a tenth of a screen, with exactly one filled violet action per view. *Per view means per viewport, not per page:* the home carries the filled button twice, in the hero and in `.fl-end`, 2.1 screens apart and never co-visible. The footer one is not optional — the hero offers the action before the visitor has seen any evidence, and the close is the moment after all of it, where it used to be a 58px text link.
 - **Do** place client/discipline metadata *under* the title, in 13px Quiet Grey.
 - **Do** build page structure as rows, lists and bleeds, and keep the hero artwork inside the page gutter — it is dissolved by its mask, not boxed by its edges.
+- **Do** write every fluid step as `clamp(min, rem + vw, max)`. The `rem` term is the floor, the `vw` term is the growth, and the pair is solved through two real widths. See The Anchored Clamp Rule.
+- **Do** keep the breakpoint block at the end of `src/index.css`. It wins on source order alone, and a rule moved above the component it overrides stops working without any visible error.
+- **Do** give any region that scrolls sideways — the case-study impact tables — `role="region"`, `tabIndex={0}` and a name, so it can be scrolled from the keyboard (WCAG 2.1.1), and let it out into the gutter on a phone so the cut edge is visible.
 - **Do** size side-by-side grid tracks in `fr`. Percentage tracks plus a `gap` over-constrain the row and are a horizontal-scrollbar bug waiting to happen.
 - **Do** gate every hidden start state on `prefers-reduced-motion` and apply it by script, so a reduced-motion or no-JS visitor sees the finished page.
 - **Do** pause any continuous animation off-screen and on tab hide, and cap DPR at 2.
@@ -357,6 +454,8 @@ Two things are non-negotiable for the field to hold 60fps, and both were learned
 - **Don't** write a spacing value in px or em, or a rem value off the 4px grid — including inside a `clamp()` endpoint.
 - **Don't** put a Tailwind spacing utility (`pt-7`, `gap-[13px]`) or an inline `style={{ margin… }}` in a page or component. A value that lands on the grid but is declared outside `index.css` is still a violation: it moves the decision out of the system.
 - **Don't** convert the fluid `clamp()` pairs into stepped breakpoint values to force the grid at every width. That was considered and rejected; fluid spacing that never jumps is the deliberate trade.
+- **Don't** write a type step as `clamp(min, <bare>vw, max)`. Without a `rem` anchor the step stands still across the bottom of the range and then stretches, which is how `--t-lead` came to serve 17px to every window from 320px to 1180px.
+- **Don't** answer a narrow viewport by making text smaller. Every floor in this system is equal to or larger than the size above it; a phone gets a different composition, never a reduced one.
 - **Don't** normalise the off-grid values inside `FormComparison`'s `.lg-*` or `.ds-*` rules. They are the evidence the exhibit exists to show.
 - **Don't** add a second accent colour, a tint ramp off the accent, or a warm counterpart. One voice.
 - **Don't** use `box-shadow`, `drop-shadow`, or any offset shadow for lift — the system has no shadow vocabulary.
@@ -367,6 +466,7 @@ Two things are non-negotiable for the field to hold 60fps, and both were learned
 - **Don't** write a literal colour value in a component, inline style, or canvas call.
 - **Don't** interpolate a size between the steps of a ramp. Two ramps exist, one per mode, and neither is a licence to invent a third value inside the other.
 - **Don't** exceed an 8px radius (the 48px external app icons at 12px are the single documented exception).
-- **Don't** animate anything continuously except the hero canvas; everything else is a one-shot reveal or a sub-0.25s state transition.
+- **Don't** animate anything continuously except the hero canvas; everything else is a one-shot reveal or a sub-0.25s state transition — and even that one comes to rest where `(hover: none)` matches.
+- **Don't** write canvas furniture in bare pixels. Anything drawn at a fixed size inside a fluid box grows as the box shrinks: that is how four name pills came to fill 71% of the width of a phone canvas. Multiply by `ui`.
 - **Don't** introduce imagery from outside the segment-field family — no stock photos, no gradient meshes, no second illustration language.
 - **Don't** reintroduce a light theme, a theme toggle, or a `prefers-color-scheme` branch: the single dark ground is a settled decision, not an omission.
