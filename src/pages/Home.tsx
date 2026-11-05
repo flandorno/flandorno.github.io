@@ -61,15 +61,33 @@ export default function Home() {
       <section className="fl-hero" aria-label="Introduction">
         <div className="fl-hero-copy">
           <h1 data-reveal>
-            {/* One heading, two weights. A smaller line ABOVE an h1 is a kicker,
+            {/* One heading, two sizes. A smaller line ABOVE an h1 is a kicker,
                 which the craft floor bans outright; a smaller line that is part
-                of the h1 is not a label for the heading — it is the heading. */}
-            <span className="fl-greet">Hi, I&rsquo;m <b>Federico Landorno</b>.</span>{" "}
-            I design the decisions a team makes once.
+                of the h1 is not a label for the heading — it is the heading.
+
+                The wording is the owner's, exactly as supplied, including the
+                size he marked: the greeting sits at head size and the display
+                line carries the positioning. Set whole at display size the two
+                sentences ran to 16 lines at 1440, so the break is not optional;
+                what is chosen is only where it falls. Here it falls where he
+                put it — after the greeting, so the big type opens on "Product
+                Designer" rather than on "Ciao".
+
+                "Ciao" is not a typo. It is the one Italian word on an English
+                site and the only thing in the hero that could not have been
+                written by any other applicant. */}
+            <span className="fl-greet">
+              Ciao, I&rsquo;m <b>Federico Landorno</b>!
+            </span>{" "}
+            Product Designer bridging users, business and engineering.
           </h1>
+          {/* The owner's own second sentence, verbatim. The computer-science
+              background is the evidence under "engineering" in the line above,
+              which is why it leads the paragraph rather than sitting in About. */}
           <p className="fl-lead" data-reveal data-reveal-delay="90">
-            UX designer working in B2B product: design systems, platform strategy,
-            and the research that decides what not to build.
+            With a background in computer science, I guide designers, shape
+            scalable systems and work side by side with developers to ship
+            complex solutions.
           </p>
           <div className="fl-actions" data-reveal data-reveal-delay="180">
             <a
@@ -81,7 +99,11 @@ export default function Home() {
             >
               <LinkedInIcon />
             </a>
-            <button className="fl-link fl-tap" type="button" onClick={() => scrollToSection("work")}>
+            <button
+              className="fl-link fl-tap"
+              type="button"
+              onClick={() => scrollToSection("work")}
+            >
               See the work
             </button>
           </div>
@@ -106,7 +128,11 @@ export default function Home() {
                   accessible name was the whole row concatenated — 19 to 20 words with
                   no separators ("shared language600+ disconnected files…") — which is
                   what a screen reader reads out in a list of links. */}
-              <Link to={w.to} className="fl-case" aria-label={`${w.title} — ${w.client} case study`}>
+              <Link
+                to={w.to}
+                className="fl-case"
+                aria-label={`${w.title} — ${w.client} case study`}
+              >
                 <span className="fl-frame" aria-hidden="true">
                   <SegmentField seed={w.seed} />
                 </span>
@@ -115,7 +141,9 @@ export default function Home() {
                   <span className="fl-metric num">
                     <b>{w.metric}</b> {w.metricNote}
                   </span>
-                  <span className="fl-meta">{w.client} · {w.tags}</span>
+                  <span className="fl-meta">
+                    {w.client} · {w.tags}
+                  </span>
                 </div>
               </Link>
             </li>
@@ -124,8 +152,15 @@ export default function Home() {
       </section>
 
       {/* ── Contact ────────────────────────────────────────────────────────── */}
-      <footer id="contact" className="fl-end" aria-label="Contact" tabIndex={-1}>
-        <h2 data-reveal>Three systems above. Happy to talk through any of them.</h2>
+      <footer
+        id="contact"
+        className="fl-end"
+        aria-label="Contact"
+        tabIndex={-1}
+      >
+        <h2 data-reveal>
+          Three systems above. Happy to talk through any of them.
+        </h2>
         {/* The filled action belongs here as well as in the hero. The hero offers it
             before the visitor has seen any evidence; this is the moment after all of
             it, where someone convinced decides to act — and it used to carry the
@@ -133,15 +168,20 @@ export default function Home() {
             apart and never co-visible, so "one filled accent action per view" holds. */}
         <div className="fl-end-links" data-reveal data-reveal-delay="90">
           <a
-              className="fl-btn fl-btn-icon"
-              href={LINKEDIN}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Get in touch on LinkedIn (opens in a new tab)"
-            >
-              <LinkedInIcon />
-            </a>
-          <a className="fl-tap" href={READCV} target="_blank" rel="noopener noreferrer">
+            className="fl-btn fl-btn-icon"
+            href={LINKEDIN}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Get in touch on LinkedIn (opens in a new tab)"
+          >
+            <LinkedInIcon />
+          </a>
+          <a
+            className="fl-tap"
+            href={READCV}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Read.cv<span className="sr-only"> (opens in a new tab)</span>
           </a>
         </div>

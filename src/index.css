@@ -602,6 +602,17 @@
      Do not reintroduce an artwork here without asking. */
   .fl-hero-art { display: none; }
 
+  /* The hero heading only, and only on a phone. `text-wrap: balance` is right
+     for every other heading on the site and right for this one down to 768,
+     where it keeps "Product Designer" whole on its own line. At 390 it sets
+     "Product Designer / bridging users, / business / and engineering." —
+     585 / 465 / 300 / 565px, a 300px hole in the third line of four. The
+     balancer is avoiding a short LAST line and pays for it with a short middle
+     one, which is the worse trade: a short last line is the rag, a short middle
+     line is a gap the eye falls into. `pretty` puts the short line back at the
+     end, and where it is unsupported the initial `wrap` gives the same break. */
+  .fl-hero h1 { text-wrap: pretty; }
+
   .fl-meta { font-size: 0.875rem; }
   .fl-table-wrap {
     margin-inline: calc(var(--pad) * -1);

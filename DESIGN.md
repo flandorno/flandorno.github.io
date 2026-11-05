@@ -206,7 +206,7 @@ Everything read in sequence now shares `--col` = `52rem` (832px): prose, lists, 
 ### Hierarchy
 - **Display** (600, `clamp(2.375rem, 1.375rem + 4.1vw, 5rem)`, 0.98 line-height, −0.04em): the home `h1` only, and the case-study `h1` at a deliberate step down (`clamp(2rem, 1.375rem + 2.5vw, 3.625rem)`, capped to a 22ch measure so sentence-length titles land on two lines). Measures 80px at 1440, 64px at 1024, 38px at 390.
 - **Headline** (600, `clamp(1.5rem, 1.1875rem + 1.34vw, 2.375rem)`, 1.06, −0.025em): section `h2`s, the contact closing line (capped at 20ch), and case-row titles (1.08 line-height). 38 / 33 / 24.
-- **Lead** (400, `clamp(1.125rem, 1.0625rem + 0.29vw, 1.3125rem)`, 1.25): the hero subparagraph (46ch max), case-study subtitles, `h3`s, and callout text. 21 / 20 / 18.
+- **Lead** (400, `clamp(1.125rem, 1.0625rem + 0.29vw, 1.3125rem)`, 1.25): the hero subparagraph (46ch max), case-study subtitles, `h3`s, and callout text. 21 / 20 / 18. The hero's is the owner's own second sentence, verbatim. It opens on the computer-science background because that is the evidence under *engineering* in the line above it — the heading makes a claim about bridging three concerns and the paragraph has to show why the engineering end of it is credible.
 - **Body** (400, 16px, 1.6, colour Reading Grey): all prose, list items, buttons, links, table cells. Paragraph rhythm is 1.1em between siblings.
 - **Label** (500, 13px, and **14px below 600px**): case metadata, figure captions, and table headers (+0.04em, Quiet Grey). The home work section carries no visible label — its heading was removed as an eyebrow and the section is named by `aria-label` alone.
 - **Metric** (700, head size on the home rows, tabular figures, violet): numbers only.
@@ -272,7 +272,40 @@ Verified by measurement sweep at 320 / 360 / 390 / 414 / 480 / 600 / 700 / 768 /
 
 **The New Tab Is Announced Rule.** Every `target="_blank"` says so, through the `aria-label` where one exists and a `sr-only` span where the text stands alone. Opening a tab without warning takes the back button away from someone who cannot see that it happened.
 
-**The Name Is In The Heading Rule.** The hero `h1` carries two weights: `Hi, I'm Federico Landorno.` at head size with the name in the accent, then the statement at display size. It is one heading, not a line above one — a smaller line above a heading is a kicker, which the craft floor bans outright and which no brief earns back. Being inside the `h1` is what makes it copy rather than a label. The two sentences are separated by an explicit space in the JSX: without it the heading's text content runs them together as `Landorno.I design`, which is what a screen reader announces.
+**The Name Is In The Heading Rule.** The hero `h1` carries two sizes: `Ciao, I’m Federico Landorno!` at head size with the name in the accent, then `Product Designer bridging users, business and engineering.` at display size. It is one heading, not a line above one — a smaller line above a heading is a kicker, which the craft floor bans outright and which no brief earns back. Being inside the `h1` is what makes it copy rather than a label. The two parts are separated by an explicit space in the JSX: without it the heading's text content runs them together as `Landorno!Product`, which is what a screen reader announces.
+
+`Ciao` is not a slip and is not to be anglicised. It is the one Italian word on an English site, it is the only thing in the hero that could not have been written by any other applicant, and it is the owner's own wording.
+
+**Where it breaks, and why there.** The copy is the owner's own wording, supplied on 2026-11-05, including the size he marked for each line. Set whole at display size the two sentences ran to **16 lines at 1440** and could not stay in one piece, so the only decision left was where the break falls — and it falls where he put it: after the greeting, so the loud type opens on `Product Designer` rather than on `Ciao`.
+
+An earlier version of this heading broke after the role instead, with `product designer` demoted to head size. That reading — that the role is the least distinctive half and should be the quiet one — was overruled by the owner, and the reasoning was wrong anyway once the role stopped standing alone: `Product Designer bridging users, business and engineering.` is not a job title, it is a claim, and claims go in the display line.
+
+Measured across the ramp, with the heading block height and the first case row's position:
+
+```
+1440   display 80px   4 lines   block 493px   button y=727   first case y=918
+1280   display 74px   5 lines   block 541px   button y=726
+1024   display 64px   2 lines   block 290px   button y=448   (single column from 1079 down)
+ 768   display 53px   3 lines   block 310px   button y=441
+ 390   display 38px   4 lines   block 320px   button y=443   first case y=539
+ 320   display 38px   5 lines   block 412px   button y=535
+```
+
+Zero horizontal overflow at every width, and the hero clears the fold everywhere.
+
+**`Product Designer` splits across two display lines between 1080 and 1365, and that is accepted.** The role needs 97% of the half-width copy column at 1440 and 108% of it at 320: the display clamp has a constant term (`1.375rem + 4.1vw`) so the type shrinks more slowly than the column does, and a 16-character phrase that just fits at the top of the ramp cannot fit further down. Three fixes were measured and all three cost more than the flaw:
+
+- **Shrink the display ramp ~7%** so the role always fits. It buys two words and spends the page's only loud voice.
+- **Widen the copy column to `1.12fr 0.88fr`.** The art column drops under `LABEL_MIN_W = 510`, so the canvas loses `Research / Product / Data / Engineering` from 1080 all the way to ~1315 — the labels that now illustrate the headline.
+- **Stay single-column until 1365.** It takes the two-column hero away from every 1280 laptop.
+
+Looked at rather than reasoned about, the 1280 setting reads as a stacked editorial headline, not as a broken word. It stays.
+
+A separate, pre-existing consequence of the same arithmetic: between 1080 and ~1160 the two-column art track is narrower than 510px, so the field renders without labels. Narrow band, known, not introduced here.
+
+**`text-wrap: balance` is overridden on the hero `h1` below 600px.** Balance is right for every heading on the site and right for this one down to 768, where it keeps `Product Designer` whole. At 390 it sets `Product Designer / bridging users, / business / and engineering.` — 585 / 465 / **300** / 565px. It is avoiding a short *last* line and paying with a short *middle* one, which is the worse trade: a short last line is the rag, a short middle line is a hole the eye falls into. `text-wrap: pretty` moves it back to the end, and in a browser without `pretty` the initial `wrap` produces the same break.
+
+**No market segment in the positioning.** The owner's own bio says "B2B products" and the hero used to say "working in B2B product"; both are deliberately dropped, from the copy and from the `description`, `og:description` and `twitter:description`. The portfolio exists to get him hired and naming a focus area narrows where he can be considered. Case studies still name their clients' markets accurately — `B2B SaaS`, `B2B2C` — because that is evidence about the work, not a claim about him.
 
 **The One Ambitious Moment Rule.** The hero's generative canvas is the only thing in the system allowed to animate continuously. Any other motion is a one-shot reveal or a state transition under 0.25s.
 

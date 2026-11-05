@@ -38,7 +38,7 @@ Experienced as a website on desktop and mobile web. A hash-routed single-page ap
 
 ## Brand Commitments
 
-- Name: **Federico Landorno**. Role stated on the site: "UX Designer". The document title is `Federico Landorno — UX Designer` (one source: `src/lib/title.ts`; `index.html` carries its own copy) — it states the role because the site is compared in a row of browser tabs.
+- Name: **Federico Landorno**. Role stated on the site: "Product Designer" — changed from "UX Designer" on 2026-11-05 at the owner's instruction, in `src/lib/title.ts`, the `<title>`, `og:title` and `twitter:title`. The document title is `Federico Landorno — Product Designer` (one source: `src/lib/title.ts`; `index.html` carries its own copy) — it states the role because the site is compared in a row of browser tabs.
 - Voice in the existing copy is direct, concrete, and lightly wry — e.g. the contact headline "Let's make the next boring interface less boring." Keep claims specific and unembellished.
 - Contact handles, binding: `www.linkedin.com/in/flandorno/`, `read.cv/federicolandorno`. They live in `src/lib/contact.ts` and nowhere else; the handle was wrong in three hand-written copies before that.
 - **No email address anywhere on the site, and no `mailto:` link.** The owner decided this on 2026-11-02: the portfolio is sent as an attachment to job applications, so the recipient already holds the address, and publishing it only exposes it to scrapers. "Get in touch" points to LinkedIn. Do not reintroduce an email, in copy, in a link, in structured data, or in a contact form.
@@ -51,7 +51,10 @@ All company names and metrics below are cleared by the owner for public use and 
 - **Yoga** (B2B2C insurtech platform): time to issue a policy cut from 45 to 3 minutes; manual data entry reduced from 11–111 fields to 1 field for existing customers; onboarding/training time reduced.
 - **Electrolux** (UX research, smart-home appliances): a research study that recommended deprioritizing home-screen widgets in favor of voice/ambient interaction; central learning "user behavior beats user intentions."
 - Visual assets in `src/assets/` (product screens, logos, imagery) for each case study.
-- Absences future work must not fabricate: no testimonials, no client quotes, no stated experience level, no current-employer claim, no written personal bio.
+- **Cleared by the owner on 2026-11-05**, from his own wording, and usable on the site: **product designer**, **5+ years**, **0-to-1 products**, an end-to-end span of **research and ideation through design systems and developer handoff**, a **background in computer science**, and that he **guides designers**, **shapes scalable systems** and **works side by side with developers**. Experience level was previously listed here as an absence; it is now a stated fact and no longer needs avoiding.
+- **The positioning on the site, in the owner's final wording:** “Product Designer bridging users, business and engineering.” It replaced a version built around 5+ years and 0-to-1, which he rejected. Those two remain true and cleared, they are simply not what the hero leads with — the claim is the bridging, and the computer-science background in the paragraph below is the evidence for the engineering third of it. The hero and the `description` / `og:description` / `twitter:description` all say this; change them together or not at all.
+- The owner has asked that the site **not name a market segment**. His own bio says "B2B products" and the hero copy used to say "working in B2B product"; both are deliberately dropped. The reason, in his words: the portfolio exists to convince someone to hire him, and naming a focus area narrows where he can be considered. Case studies may still describe their own clients accurately — that is evidence, not positioning.
+- Absences future work must still not fabricate: no testimonials, no client quotes, no current-employer claim, no written personal bio.
 
 ## Product Principles
 
