@@ -32,9 +32,11 @@ export default function About() {
           and research.
         </p>
         <p>
-          Three case studies cover most of what I do: a{" "}
-          <Link to="/n4m" className="fl-inline">design system</Link> that replaced 600+ disconnected
-          files with one source of truth, an{" "}
+          Four case studies cover most of what I do: a{" "}
+          <Link to="/n4m" className="fl-inline">design system</Link> built on a three-layer token
+          architecture, a{" "}
+          <Link to="/n4m-process" className="fl-inline">design process</Link> that gave 600+
+          disconnected files one source of truth, an{" "}
           <Link to="/d4next" className="fl-inline">insurance platform</Link> where issuing a policy
           went from 45 minutes to 3, and{" "}
           <Link to="/electrolux" className="fl-inline">research</Link> that argued against building

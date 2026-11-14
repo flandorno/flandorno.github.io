@@ -2,20 +2,33 @@
   "detector": {
     "ignoreRules": [],
     "ignoreFiles": [
-      "src/components/FormComparison.tsx"
+      "src/components/FormComparison.tsx",
+      "src/components/N4mSystemPanel.tsx"
     ],
     "ignoreValues": [
       {
         "rule": "design-system-font",
         "value": "roboto",
         "createdAt": "2026-11-02T20:28:03.128Z",
-        "reason": "FormComparison documents the real Net4Market design system on the N4M case study; Roboto is that system's actual typeface. Rendering the exhibit in Geist would make it a fiction, not evidence. Scoped to that component only — the portfolio's own type is Geist."
+        "reason": "FormComparison documents the real Net4Market design system on the N4M case study; Roboto is that system's actual typeface, and rendering the exhibit in the portfolio's own face would make it a fiction rather than evidence. N4mSystemPanel was a second exhibit of the same system for the home page; the owner cleared that panel on 2026-11-06 and the file is parked, unreferenced — it stays listed so it still passes if it is brought back. Everything else on the site is Schibsted Grotesk."
       },
       {
         "rule": "overused-font",
         "value": "roboto",
         "createdAt": "2026-11-02T20:33:24.085Z",
-        "reason": "FormComparison documents the real Net4Market design system on the N4M case study; Roboto is that system's actual typeface. Rendering the exhibit in Geist would make it a fiction, not evidence. Scoped to that component only — the portfolio's own type is Geist."
+        "reason": "FormComparison documents the real Net4Market design system on the N4M case study; Roboto is that system's actual typeface, and rendering the exhibit in the portfolio's own face would make it a fiction rather than evidence. N4mSystemPanel was a second exhibit of the same system for the home page; the owner cleared that panel on 2026-11-06 and the file is parked, unreferenced — it stays listed so it still passes if it is brought back. Everything else on the site is Schibsted Grotesk."
+      },
+      {
+        "rule": "design-system-font",
+        "value": "doto",
+        "createdAt": "2026-11-14T14:24:54.613Z",
+        "reason": "Owner chose Doto as the v2 display face (user confirmed, 2026-11-14); specified in DESIGN.next.md, which replaces DESIGN.md at migration."
+      },
+      {
+        "rule": "design-system-font",
+        "value": "atkinson hyperlegible next",
+        "createdAt": "2026-11-14T14:24:54.634Z",
+        "reason": "Owner chose Atkinson Hyperlegible Next as the v2 reading face (user confirmed, 2026-11-14); specified in DESIGN.next.md, which replaces DESIGN.md at migration."
       }
     ]
   }

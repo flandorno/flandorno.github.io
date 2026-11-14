@@ -9,10 +9,13 @@ type Props = {
   /** Client and discipline. Sits under the title — never as a label above it. */
   meta: string;
   docTitle: string;
+  /** Role, team, period, outcome: what a recruiter looks for before reading.
+   *  Short label, one plain sentence of value. */
+  facts?: { label: string; value: string }[];
   children: ReactNode;
 };
 
-export default function CaseLayout({ title, meta, docTitle, children }: Props) {
+export default function CaseLayout({ title, meta, docTitle, facts, children }: Props) {
   const root = useRef<HTMLDivElement>(null);
   useReveals(root);
 
@@ -28,6 +31,16 @@ export default function CaseLayout({ title, meta, docTitle, children }: Props) {
       <header className="fl-read-head">
         <h1 data-reveal>{title}</h1>
         <p className="fl-read-meta" data-reveal data-reveal-delay="80">{meta}</p>
+        {facts?.length ? (
+          <dl className="fl-read-facts" data-reveal data-reveal-delay="160">
+            {facts.map((f) => (
+              <div key={f.label}>
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
       </header>
 
       {children}

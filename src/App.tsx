@@ -6,6 +6,8 @@ import About from "./pages/About";
 import Electrolux from "./pages/Electrolux";
 import D4next from "./pages/D4next";
 import N4m from "./pages/N4m";
+import N4mProcess from "./pages/N4mProcess";
+import Foundations from "./pages/Foundations";
 
 export default function App() {
   return (
@@ -39,7 +41,10 @@ export default function App() {
           <Route path="/d4next" element={<D4next />} />
           <Route path="/electrolux" element={<Electrolux />} />
           <Route path="/n4m" element={<N4m />} />
+          <Route path="/n4m-process" element={<N4mProcess />} />
           <Route path="/about" element={<About />} />
+          {/* v2 foundations specimen — unlinked review surface, see DESIGN.next.md */}
+          <Route path="/foundations" element={<Foundations />} />
           {/* Any unknown hash — a stale /#/about, the old /#/experience, a
               mistyped share — lands on the home page instead of a blank
               black screen with no wordmark and no way back. */}

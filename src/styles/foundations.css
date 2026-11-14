@@ -1,0 +1,317 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Foundations specimen — /#/foundations
+   A review surface for the v2 tokens, not the final layout. It reads only the
+   semantic tokens in tokens.css; nothing here writes a colour or a length that
+   is not one of them, except the specimen's own bar widths.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.fx {
+  color-scheme: var(--scheme);
+  background: var(--color-ground);
+  color: var(--color-on-ground);
+  font-family: var(--font-text);
+  font-size: var(--type-body);
+  line-height: 1.65;
+  min-height: 100svh;
+  padding: var(--grid-gap);
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+/* The v1 base layer styles bare p / h2 / h3 / li with its own sizes and
+   colours. Inside the specimen every element is reset onto the v2 tokens. */
+.fx :where(h1, h2, h3, p, li, b, strong) {
+  font-family: inherit;
+  color: inherit;
+  letter-spacing: 0;
+  margin: 0;
+}
+.fx :where(p, li) { font-size: inherit; line-height: inherit; }
+
+/* ── The mosaic ───────────────────────────────────────────────────────────── */
+.fx-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+.fx-grid[data-radius="6"] { --radius-block: 0.375rem; }
+
+.fx-s1 { grid-column: span 1; }
+.fx-s2 { grid-column: span 2; }
+.fx-s3 { grid-column: span 3; }
+.fx-s4 { grid-column: span 4; }
+.fx-s5 { grid-column: span 5; }
+.fx-s6 { grid-column: span 6; }
+.fx-s8 { grid-column: span 8; }
+
+.fx-block {
+  position: relative;
+  min-width: 0;
+  min-height: 8rem;
+  padding: var(--block-pad-sm);
+  border-radius: var(--radius-block);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--stack-sm);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.fx-block.is-start { justify-content: flex-start; text-align: left; }
+.fx-block.is-col { flex-direction: column; gap: var(--stack-xs); }
+.fx-block.is-start.is-col { align-items: flex-start; justify-content: center; }
+.fx-block.is-tall { min-height: 12rem; }
+.fx-block.is-head { min-height: 0; }
+.fx-block.is-md { padding: var(--block-pad-md); }
+.fx-block.is-lg { padding: var(--block-pad-lg); }
+
+/* Block grounds. Text colour travels with the ground, so a block can never
+   pair a ground with an ink the contrast audit has not approved. */
+.fx-on-ground { background: var(--color-ground); color: var(--color-on-ground); --color-focus: var(--color-on-ground); }
+.fx-tone-1 { background: var(--color-tone-1); }
+.fx-tone-2 { background: var(--color-tone-2); }
+.fx-tone-3 { background: var(--color-tone-3); }
+.fx-tone-4 { background: var(--color-tone-4); }
+.fx-accent { background: var(--color-accent); color: var(--color-on-accent); }
+
+/* A block that is a link: the whole block is the target, and its focus ring
+   is drawn INSIDE in the block's own text colour. Outside, it would land on
+   the black gap, where a black ring (light theme) disappears; and the text
+   colour of any block is, by construction, the one that contrasts with it. */
+a.fx-block { text-decoration: none; transition: background-color 0.18s; }
+a.fx-block:focus-visible { outline: 2px solid currentColor; outline-offset: -0.5rem; border-radius: var(--radius-block); }
+a.fx-accent:hover { background: var(--color-accent-hover); }
+a.fx-accent:active { background: var(--color-accent-active); }
+a.fx-on-ground:hover { color: var(--color-accent); }
+
+/* ── Type roles ──────────────────────────────────────────────────────────── */
+.fx-display, .fx-title, .fx-label { font-family: var(--font-display); letter-spacing: 0; text-wrap: balance; }
+.fx-display { font-size: var(--type-display); font-weight: 800; line-height: 1.2; }
+.fx-title   { font-size: var(--type-title);   font-weight: 700; line-height: 1.2; }
+.fx-label   { font-size: var(--type-label);   font-weight: 700; line-height: 1.25; }
+.fx-caps    { text-transform: uppercase; letter-spacing: 0.02em; }
+.fx-nowrap  { white-space: nowrap; }
+
+.fx-h2    { font-size: var(--type-h2); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+.fx-h3    { font-size: var(--type-h3); font-weight: 600; line-height: 1.3; text-wrap: balance; }
+.fx-body  { font-size: var(--type-body); line-height: 1.65; text-wrap: pretty; }
+.fx-ui    { font-size: var(--type-ui); font-weight: 500; line-height: 1.4; }
+.fx-small { font-size: var(--type-small); line-height: 1.45; }
+.fx-muted { color: var(--color-ink-muted); }
+.fx-on-ground .fx-muted { color: var(--color-on-ground-muted); }
+.fx-num   { font-variant-numeric: tabular-nums; }
+
+.fx-w400 { font-weight: 400; }
+.fx-w600 { font-weight: 600; }
+.fx-w700 { font-weight: 700; }
+.fx-w800 { font-weight: 800; }
+
+/* ── Reading block ───────────────────────────────────────────────────────── */
+.fx-read {
+  display: block;
+  text-align: left;
+  padding: var(--block-pad-lg);
+}
+.fx-read > * { max-width: var(--measure); }
+.fx-read > .fx-h2 { margin-bottom: var(--stack-sm); }
+.fx-read > .fx-body + .fx-body { margin-top: var(--stack-md); }
+.fx-read > .fx-meta { margin-top: var(--stack-md); }
+.fx-read strong { font-weight: 700; }
+
+/* ── Controls ────────────────────────────────────────────────────────────── */
+.fx :focus-visible { outline: 2px solid var(--color-focus); outline-offset: 0.25rem; }
+
+.fx-btn {
+  min-height: var(--target-min);
+  min-width: 8rem;
+  padding: var(--space-3) var(--space-6);
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font: 500 var(--type-ui)/1.4 var(--font-text);
+  cursor: pointer;
+  transition: background-color 0.18s;
+}
+.fx-btn:hover, .fx-btn.is-hover { background: var(--color-accent-hover); }
+.fx-btn:active, .fx-btn.is-active { background: var(--color-accent-active); }
+.fx-btn:disabled { background: var(--color-disabled); color: var(--color-on-disabled); cursor: not-allowed; }
+.fx-btn.is-focus { outline: 2px solid var(--color-focus); outline-offset: 0.25rem; }
+
+/* Switch: the state is carried by the knob's POSITION as well as the colour,
+   because orange on white is 3.04 — enough for a graphic, not for meaning
+   carried by colour alone. */
+.fx-switch {
+  position: relative;
+  flex: none;
+  width: 3.5rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-control-off);
+  cursor: pointer;
+  transition: background-color 0.18s;
+}
+.fx-switch::after {
+  content: "";
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fx-switch[aria-checked="true"] { background: var(--color-accent); }
+.fx-switch[aria-checked="true"]::after { transform: translateX(1.5rem); }
+
+/* Checkbox: native input, restyled. Checked = accent fill plus a black tick,
+   so the state never rests on hue alone. */
+.fx-check {
+  appearance: none;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  border: 2px solid var(--color-control-off);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+}
+.fx-check:checked { background: var(--color-accent); border-color: var(--color-accent); }
+/* The tick is a drawn path used as a mask, painted in --color-on-accent, so
+   it takes the token like any other ink and needs no rotated borders. */
+.fx-check:checked::after {
+  content: "";
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--color-on-accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 10.5l3.5 3.5 7.5-8'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 10.5l3.5 3.5 7.5-8'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* A row of plain segmented choices: theme, radius. */
+.fx-seg { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: center; }
+.fx-seg button:not(.fx-btn) {
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-control-off);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: 500 var(--type-ui)/1.4 var(--font-text);
+  cursor: pointer;
+}
+.fx-seg button:not(.fx-btn)[aria-pressed="true"] { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
+
+.fx-icon { width: 2.5rem; height: 2.5rem; display: block; }
+.fx-icon-lg { width: 4rem; height: 4rem; }
+
+/* ── Palette swatches ────────────────────────────────────────────────────── */
+.fx-swatch { align-items: flex-start; justify-content: space-between; text-align: left; }
+/* Hex values in the reading face with tabular figures: two families, no third. */
+.fx-swatch code, .fx-code { font-family: var(--font-text); font-variant-numeric: tabular-nums; font-size: var(--type-small); }
+
+.fx-grade {
+  display: inline-block;
+  padding: 0 var(--space-2);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-control);
+  font-size: var(--type-small);
+  font-weight: 600;
+}
+
+/* ── Contrast matrix ─────────────────────────────────────────────────────── */
+.fx-matrix-wrap { overflow-x: auto; display: block; padding: 0; }
+.fx-matrix {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: var(--grid-gap);
+  background: var(--color-ground);
+  font-size: var(--type-small);
+}
+.fx-matrix th {
+  padding: var(--space-2);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-weight: 600;
+  text-align: left;
+  border-radius: var(--radius-control);
+}
+.fx-matrix td {
+  min-width: 6rem;
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-control);
+  text-align: center;
+  line-height: 1.3;
+}
+/* Each cell paints the tested text colour on the tested ground. */
+.fx-bg-ground  { background: var(--color-ground); }
+.fx-bg-surface { background: var(--color-surface); }
+.fx-bg-tone-1  { background: var(--color-tone-1); }
+.fx-bg-tone-2  { background: var(--color-tone-2); }
+.fx-bg-tone-3  { background: var(--color-tone-3); }
+.fx-bg-tone-4  { background: var(--color-tone-4); }
+.fx-bg-accent  { background: var(--color-accent); }
+.fx-fg-ink             { color: var(--color-ink); }
+.fx-fg-ink-muted       { color: var(--color-ink-muted); }
+.fx-fg-on-ground       { color: var(--color-on-ground); }
+.fx-fg-on-ground-muted { color: var(--color-on-ground-muted); }
+.fx-fg-accent          { color: var(--color-accent); }
+.fx-fg-accent-text     { color: var(--color-accent-text); }
+.fx-fg-on-accent       { color: var(--color-on-accent); }
+/* Struck, and the opacity is a marker for the pattern, not the measurement:
+   the printed ratio is always the full-strength pair. */
+.fx-matrix td.is-banned { text-decoration: line-through; opacity: 0.55; }
+.fx-matrix td b { display: block; font-size: var(--type-ui); }
+
+/* ── Type specimen ───────────────────────────────────────────────────────── */
+.fx-type-row { flex-direction: column; align-items: flex-start; text-align: left; gap: var(--stack-xs); }
+.fx-type-row .fx-meta { color: var(--color-ink-muted); }
+
+/* ── Spacing bars ────────────────────────────────────────────────────────── */
+.fx-bars { display: grid; gap: var(--space-2); width: 100%; }
+.fx-bar { display: grid; grid-template-columns: 10rem 1fr; align-items: center; gap: var(--space-4); }
+.fx-bar span:last-child { display: block; height: 1rem; background: var(--color-accent); border-radius: var(--radius-control); }
+.fx-bar[data-s="1"] span:last-child  { width: var(--space-1); }
+.fx-bar[data-s="2"] span:last-child  { width: var(--space-2); }
+.fx-bar[data-s="3"] span:last-child  { width: var(--space-3); }
+.fx-bar[data-s="4"] span:last-child  { width: var(--space-4); }
+.fx-bar[data-s="6"] span:last-child  { width: var(--space-6); }
+.fx-bar[data-s="8"] span:last-child  { width: var(--space-8); }
+.fx-bar[data-s="10"] span:last-child { width: var(--space-10); }
+.fx-bar[data-s="12"] span:last-child { width: var(--space-12); }
+.fx-bar[data-s="16"] span:last-child { width: var(--space-16); }
+.fx-bar[data-s="24"] span:last-child { width: var(--space-24); }
+
+/* Padding demo: the inner box shows where the content edge sits. */
+.fx-pad-demo { align-items: stretch; justify-content: stretch; }
+.fx-pad-demo > span {
+  flex: 1;
+  display: grid;
+  place-content: center;
+  border: 1px dashed var(--color-control-off);
+  border-radius: var(--radius-control);
+}
+.fx-pad-demo.is-sm { padding: var(--block-pad-sm); }
+.fx-pad-demo.is-md { padding: var(--block-pad-md); }
+.fx-pad-demo.is-lg { padding: var(--block-pad-lg); }
+
+.fx-status { font-weight: 700; }
+.fx-status.is-fail { color: var(--color-accent-text); }
+
+/* ── Phone ───────────────────────────────────────────────────────────────────
+   Eight tracks at 390 are 44px each, too narrow for any label. The specimen
+   folds to two: one-track blocks stay one, everything wider takes the row.
+   This is the specimen's fold, not the layout phase's decision. */
+@media (max-width: 600px) {
+  .fx-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fx-s2, .fx-s3, .fx-s4, .fx-s5, .fx-s6, .fx-s8 { grid-column: span 2; }
+  .fx-block { min-height: 6rem; }
+}

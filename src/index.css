@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./styles/tokens.css";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    Federico Landorno — portfolio
@@ -58,7 +59,23 @@
      between, which is the width a hiring manager actually opens this on.
      Nothing in this ramp came out smaller: the floors are equal or one step up,
      and only the middle of the range moved. */
-  --t-display: clamp(2.375rem, 1.375rem + 4.1vw, 5rem);        /* 38 → 80 */
+  /* --t-display is solved against the heading's LINE COUNT, not against a
+     desired maximum and not through the 390/1440 pair the other steps use.
+     Two constraints, measured:
+       1. "Product Designer" must not break in half. It renders 7.71px wide per
+          1px of font-size (617 at 80, 293 at 38 — constant, the tracking is in
+          em), and the hero copy column is 0.44 × viewport in the two-column
+          layout, so the role survives only while F ≤ 0.44w / 7.71 = 0.0570w.
+       2. Three display lines instead of four. Bisected per width, the largest
+          size that still fits three is 44px at 1080, 52 at 1280, 59 at 1440,
+          67 at 1600 — i.e. ~4.06vw, again a pure proportion.
+     Both limits are proportions with no constant term, so any `rem + vw` ramp
+     eventually crosses them going down. Holding three lines to 1080 would need
+     a near-bare-vw ramp (the photocopy failure above) or ~48px at 1440, only
+     1.26× the head size, at which point the display is no longer a display.
+     So: three lines from 1280 up — every common desktop — four below it, and
+     the role whole at all fifteen widths swept. Cap reached at 1442. */
+  --t-display: clamp(2.125rem, 1.725rem + 1.9vw, 3.4375rem);    /* 34 → 55 */
   --t-head:    clamp(1.5rem, 1.1875rem + 1.34vw, 2.375rem);    /* 24 → 38 */
   --t-lead:    clamp(1.125rem, 1.0625rem + 0.29vw, 1.3125rem); /* 18 → 21 */
   --t-body:    1rem;                                           /* 16 — base */
@@ -86,9 +103,97 @@
      figure was never measured. 72ch is the real one, and still in range.) */
   --col: 52rem;
 
-  /* The two radii in the world, both on the grid */
+  /* ── The case panels ─────────────────────────────────────────────────────
+     One dark ground per client, in that client's own colour. The owner asked
+     for this on 2026-11-06. It is the second sanctioned break in The One Voice
+     Rule, after the hero's presence cursors, and it is sanctioned for the same
+     reason: here the colour is not decoration, it is whose work this is. An
+     earlier build used one light value for all three; the owner judged the
+     grounds better dark.
+
+     NOTHING HERE IS INVENTED. Each brand colour was sampled from the pixels of
+     that client's own screenshots — Yoga #7848A8 is the product's sidebar,
+     Electrolux #081848 is the navy its app draws its headers and buttons in,
+     the dominant non-neutral colour across five device shots — except
+     Net4Market, which has no screenshot and uses #0176DB, the real
+     --color-blue-500 primitive from its token set.
+
+     The derivation is NOT a fixed mix with the page ground. That was built
+     first and it fails: a mix can never be lighter than both its ends, and
+     Electrolux's navy is already darker than --bg, so 28% of it came out
+     #121628 — a neutral, with the brand gone. Each ground instead keeps its
+     brand's HUE and is set to one shared lightness, OKLab L = 0.30, with
+     chroma held to a 0.085 ceiling so no ground shouts. L = 0.30 is not picked
+     either: it is where the first light-panel replacement already sat.
+
+     Equal lightness is what makes them read as one family rather than three
+     accidents, and it is why Yoga's plum and Electrolux's navy — the two that
+     sit SIDE BY SIDE — separate on hue alone. Net4Market's blue is close to
+     Electrolux's, and that is allowed: it is alone on the row above, 64px
+     away, never beside it.
+
+     Cool white ink measures 12.3:1, 12.6:1 and 12.3:1 on them. Written as
+     literal hex rather than oklch() so there is no runtime dependency and the
+     values are greppable; re-derive if --bg or the sampled brands move.
+
+     Each ground is a two-stop TONAL gradient, added 2026-11-06 at the owner's
+     request. The Flat-Material Rule still bans a gradient as decoration and
+     that has not changed — this one is not decoration, it is the same hue lit
+     from one side, which is what a large flat field needs in order to read as
+     a surface instead of a swatch. ONE hue per panel: no second colour enters,
+     no mesh, no hue rotation. The stops are the same OKLab construction as
+     before, L = 0.30 ± 0.045, so the panel's mean lightness is exactly the
+     solid it replaced.
+
+     Both ends are bounded by measurement. The light stop keeps cool white ink
+     at 10.4:1 or better. The dark stop stays at 1.12–1.15 against the page
+     ground, so the panel's darkest corner is still visibly above the page and
+     the 16px edge holds all the way round — at ±0.06 it falls to 1.08 and the
+     corner starts dissolving into the page, which is why ±0.045 and not more. */
+  --panel-n4m-hi:  #143A64;  --panel-n4m-lo:  #00224A;  /* #0176DB, the real token blue */
+  --panel-yoga-hi: #5A4D78;  --panel-yoga-lo: #1A1723;  /* owner-set, 2026-11-08 */
+  /* Electrolux is the one panel whose two stops the owner set by hand, on
+     2026-11-08, rather than letting the OKLab construction derive them. Both
+     are darker than the derived pair, and the dark end is darker than the
+     page: measured, #030712 sits at 1.11 against --bg, so the panel’s
+     bottom-left corner all but disappears into the page. That is his call
+     and it is recorded, not corrected — see Case Panel. */
+  --panel-elux-hi: #011E40;  --panel-elux-lo: #030712;  /* owner-set, 2026-11-08 */
+
+  /* ── The flag ────────────────────────────────────────────────────────────
+     A dark red, and the third sanctioned break in The One Voice Rule after
+     the hero's presence cursors and the per-client panel grounds. The owner
+     asked for it twice, on 2026-11-08, from a reference of his own in which
+     every broken step of the Net4Market process carries a red chip. The
+     objection was raised and overruled; this is his call and it is recorded,
+     not corrected.
+
+     It is scoped as narrowly as the other two: ONE component, the process
+     flow's gap marker, and nothing else may reach for it. It is not a status
+     palette — there is no green, no amber and no second red — and it never
+     touches a control, a link, a surface or body text.
+
+     Derived the same way as the panel grounds rather than sampled off the
+     reference image: hue 25, OKLab L = 0.32 for the ground and L = 0.90 for
+     the ink, which is the same construction at a lightness one step above
+     the panels. 9.03:1 for the ink on its own ground, 1.47:1 for the ground
+     against the page — low on purpose, since it sits ON --bg-2 and the hue,
+     not the lightness, is what carries it. */
+  --flag:     #651818;
+  --flag-ink: #FBD3CF;
+
+  /* The three radii in the world, all on the grid */
   --r:   0.25rem; /*  4px — small frames */
-  --r-2: 0.5rem;  /*  8px — buttons, panels, figures */
+  --r-2: 0.5rem;  /*  8px — buttons, figures */
+  --r-3: 1rem;    /* 16px — the three case panels and the process flow, and
+                     nothing else. The Small-Radius Rule was raised for the
+                     panels on 2026-11-06: 8px on a 1328×560 field reads as a
+                     square with a chipped corner, not as a radius. The process
+                     flow joined them on 2026-11-08 by the same argument and at
+                     the owner's instruction — its boxes are 574×75 and at 8px
+                     they read as chipped too, and his reference is rounder than
+                     anything else on the site. A control, a tag or a small
+                     frame still may not use it. */
 }
 
 @theme {
@@ -232,7 +337,12 @@
   letter-spacing: -0.025em;
   margin-bottom: 0.75rem;
 }
-.fl-greet b { color: var(--accent); font-weight: 600; }
+/* The name does not break. At 320 the greeting wraps to two lines and the
+   break landed inside it — "Ciao, I’m Federico / Landorno!" — which reads as a
+   layout fault, not a line break, on the one proper noun the page is about.
+   Held together it moves whole to the second line: 210px at 24px type in a
+   272px column. */
+.fl-greet b { color: var(--accent); font-weight: 600; white-space: nowrap; }
 
 .fl-lead { max-width: 46ch; margin: clamp(1rem, 2vw, 1.5rem) 0 0; font-size: var(--t-lead); color: var(--ink-2); }
 .fl-actions { display: flex; align-items: center; gap: clamp(1rem, 2vw, 1.5rem); margin-top: clamp(1.5rem, 3vw, 2.5rem); flex-wrap: wrap; }
@@ -310,44 +420,291 @@
 .fl-work { scroll-margin-top: clamp(4rem, 5vh + 3rem, 6rem); }
 .fl-work:focus-visible { outline-offset: -0.25rem; }
 
-.fl-list { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(2rem, 3.5vw, 3rem); }
+/* Two up, with Net4Market running the full width above them. Three equal
+   panels in a row of three would be the card grid this system refuses and
+   would also be a lie about the work: Net4Market is the throughline case for
+   the "systems thinker" half of the positioning, and it is the one whose panel
+   is a composed artifact rather than a screenshot, so it wants the width.
+   `auto-fit` is deliberately NOT used — the count is two by decision, not by
+   whatever happens to fit. */
+.fl-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2.5rem, 4vw, 4rem);
+}
+.fl-list > li { margin: 0; min-width: 0; }
+.fl-list > li.fl-wide { grid-column: 1 / -1; }
+
 .fl-case {
-  display: grid;
-  grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
-  gap: clamp(1.5rem, 3.5vw, 3rem);
-  align-items: center;
+  display: grid; gap: 0.5rem; min-width: 0;
   text-decoration: none; color: inherit;
   transition: opacity 0.2s;
 }
-/* Dim the siblings of the hovered row — never on `.fl-list:hover`, which also
-   fires from the 48px gaps between rows, where no row is hovered and all three
-   drop at once. Measured: in a gap the three rows read 0.4 / 0.4 / 0.4 and the
-   proof disappears. The floor is 0.62, not 0.4: at 0.4 a title sits at 2.12:1
-   against the ground, which is unreadable, and these titles are the argument.
-   One rule, not a dim plus a restore: `:has()` carries the specificity of its
-   argument, so a separate `.fl-case:hover { opacity: 1 }` loses to it and even
-   the hovered row stays dimmed. `:not(:hover)` settles it without a fight. */
-.fl-list:has(.fl-case:hover) > li > .fl-case:not(:hover) { opacity: 0.62; }
-.fl-frame {
+/* The siblings step down a little further while one entry is hovered, so the
+   lit panel reads as chosen rather than merely brighter. `:not(:hover)` is not
+   optional: `:has()` carries the specificity of its argument, so without it
+   this rule outranks `.fl-case:hover .fl-panel` and even the hovered panel
+   stays dim. And the selector hangs off `.fl-list:has(...)`, never
+   `.fl-list:hover`, which also fires from the 64px gaps between entries —
+   where nothing is hovered and all three would drop at once. */
+.fl-list:has(.fl-case:hover) > li > .fl-case:not(:hover) .fl-panel { opacity: 0.8; }
+
+/* ── The panel ────────────────────────────────────────────────────────────
+   The work, at a size worth looking at. The 16:10 art frame this replaced was
+   304 × 190 at 1440 — 23% of the row, too small to hold a product screen
+   anyone could read, and the same seeded texture three times over, so the slot
+   read as one picture repeated rather than as three projects. These are 648 ×
+   486 and 1328 × 553, and they hold the real screens.
+   `overflow: hidden` is what lets each composition run off the bottom edge:
+   a window onto the work, not a screenshot centred in a box. */
+/* Resting at 0.72, not 1. The owner asked that the panels NOT all sit lit when
+   nothing is hovered: the list reads as one quiet field with a single bright
+   thing in it, rather than three equal claims on the eye. Only the panel dims
+   — never the caption. The client, the claim and the keyword line are the three
+   things on this page that have to be read, and resting them below full ink
+   would trade a permanent contrast loss for a hover effect. */
+.fl-panel {
   display: block; position: relative; overflow: hidden;
-  aspect-ratio: 16 / 10; background: var(--bg-2); border-radius: var(--r);
+  border-radius: var(--r-3);
+  opacity: 0.72;
+  /* The panel is the container its contents answer to. A panel is full width
+     in one slot and half width in another, so what its composition has to
+     respond to is this box, never the window. */
+  container-type: inline-size;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 1rem;
+  /* 0.55s, not the 0.25s the rest of the system uses for a state change. The
+     owner asked on 2026-11-08 that the card's lighting and movement be soft
+     rather than instant, and at 0.25s a panel this large snapped. The One
+     Ambitious Moment Rule is untouched: this is still a state transition, not
+     a loop. See The Soft-Panel Exception. */
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.fl-field { position: absolute; inset: 0; width: 100%; height: 100%; }
-.fl-case-body { display: grid; gap: 0.5rem; min-width: 0; }
-.fl-metric { font-size: var(--t-body); color: var(--ink-2); margin-top: 0.5rem; }
-/* Full ink. These titles used to inherit --ink-2 from the base `p, li` rule,
-   which made the three case studies the same weight as body prose — the one
-   thing on the page that has to earn the interview, rendered as its dimmest
-   typographic layer. It is an <h3>, so the margin from the base rule is reset. */
+/* 155deg for all three: one light direction across the list, which is what
+   keeps them a family rather than three separately lit objects. The solid
+   `background-color` underneath is the dark stop, so a browser without
+   gradients still gets a panel rather than a hole. */
+.fl-panel-n4m {
+  background-color: var(--panel-n4m-lo);
+  background-image: linear-gradient(155deg, var(--panel-n4m-hi), var(--panel-n4m-lo));
+}
+.fl-panel-yoga {
+  background-color: var(--panel-yoga-lo);
+  /* Bottom-left to top-right, as the owner set it on 2026-11-08, the same
+     direction he gave Electrolux. Only Net4Market still runs at 155deg. */
+  background-image: linear-gradient(to top right, var(--panel-yoga-lo), var(--panel-yoga-hi));
+  /* `size`, not `inline-size`: the screenshot is sized in `cqh` as well as
+     `cqw`, and only a size container exposes the height. Legal here ONLY
+     because this panel's height is fully determined by `aspect-ratio`. */
+  container-type: size;
+}
+.fl-panel-elux {
+  background-color: var(--panel-elux-lo);
+  /* Bottom-left to top-right, dark to navy — the owner's direction, which is
+     the mirror of the 155deg the other two run at. The list no longer shares
+     one light direction; flagged rather than silently unified. */
+  background-image: linear-gradient(to top right, var(--panel-elux-lo), var(--panel-elux-hi));
+  /* `size`, not `inline-size`: the composition inside is measured in `cqh`,
+     and only a size container exposes it. Legal here ONLY because this panel's
+     height is fully determined by `aspect-ratio` — give it `aspect-ratio: auto`
+     and size containment collapses it to nothing. */
+  container-type: size;
+}
+.fl-case:hover .fl-panel,
+.fl-case:focus-visible .fl-panel { opacity: 1; }
+/* The lead panel is EMPTY — cleared by the owner on 2026-11-06, pending a
+   decision on what goes in it — so it carries a ratio again to hold the slot
+   open at the proportion it is being designed for. While it held a composed
+   artifact it took `aspect-ratio: auto` and let its content size it, because a
+   fixed ratio either starved that content or left a hole: at 12:5 it came out
+   553px against 480px of content at 1440, and at 1024 the same ratio gave
+   343px for content needing 450. Restore `auto` if a composed panel comes
+   back; keep the ratio if an image does. */
+.fl-wide .fl-panel { aspect-ratio: 12 / 5; }
+
+/* The compositions. Absolute, oversized, anchored so the part worth seeing is
+   the part inside the frame, and allowed to run off the edges. */
+.fl-art { position: absolute; inset: 0; display: block; }
+.fl-art img { display: block; }
+
+/* Yoga: one screenshot, centred, zooming on hover exactly as the Electrolux
+   phone does — 4rem of clearance at rest, 2rem hovered.
+
+   The phone is sized by a height; this one cannot be, because it is LANDSCAPE
+   — 1512 × 982 is 1.5397 wide per unit tall — so on a 4:3 panel it is the
+   WIDTH that binds and a height would run it off the sides. It takes an
+   explicit `min()` of the two constraints instead: the inset box's width, or
+   its height carried through the image's own ratio, whichever is smaller.
+   Measured at 628 × 471 that is min(500, 343 × 1.5397 = 528) = 500, and on a
+   342 square min(214, 329) = 214. The rule therefore survives a panel of any
+   proportion, and one property animates instead of two.
+
+   `min()` and not `max-width` + `max-height` with both dimensions auto, which
+   was built first and works identically — but Chrome reports "lazy-loaded
+   images should have explicit dimensions" against it, and here that warning
+   is a false positive worth removing rather than explaining: the panel has
+   size containment and a fixed ratio, so this image cannot shift anything.
+
+   Centring is `translate(-50%, -50%)`, and that is what makes the growth read
+   as a zoom: a percentage translate is recomputed against the element's own
+   box every frame, so the image stays centred while it changes size.
+
+   No radius and no border. Both were carried over from the two crops this
+   replaced, where a hairline separated one light crop from the one behind it;
+   with a single screenshot there is nothing to separate it from, and the owner
+   asked for the image alone. */
+.fl-yoga-shot {
+  position: absolute; left: 50%; top: 50%;
+  width: min(calc(100cqw - 8rem), calc((100cqh - 8rem) * 1.5397));
+  height: auto;
+  aspect-ratio: 1512 / 982;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fl-case:hover .fl-yoga-shot,
+.fl-case:focus-visible .fl-yoga-shot {
+  width: min(calc(100cqw - 4rem), calc((100cqh - 4rem) * 1.5397));
+}
+
+/* ── Electrolux: the owner's composition, 2026-11-08 ──────────────────────
+   Phone upright and centred, gold robot behind it at 135°, blue robot in
+   front at 30°. Supplied as a reference image and built to its measurements.
+
+   ONE unit governs everything: `--phone`, the phone's resting height, which is
+   the panel inset by 4rem on every side — his 2rem of container padding plus
+   2rem again. Every other size and travel distance is a multiple of it, which
+   is what makes the whole scene scale as one object instead of three things
+   that happen to be sized in the same stylesheet. It needs `cqh`, hence the
+   size container on `.fl-panel-elux`.
+
+   `max(2rem, …)` is a floor, not a style: below a 128px-tall panel the
+   subtraction goes negative and the phone would invert. */
+.fl-art-elux { --phone: max(2rem, calc(100cqh - 8rem)); }
+.fl-art-elux .fl-elux-phone,
+.fl-art-elux .fl-elux-gold,
+.fl-art-elux .fl-elux-blue { position: absolute; }
+
+/* The phone fills the inset box and grows into HALF that inset on hover —
+   4rem of clearance at rest, 2rem hovered. Centred by translate, so changing
+   its height grows it symmetrically about the centre: a zoom, which is what he
+   asked for. Height and not `scale()` because the factor between the two
+   states is (H−4rem)/(H−8rem), which varies with panel height — 1.18 at 476px,
+   1.30 at 342, 1.38 at 296 — and calc() cannot divide by a length, so a single
+   scale value would be wrong at every size but one. The cost is a layout pass
+   per frame, scoped to this panel by its own size containment.
+
+   Width is left auto and never clamped: the phone is 0.474 wide per unit tall,
+   so on a 4:3 panel it needs 0.355W − 61 of the W − 128 available, which holds
+   for any panel wider than 104px. It cannot be the binding dimension here. */
+.fl-elux-phone {
+  left: 50%; top: 50%;
+  height: var(--phone); width: auto;
+  /* Declared, not inferred. With a computed height and `width: auto` Chrome
+     still reports "lazy-loaded images should have explicit dimensions"; the
+     ratio is the source's own 407 × 858, so width resolves identically. */
+  aspect-ratio: 407 / 858;
+  transform: translate(-50%, -50%);
+  transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fl-case:hover .fl-elux-phone,
+.fl-case:focus-visible .fl-elux-phone { height: max(2rem, calc(100cqh - 4rem)); }
+
+/* Both robots are placed from the PANEL CENTRE in `--phone` units, not in
+   percentages of the panel. Percentages were built first and they break the
+   composition: the phone is sized by a fixed 4rem inset, so it takes 73% of a
+   471px panel where it took 91% of the owner's 1224px reference, and robots
+   pinned to panel percentages drifted off it — overlapping the phone in his
+   image, clear of it by 40px in ours. Measured off the reference, the offsets
+   from the phone's own centre are −0.376 / +0.135 for the gold and +0.303 /
+   −0.182 for the blue, in multiples of the phone's height.
+
+   Their SIZE is the owner's, given on 2026-11-08 as a ratio rather than a
+   guess: 231.17px wide against a 551px phone, so 0.42 of the phone's height,
+   and the same for both. An earlier pass sized them off the reference image by
+   eye — 0.26 and 0.33 — and he was right that it came out tiny.
+
+   Order matters: centre first, then offset, then rotate — rotate last, so the
+   offsets are read in the panel's frame and not in the robot's tilted one.
+
+   The resting angles are his too, and they are the second pass: 135° and 30°
+   were built first and read as the mirror of his reference, so the gold went
+   round another 180° to 315° and the blue 45° the other way to −15°. Hover
+   turns each 15° clockwise. */
+.fl-elux-gold,
+.fl-elux-blue {
+  left: 50%; top: 50%;
+  width: calc(var(--phone) * 0.42); height: auto;
+  aspect-ratio: 602 / 500;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Behind the phone. Rotates and does nothing else — the owner was explicit
+   that this one does not grow. */
+.fl-elux-gold {
+  transform: translate(-50%, -50%)
+             translate(calc(var(--phone) * -0.306), calc(var(--phone) * 0.18))
+             rotate(220deg);
+}
+.fl-case:hover .fl-elux-gold,
+.fl-case:focus-visible .fl-elux-gold {
+  transform: translate(-50%, -50%)
+             translate(calc(var(--phone) * -0.306), calc(var(--phone) * 0.18))
+             rotate(216deg);
+}
+
+/* In front of the phone, and on hover it only turns. It used to leave along a
+   curve — a wrapper carrying the horizontal travel on one easing and the image
+   the vertical on another, because a single transform interpolates in a
+   straight line whatever easing it carries. Measured, that path departed from
+   the straight line by 32% of its length, and the owner cut it on 2026-11-08:
+   it reads as the robot fleeing the card rather than answering the pointer.
+   If a curve is ever wanted again, that two-element split is how to get one. */
+.fl-elux-blue {
+  transform: translate(-50%, -50%)
+             translate(calc(var(--phone) * 0.303), calc(var(--phone) * -0.182))
+             rotate(-30deg);
+}
+.fl-case:hover .fl-elux-blue,
+.fl-case:focus-visible .fl-elux-blue {
+  transform: translate(-50%, -50%)
+             translate(calc(var(--phone) * 0.303), calc(var(--phone) * -0.182))
+             rotate(-35deg);
+}
+
+/* ── The caption under the panel ──────────────────────────────────────────
+   Client, then claim, then keywords. The client is the heading because it is
+   what a recruiter recognises in a scan — "Electrolux" does work no sentence
+   can — and the claim directly under it is the line that earns the click. */
 .fl-title {
   margin: 0;
-  font-size: var(--t-head); font-weight: 600; letter-spacing: -0.025em; line-height: 1.08;
-  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: var(--t-head); font-weight: 600; letter-spacing: -0.025em;
+  line-height: 1.08; color: var(--ink);
 }
-/* No second family. The metric is a measurement, so it gets tabular figures and
-   the accent — not a monospace, which on a page with no code is a costume. */
-.fl-metric b { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
-.fl-meta { font-size: var(--t-label); color: var(--ink-3); margin-top: 0.5rem; }
+/* The arrow scales with the title rather than sitting at a fixed 16px beside
+   38px type, where it reads as a stray glyph instead of part of the word. */
+/* 20px, not the component's own 16: beside a 38px title a 16px arrow reads as
+   a stray glyph rather than part of the word. Written in rem, not em, because
+   every length in this system is rem on the grid — see The Spacing Grid Rule. */
+.fl-title svg {
+  flex: none; width: 1.25rem; height: 1.25rem;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fl-case:hover .fl-title svg,
+.fl-case:focus-visible .fl-title svg { transform: translateX(0.25rem); }
+/* No measure. A `ch` cap belongs on prose read in sequence, and this is one
+   line under a heading: at 34ch it broke "When surveys said “yes” but behavior
+   said “no”" at 435px inside a 635px column and sent two words to a second
+   line for no reason. The caption takes the width of its panel. */
+.fl-claim {
+  font-size: var(--t-lead); line-height: 1.25; letter-spacing: -0.025em;
+  color: var(--ink-2);
+}
+/* Plain text, not outlined chips. The boxed-tag version was built first and
+   read as enterprise-dashboard furniture — and it competed with the panel for
+   the same attention. A keyword line is metadata; it gets the label step and
+   the quietest ink in the system. */
+.fl-keys { font-size: var(--t-label); color: var(--ink-3); }
 
 /* Contact */
 .fl-end { padding-top: clamp(3.5rem, 8vw, 7.5rem); }
@@ -412,16 +769,36 @@
 
 .fl-read-head { padding: clamp(1.5rem, 5vw, 4rem) 0 clamp(2rem, 4vw, 3rem); }
 /* Case titles are sentences, not one-word statements: a step below the home
-   display size, on a measure wide enough to keep them to two lines. Anchored
-   like the home ramp — a bare 4.2vw held this at 30px from 320px to 714px, so
-   a 600px tablet got exactly the title a 320px phone got. */
-.fl-read-head h1 { font-size: clamp(2rem, 1.375rem + 2.5vw, 3.625rem); max-width: 22ch; }
+   display size, on a measure wide enough to keep them to two lines.
+   Derived from --t-display rather than given a clamp of its own, because two
+   independent clamps drift: this one was 32 → 58 while the home display was
+   38 → 80, and when the display came down to 34 → 55 the case title ended up
+   LARGER than the home hero at 1440. A visitor going home → case study saw the
+   type grow on the inner page. At 0.86 the step is fixed by construction and
+   cannot invert again. The earlier note about a bare 4.2vw still applies to any
+   replacement: it held this at 30px from 320 to 714, so a 600px tablet got
+   exactly the title a 320px phone got. */
+.fl-read-head h1 { font-size: calc(var(--t-display) * 0.86); max-width: 22ch; }
 /* --t-sub, not --t-lead: once the reading body moved to 19px the lead step (21)
    sat 1.1x above it and read as slightly larger body text rather than as part
    of the title block. */
 .fl-read-meta {
   margin-top: clamp(1rem, 1.6vw, 1.5rem);
   font-size: var(--t-sub); color: var(--ink-3); max-width: var(--col);
+}
+
+/* Role, team, period, outcome. It sits in the title block so the answer to
+   "what did he do here" is in the first viewport, before any prose. Label over
+   value on a phone, label beside value once there is room for both. */
+.fl-read-facts {
+  display: grid; gap: 1rem;
+  margin: clamp(1.5rem, 3vw, 2.5rem) 0 0; max-width: var(--col);
+}
+.fl-read-facts > div { display: grid; gap: 0.25rem; }
+.fl-read-facts dt { font-size: var(--t-label); color: var(--ink-3); }
+.fl-read-facts dd { margin: 0; font-size: var(--t-body); line-height: 1.5; color: var(--ink); }
+@media (min-width: 40rem) {
+  .fl-read-facts > div { grid-template-columns: 6rem minmax(0, 1fr); gap: 1.5rem; align-items: baseline; }
 }
 
 /* One reading measure for prose; figures and tables are allowed to be wider */
@@ -501,6 +878,107 @@
   margin-top: 0.5rem; font-size: var(--t-label); color: var(--ink-3); max-width: var(--col);
 }
 
+/* ── Process flow ─────────────────────────────────────────────────────────
+   A sequence of steps, each one a box, with what that step was missing on a
+   chip riding its bottom edge. Built for the Net4Market case study, where the
+   opening paragraph describes a process whose shape is the argument.
+
+   THIS IS THE OWNER'S COMPOSITION, from a reference of his own, and the
+   second attempt at it. The first was a hairline rail with the gaps in a
+   second column and no colour anywhere — defensible against every rule in
+   DESIGN.md, and he rejected it twice. What his version does that mine did
+   not: each step is an object you can see the edges of, the text is centred
+   so the column reads as a stack rather than as a list, and the problem is
+   pinned TO the step instead of filed beside it. The chip straddling the
+   boundary is the whole device: it belongs to the box it hangs off, and it
+   is the first thing the eye lands on.
+
+   Small on purpose, and small twice over. The first build of this version ran
+   640px wide with 24px labels and stood 900px tall — taller than the section
+   it illustrates, which the owner called enormous and which it was: a diagram
+   that outweighs its argument has stopped being a diagram. 24rem is the cap
+   now, and it also left-aligns the figure with the prose above it rather than
+   centring it in a band the text does not use.
+
+   The closing box is dashed and empty: the step that never existed. It is
+   the only place the sequence says anything the prose does not.
+   ──────────────────────────────────────────────────────────────────────── */
+.fl-flow { margin: clamp(2rem, 4vw, 3.5rem) 0; max-width: 24rem; }
+.fl-flow-panel {
+  padding: 1rem;
+  /* The page ground plus a hairline, not a third neutral. The boxes inside
+     are the one tone step the system owns, so the frame has to be the ground
+     itself — which is exactly the relationship in the owner's reference,
+     where the container is darker than the rows it holds. */
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+}
+.fl-flow-steps {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 0.5rem;
+}
+
+.fl-flow-step,
+.fl-flow-end {
+  position: relative;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: var(--bg-2);
+  border-radius: var(--r-3);
+  text-align: center;
+}
+/* The step that never happened: the same box, with nothing in it. */
+.fl-flow-end {
+  margin: 0.5rem 0 0;
+  background: none;
+  border: 1px dashed var(--line-2);
+}
+
+/* --t-read, the reading surface's body step. It was --t-sub for one build and
+   that is what made the diagram enormous: 24px labels force a tall box, eight
+   tall boxes force a 900px figure. The labels are kept SHORT for the same
+   reason — the longest is 27 characters, 253px of the 302px the box has inside
+   its padding, and measured at 390 / 744 / 1440 none of the eight wraps.
+   Lengthen one and re-check at 390. */
+.fl-flow-label {
+  display: block;
+  font-size: var(--t-read);
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--ink);
+}
+.fl-flow-end .fl-flow-label { color: var(--ink-3); }
+
+/* The chip rides the bottom edge, half in and half out. translate(-50%, 50%)
+   and not a negative margin, so it stays centred and stays on the boundary
+   however many lines the text runs to.
+
+   `width: max-content` is not optional. An absolutely positioned box with
+   only `left` set shrinks to fit the space between that edge and its
+   container's right edge, so at left:50% every chip was silently capped at
+   HALF the box: measured on a 390px phone, 146px of an available 260, and
+   three of the four chips wrapped to two lines for no reason. max-content
+   sizes the chip to its text and max-width puts the real cap back. */
+.fl-flow-gap {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  width: max-content;
+  max-width: calc(100% - 1rem);
+  padding: 0.25rem 0.5rem;
+  background: var(--flag);
+  border-radius: var(--r);
+  font-size: var(--t-label);
+  line-height: 1.4;
+  color: var(--flag-ink);
+}
+/* A box with a chip needs room under it for the half that hangs out: 0.5rem
+   of grid gap plus 1rem clears the chip and still reads as one stack rather
+   than as two groups. */
+.fl-flow-step:has(.fl-flow-gap) { margin-bottom: 1rem; }
+
 .fl-bleed { margin: clamp(2rem, 3vw, 2.5rem) 0; }
 .fl-table-wrap { margin: clamp(2rem, 3vw, 2.5rem) 0; overflow-x: auto; }
 /* Drawn inside: on a phone this element runs out into the gutter, where a
@@ -573,19 +1051,23 @@
   .fl-hero-copy { order: 1; }
 }
 
-/* ≤ 900px — case rows become one column, the image above its own title. */
+/* ≤ 900px — one panel per row. Two tracks want about 900px before a panel is
+   wide enough for its composition to survive: at 768 the two-up panels come
+   out 336px, where a 26%-wide phone screen is 87px and the Net4Market token
+   chain has nowhere to resolve. Stacked, every panel gets the full band and
+   the lead panel drops to the same 4:3 as the others, because 12:5 across a
+   narrow page is a letterbox slit. */
 @media (max-width: 900px) {
-  .fl-case { grid-template-columns: 1fr; gap: 1rem; }
-  .fl-frame { max-width: 26rem; }
+  .fl-list { grid-template-columns: minmax(0, 1fr); }
+  .fl-wide .fl-panel { aspect-ratio: 4 / 3; }
 }
 
 /* ≤ 600px — phone, and three things change shape rather than shrink:
    · the artwork turns landscape instead of standing as a 400px portrait in a
      272px-wide column, which is the one place the field's roaming cursors had
      no room to roam;
-   · the client-and-discipline line under each case title steps UP, because
-     13px is an interface size that assumes a mouse and a desk, and on the home
-     page that line is the only place the client's name appears;
+   · the keyword line under each case claim steps UP, because 13px is an
+     interface size that assumes a mouse and a desk;
    · the data tables are let out into the page gutter, so the fact that they
      scroll sideways is visible at the edge instead of being guessed at. */
 @media (max-width: 600px) {
@@ -602,22 +1084,35 @@
      Do not reintroduce an artwork here without asking. */
   .fl-hero-art { display: none; }
 
-  /* The hero heading only, and only on a phone. `text-wrap: balance` is right
-     for every other heading on the site and right for this one down to 768,
-     where it keeps "Product Designer" whole on its own line. At 390 it sets
-     "Product Designer / bridging users, / business / and engineering." —
-     585 / 465 / 300 / 565px, a 300px hole in the third line of four. The
-     balancer is avoiding a short LAST line and pays for it with a short middle
-     one, which is the worse trade: a short last line is the rag, a short middle
-     line is a gap the eye falls into. `pretty` puts the short line back at the
-     end, and where it is unsupported the initial `wrap` gives the same break. */
-  .fl-hero h1 { text-wrap: pretty; }
+  /* The keyword line takes the same step for the same reason: it is the same
+     13px label, read on the same device, by the same thumb. */
+  /* The process chips take it for the third time: same 13px, same thumb. */
+  .fl-meta, .fl-keys, .fl-flow-gap { font-size: 0.875rem; }
 
-  .fl-meta { font-size: 0.875rem; }
+  /* A squarer frame on a phone. At 342px wide a 4:3 panel is 257px tall, and
+     a composition of three phone screens has nowhere to go in it. The page
+     gets a different panel here, not a smaller one. */
+  .fl-panel { aspect-ratio: 1 / 1; }
   .fl-table-wrap {
     margin-inline: calc(var(--pad) * -1);
     padding-inline: var(--pad);
   }
+}
+
+/* `text-wrap: balance` is right for every heading on this site, and right for
+   this one down to 480. Below that it starts stranding a word: at 440 and
+   narrower it sets "Product Designer / bridging users, / business / and
+   engineering." — a short line THIRD of four. It is avoiding a short last line
+   and paying with a short middle one, which is the worse trade: a short last
+   line is the rag, a short middle line is a hole the eye falls into. `pretty`
+   puts it back at the end, and where `pretty` is unsupported the initial `wrap`
+   gives the same break.
+   The threshold is measured, not rounded: at 480 both modes agree, at 440 they
+   diverge, so 460 sits between them and covers every phone up to 430. Above it
+   `balance` keeps its advantage — at 520-600 `pretty` pulls "bridging" up onto
+   the role's line, which `balance` does not. */
+@media (max-width: 460px) {
+  .fl-hero h1 { text-wrap: pretty; }
 }
 
 /* The bar snaps between states rather than easing. */
@@ -630,6 +1125,11 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    /* Delay too, not just duration. The case panels stagger their two objects
+       by 40ms; collapsing the duration alone would leave a visitor who asked
+       for no motion waiting 40ms for a state that is otherwise instant. */
+    transition-delay: 0s !important;
+    animation-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 }

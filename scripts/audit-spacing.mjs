@@ -10,6 +10,11 @@
      · src/pages/*.tsx      — must carry no spacing of their own
      · src/components/*.tsx — same, plus FormComparison's embedded stylesheet
 
+   v2 foundations (src/styles/*.css, DESIGN.next.md) are held to a stricter
+   rule on top: margin, padding and gap may only use the v2 scale — 0.25,
+   0.5, 0.75, 1, 1.5, 2, 2.5, 3, 4, 6rem — or a var() of it. The 4px grid
+   check above still applies to every other length in those files.
+
    Run: npm run audit:spacing      Exits non-zero when the grid is broken.
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -151,12 +156,36 @@ function walk(dir, acc = []) {
   return acc;
 }
 
+/* ── v2: margin / padding / gap on the v2 scale only ─────────────────────── */
+
+const V2_DIR = join(SRC, 'styles');
+const V2_SCALE = new Set([0.25, 0.5, 0.75, 1, 1.5, 2, 2.5, 3, 4, 6]);
+const V2_PROP = /^(margin|padding|gap|row-gap|column-gap)(-[a-z]+)*$/;
+
+function scanV2(text, file) {
+  const out = [];
+  const lines = text.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    const t = lines[i].trim();
+    if (t.startsWith('/*') || t.startsWith('*')) continue;
+    for (const m of lines[i].matchAll(/([-a-z]+)\s*:\s*([^;{}]+)/g)) {
+      if (!V2_PROP.test(m[1])) continue;
+      for (const r of m[2].matchAll(/(-?\d*\.?\d+)rem/g)) {
+        const n = Math.abs(parseFloat(r[1]));
+        if (n !== 0 && !V2_SCALE.has(n)) out.push({ file, line: i + 1, prop: m[1], value: m[2].trim(), n: n * 16, kind: 'v2' });
+      }
+    }
+  }
+  return out;
+}
+
 const findings = [];
 for (const path of walk(SRC)) {
   const file = relative(ROOT, path);
   const text = readFileSync(path, 'utf8');
   if (!text.trim()) continue;
   findings.push(...(path.endsWith('.css') ? scanCss(text, file) : scanTsx(text, file)));
+  if (path.startsWith(V2_DIR) && path.endsWith('.css')) findings.push(...scanV2(text, file));
 }
 
 /* ── Report ──────────────────────────────────────────────────────────────── */
@@ -167,6 +196,7 @@ const live = findings.filter((f) => !f.exempt);
 const offGrid = live.filter((f) => f.kind === 'grid' || (f.kind === 'unit' && f.unit === 'px' && f.n % 4 !== 0));
 const notRem = live.filter((f) => f.kind === 'unit' && (f.unit === 'px' || f.unit === 'em') && !offGrid.includes(f));
 const inPages = live.filter((f) => f.kind === 'inline' || f.kind === 'tailwind');
+const offV2 = live.filter((f) => f.kind === 'v2');
 
 const group = (list) => {
   const by = new Map();
@@ -195,6 +225,7 @@ console.log(`scanned: ${walk(SRC).length} files under src/`);
 show('off the 4px grid', offGrid);
 show('not in rem', notRem);
 show('spacing declared outside index.css', inPages);
+show('v2 margin/padding/gap off the v2 scale', offV2);
 
 if (exempt.length) {
   console.log(`\n· ${exempt.length} documented exemption(s), not counted:`);
@@ -203,6 +234,6 @@ if (exempt.length) {
   }
 }
 
-const failed = offGrid.length + notRem.length + inPages.length;
+const failed = offGrid.length + notRem.length + inPages.length + offV2.length;
 console.log(failed ? `\nFAIL — ${failed} violation(s)\n` : '\nPASS — every spacing is rem on the grid\n');
 process.exit(failed ? 1 : 0);

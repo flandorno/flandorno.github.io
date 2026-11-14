@@ -1,5 +1,4 @@
 import CaseLayout from "../components/CaseLayout";
-import Callout from "../components/Callout";
 import Figure from "../components/Figure";
 import AppIcon from "../components/AppIcon";
 import AppAura from "../assets/elux/competitors/aura-air.jpg";
@@ -28,45 +27,48 @@ const COMPETITORS = [
 
 const SCREENS = [Screen1, Screen2, Screen3, Screen4, Screen5];
 
+/* Rewritten on 2026-11-14. Two facts from the owner shape the wording: there
+   was never a survey (the "yes" was said out loud, in interviews and by test
+   participants), and the field-test usage figures are his: of the 20
+   participants, 3 to 5 used a widget once or twice a week at most, and the
+   others once at most or never. Do not round them into anything stronger. */
 export default function Electrolux() {
   return (
     <CaseLayout
-      title="When surveys said “yes” but behavior said “no”"
+      title="They said yes to widgets, then didn’t use them"
       meta="Electrolux · Research on smart home widgets"
       docTitle="Electrolux Case Study | Federico Landorno"
+      facts={[
+        { label: "Role", value: "Junior designer. I ran the research and built the prototypes, mentored by a senior UX researcher." },
+        { label: "Period", value: "2019" },
+        { label: "Outcome", value: "Widgets moved down the roadmap and voice control became the priority" },
+      ]}
     >
       <Figure src={Wellbeing} alt="An Electrolux connected appliance in a home setting" />
 
       <section data-reveal>
-        <h2>Setting the Stage</h2>
+        <h2>The hypothesis</h2>
         <p>
-          In 2019, I joined Electrolux as a junior designer working on their connected appliances
-          app. Smart home adoption was growing, and the product team had a hypothesis: home screen
-          widgets would increase engagement by giving users quick access to their robot vacuums and
-          air purifiers.
+          In 2019 I joined Electrolux as a junior designer on the app for its connected appliances.
+          The product team believed that home screen widgets would raise engagement by giving
+          people quicker access to their robot vacuums and air purifiers, and widgets were a high
+          priority on a six-month roadmap.
         </p>
-        <p>It made intuitive sense. Faster access should mean more usage, right?</p>
-        <Callout>
-          <strong>My job:</strong> Validate this assumption before the company invested heavily in
-          development. I was the first designer to tackle this problem, supported by a senior UX
-          researcher who helped me structure the approach. This became my master&rsquo;s thesis
-          project.
-        </Callout>
+        <p>
+          My job was to test that belief before the company invested heavily in development. I was
+          the first designer to work on the question, with a senior UX researcher helping me
+          structure the study, and the project became my master&rsquo;s thesis.
+        </p>
       </section>
 
       <section data-reveal>
-        <h2>Designing the Research</h2>
-        <p>
-          I structured the research in three phases to test the hypothesis from different angles. My
-          senior mentor helped me refine the approach, ensuring each phase would give us actionable
-          insights.
-        </p>
+        <h2>The research</h2>
+        <p>I planned three phases, each looking at the hypothesis from a different side.</p>
 
-        <h3>Phase 1: Market research &amp; competitive analysis</h3>
+        <h3>Phase 1: 12 competitor apps</h3>
         <p>
-          I started by understanding the landscape. What were other smart home apps doing? How were
-          users actually controlling their devices? I analyzed 12 competitor apps and looked at
-          adoption patterns for home screen widgets across categories.
+          I looked at how 12 other smart home apps let people control their devices, and at how
+          widgets had been adopted across categories.
         </p>
         <ul className="fl-icon-grid" aria-label="The twelve competitor apps analysed">
           {COMPETITORS.map((src, i) => (
@@ -74,32 +76,30 @@ export default function Electrolux() {
           ))}
         </ul>
         <p>
-          <strong>Early signal:</strong> Most smart home apps offered widgets, but public reviews
-          rarely mentioned them, positive or negative. They existed, but weren&rsquo;t a
-          talked-about feature.
+          Most of them offered widgets. Public reviews almost never mentioned them, in praise or in
+          complaint.
         </p>
 
-        <h3>Phase 2: User interviews (15 participants)</h3>
+        <h3>Phase 2: 15 interviews</h3>
         <p>
-          I interviewed current Electrolux app users to understand their daily routines with
-          connected appliances. How often did they open the app? What triggered them to interact with
-          their devices?
+          I interviewed 15 people who already used the Electrolux app about their routines: how
+          often they opened it and what made them do so. They fell into two groups.
         </p>
-        <p><strong>Key finding:</strong> Most users fell into two camps:</p>
         <ul className="fl-ul">
-          <li><b>Set-and-forget:</b> Programmed automatic schedules, rarely touched the app.</li>
-          <li><b>Occasional adjusters:</b> Opened the app maybe once a week to start a cleaning cycle or check air quality.</li>
+          <li><b>Set-and-forget:</b> they programmed automatic schedules and rarely touched the app.</li>
+          <li><b>Occasional adjusters:</b> they opened the app about once a week to start a cleaning cycle or check air quality.</li>
         </ul>
         <p>
-          Neither group expressed frustration with app access speed. The friction wasn&rsquo;t in{" "}
-          <em>getting</em> to controls. It was in <em>remembering</em> to use them at all.
+          People liked the idea of widgets when we talked about it. But neither group described
+          getting to the controls as a problem. What they struggled with was remembering to use
+          them at all.
         </p>
 
-        <h3>Phase 3: Prototype &amp; field testing (20 participants, 2 weeks)</h3>
+        <h3>Phase 3: working widgets, 20 people, two weeks</h3>
         <p>
-          This is where it got real. I designed and developed functional widgets that participants
-          installed on their smartphones. For two weeks, they used them in their daily lives while I
-          tracked usage and conducted follow-up interviews.
+          Opinions about a feature nobody had tried were not enough, so I designed and coded
+          working widgets. Twenty participants installed them on their own phones and lived with
+          them for two weeks, while I tracked usage and ran follow-up interviews.
         </p>
         <ul className="fl-screens" aria-label="The widget prototypes tested in the field">
           {SCREENS.map((src, i) => (
@@ -109,79 +109,52 @@ export default function Electrolux() {
           ))}
         </ul>
         <p>
-          <strong>What I expected:</strong> Increased engagement, positive feedback about
-          convenience.
+          I expected usage to go up. Of the 20 participants, between three and five used a widget
+          once or twice a week at most. The others used one once at most, or never. Some had tried
+          the widgets and then forgot they were there. Those who kept using them found them no
+          better than opening the app.
         </p>
         <p>
-          <strong>What actually happened:</strong> Usage was sporadic and inconsistent. Some users
-          tried them a few times, then forgot they existed. Others used them occasionally but
-          didn&rsquo;t find them significantly better than opening the app.
+          In the follow-up interviews the answers were polite and flat: &ldquo;It&rsquo;s nice to
+          have, I guess.&rdquo; &ldquo;I used it a couple times.&rdquo; &ldquo;I don&rsquo;t really
+          think about it.&rdquo;
         </p>
-        <p>
-          When I asked directly, responses were lukewarm: &ldquo;It&rsquo;s nice to have, I
-          guess.&rdquo; &ldquo;I used it a couple times.&rdquo; &ldquo;I don&rsquo;t really think
-          about it.&rdquo;
-        </p>
-        <p>Not hate. Not love. Just indifference.</p>
       </section>
 
       <section data-reveal>
-        <h2>The Uncomfortable Truth</h2>
+        <h2>What the evidence supported</h2>
         <p>
-          After months of work, I had to present findings that weren&rsquo;t what anyone wanted to
-          hear: <strong>the data was inconclusive</strong>.
+          Nothing in the results said widgets were a mistake. People who had welcomed the idea
+          barely used the real thing, and the increase in device interaction the team was counting
+          on never appeared. I couldn&rsquo;t call that a failure, and I couldn&rsquo;t call it a
+          case for months of development either.
         </p>
         <p>
-          Widgets didn&rsquo;t fail catastrophically, but they didn&rsquo;t succeed either. Users
-          weren&rsquo;t adopting them enthusiastically, and the behavior change we hoped for (more
-          frequent device interaction) wasn&rsquo;t materializing.
+          The same data did show how the people who got the most out of their appliances used them:
         </p>
-        <p>
-          Sitting in the presentation room with product managers and stakeholders, I could feel the
-          tension. They wanted validation to move forward. I had spent months on this. Everyone
-          wanted it to work.
-        </p>
-        <p>But the data said &ldquo;maybe,&rdquo; and I had to say it out loud.</p>
-      </section>
-
-      <section data-reveal>
-        <h2>The Real Insight</h2>
-        <p>
-          As I walked through the findings, a pattern emerged that was more valuable than widget
-          validation:{" "}
-          <strong>the problem wasn&rsquo;t access to controls, it was the mental model of control itself</strong>.
-        </p>
-        <p>Users who successfully integrated smart appliances into their lives did so through:</p>
         <ul className="fl-ul">
           <li><strong>Automated routines</strong> (vacuum every Tuesday at 10am)</li>
           <li><strong>Voice commands</strong> (hands-free while cooking or cleaning)</li>
-          <li><strong>Ambient triggers</strong> (air purifier adjusts based on air quality)</li>
+          <li><strong>Ambient triggers</strong> (the air purifier adjusts to the air quality)</li>
         </ul>
         <p>
-          Manual app interaction, whether through a widget or the full app, was friction. The best
-          experience was <em>no interaction at all</em>.
+          For them, any manual step was friction, whether it went through a widget or the full app.
+          A widget makes that step shorter, and these users were getting rid of it.
         </p>
-        <Callout>
-          <strong>The opportunity wasn&rsquo;t widgets. It was voice control and automation.</strong>
-        </Callout>
       </section>
 
       <section data-reveal>
-        <h2>The Recommendation</h2>
+        <h2>The recommendation</h2>
         <p>
-          I presented Electrolux with a recommendation: don&rsquo;t invest heavily in widget
-          development. The feature could exist as a low-effort addition, but strategic investment
-          should go toward voice assistant integration (Google Home, Alexa, Apple HomeKit) where user
-          behavior was already established.
+          I presented this to the product managers and stakeholders, who had been hoping for a
+          green light. My recommendation was to keep widgets as a low-effort addition and put the
+          strategic investment into voice assistant integration (Google Home, Alexa, Apple
+          HomeKit), where the behaviour already existed.
         </p>
         <p>
-          The product team listened. Widgets remained in the backlog as a minor feature, while voice
+          The product team listened. Widgets stayed in the backlog as a minor feature, and voice
           control became a priority initiative.
         </p>
-      </section>
-
-      <section data-reveal>
-        <h2>The Impact</h2>
         {/* A table that scrolls sideways has to be reachable without a mouse:
             role="region" + tabindex makes it a focus stop so the keyboard can
             scroll it (WCAG 2.1.1), and the name tells a screen reader what the
@@ -199,39 +172,26 @@ export default function Electrolux() {
             </thead>
             <tbody>
               <tr><th scope="row">Primary investment</th><td>Home screen widgets</td><td>Voice assistant integration</td></tr>
-              <tr><th scope="row">Development priority</th><td>High (6-month roadmap)</td><td>Low (nice-to-have)</td></tr>
-              <tr><th scope="row">Expected ROI</th><td>Increased daily engagement</td><td>Better strategic positioning</td></tr>
+              <tr><th scope="row">Widget priority</th><td>High (6-month roadmap)</td><td>Low (nice-to-have)</td></tr>
             </tbody>
           </table>
         </div>
         <p>
-          Electrolux shifted resources to voice control development, aligning with where users were
-          already comfortable controlling smart home devices. The research prevented months of
-          development on a feature with uncertain adoption.
-        </p>
-        <p>
-          More importantly, I learned that saying &ldquo;the data doesn&rsquo;t support this&rdquo;
-          takes more courage than presenting a success story, but it&rsquo;s often more valuable.
+          The study kept the team from spending months of development on a feature with uncertain
+          adoption.
         </p>
       </section>
 
       <section data-reveal>
-        <h2>What I learned</h2>
+        <h2>What I took from it</h2>
         <p>
-          <strong>Research isn&rsquo;t about proving hypotheses right, it&rsquo;s about finding truth.</strong>{" "}
-          I spent months hoping widgets would work because everyone expected them to. Learning to
-          present inconclusive results honestly, rather than forcing a narrative, was the most
-          important skill I gained.
+          Two things have stayed with me. People told me they wanted quicker access and then
+          behaved as if they wanted to stop thinking about the appliance altogether, so I now trust
+          what people do over what they say they will do.
         </p>
         <p>
-          <strong>User behavior beats user intentions.</strong> People said they wanted quick access,
-          but their actual behavior showed they valued automation over control. Watching what people
-          do matters more than listening to what they say they&rsquo;ll do.
-        </p>
-        <p>
-          <strong>&ldquo;Maybe&rdquo; is a valid answer.</strong> Not every research project ends with
-          clear direction. Sometimes the most valuable outcome is preventing investment in the wrong
-          solution.
+          The other is presenting a result that disappoints the room. I had spent months hoping the
+          widgets would work, and it would have been easy to tell the story that way.
         </p>
       </section>
     </CaseLayout>

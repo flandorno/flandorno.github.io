@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "audit:spacing": "node scripts/audit-spacing.mjs"
+    "audit:spacing": "node scripts/audit-spacing.mjs",
+    "audit:contrast": "node scripts/audit-contrast.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",

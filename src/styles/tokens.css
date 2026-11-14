@@ -1,0 +1,152 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Foundations v2 — tokens
+   The mosaic redesign: blocks on a black ground, separated by a 0.25rem gap,
+   one orange, Doto for the voice and Atkinson Hyperlegible Next for reading.
+   Spec: DESIGN.next.md. Contrast is enforced by `npm run audit:contrast`.
+
+   Three layers: primitives → semantic → component. Components read only the
+   semantic layer; no hex value is written anywhere but in this file.
+
+   These names deliberately do not collide with the v1 tokens in index.css
+   (--bg, --ink, --accent, --t-*, --r*), so both systems live side by side
+   until the pages migrate. Nothing outside `.fx` (the specimen) reads them yet.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Primitives ─────────────────────────────────────────────────────────
+     The first seven are sampled from the owner's palette; the rest are
+     derived at the greys' own hue (OKLCH h ≈ 255) for the dark theme and for
+     text that has to clear AA. Never read these from a component. */
+  --orange-300: #FF864E;
+  --orange-500: #FF5F12;   /* the primary */
+  --orange-600: #E04E00;
+  --orange-800: #AA3700;
+  --black:      #000000;
+  --white:      #FFFFFF;
+  --gray-100:   #D8DBDF;
+  --gray-200:   #C7CCD2;
+  --gray-300:   #A9B2BD;
+  --gray-400:   #8896A5;
+  --gray-500:   #6A727D;
+  --gray-600:   #525A63;
+  --gray-700:   #474E56;
+  --gray-750:   #383E45;
+  --gray-800:   #2A2E34;
+  --gray-900:   #1E2226;
+
+  /* ── Semantic: light (the default) ──────────────────────────────────────
+     The ground is black in BOTH themes: it is the grid's lines, and the
+     statement blocks are the ground itself. What changes between themes is
+     the paper the blocks are made of. */
+  --scheme:                light;
+  --color-ground:          var(--black);
+  --color-on-ground:       var(--white);     /* 21.00 */
+  --color-on-ground-muted: var(--gray-300);  /*  9.79 */
+  --color-surface:         var(--white);
+  --color-ink:             var(--black);     /* 21.00 on surface */
+  --color-ink-muted:       var(--gray-600);  /*  7.00 surface · 5.04 tone-1 — those two only */
+  --color-tone-1:          var(--gray-100);
+  --color-tone-2:          var(--gray-200);
+  --color-tone-3:          var(--gray-300);
+  --color-tone-4:          var(--gray-400);
+  --color-accent:          var(--orange-500);
+  --color-on-accent:       var(--black);     /*  6.90 — never white (3.04) */
+  --color-accent-hover:    var(--orange-300);  /* black on it 8.77 */
+  --color-accent-active:   var(--orange-600);  /* black on it 5.26 */
+  --color-accent-text:     var(--orange-800);  /* orange AS TEXT on surface, 6.45 */
+  --color-control-off:     var(--gray-400);  /* switch track, checkbox edge: 3.02 on surface */
+  --color-disabled:        var(--color-tone-1);
+  --color-on-disabled:     var(--color-ink-muted);
+  --color-focus:           var(--color-ink);
+
+  /* ── Type ───────────────────────────────────────────────────────────── */
+  --font-display: "Doto", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-text:    "Atkinson Hyperlegible Next", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+  /* One scale, 14 → 64. Atkinson below, Doto above. Every fluid step is
+     rem + vw so text zoom still moves it.
+     --type-display is held to what fits "Federico Landorno" (17 glyphs) on
+     one line in a half-width block. Doto is monospace at 0.6em per glyph, so
+     the fit is arithmetic: size ≤ (block − 2·pad) / (0.6 × 17). The binding
+     width is 1024 with a 15px classic scrollbar — vw counts the scrollbar,
+     the grid does not — where the ceiling measured 44.2px. 3.95vw set 44.4
+     and wrapped; 3.9vw sets 43.9 there and 62.7 at 1504 (mockup: 64).
+     Measured one line at 390 / 1024 / 1280 / 1440 / 1504. */
+  --type-display: clamp(2rem, 0.25rem + 3.9vw, 5rem);            /* 32 → 63 at 1504, cap 80 */
+  --type-title:   clamp(1.5rem, 0.6rem + 2.55vw, 3.5rem);        /* 24 → 48 */
+  --type-label:   clamp(1.125rem, 0.6rem + 1.5vw, 2.25rem);      /* 18 → 32 */
+  --type-h2:      clamp(1.5rem, 1.35rem + 0.4vw, 1.75rem);       /* 24 → 28 */
+  --type-h3:      1.375rem;                                      /* 22 */
+  --type-body:    clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);    /* 17 → 19 */
+  --type-ui:      1rem;                                          /* 16 */
+  --type-small:   0.875rem;                                      /* 14 */
+
+  /* The reading column, as a length and not in `ch` — `ch` resolves against
+     each element's own font-size, so headings and prose would get different
+     right edges. Measured in the browser on the real N4M prose: Atkinson
+     Hyperlegible Next at 19px averages 8.5px a character (1ch, the zero, is
+     12.3px — far wider than the average, which is why `ch` would mislead
+     here too). 44rem gave 83 a line; 37rem = 592px gives the 65–75 band.
+     The specimen re-measures it live; re-check if --type-body moves. */
+  --measure: 37rem;
+
+  /* ── Space ──────────────────────────────────────────────────────────────
+     Base 4px = the gap. Steps of 4 to 16, of 8 to 48, then 64 and 96. */
+  --space-1:  0.25rem;   /*  4 */
+  --space-2:  0.5rem;    /*  8 */
+  --space-3:  0.75rem;   /* 12 */
+  --space-4:  1rem;      /* 16 */
+  --space-6:  1.5rem;    /* 24 */
+  --space-8:  2rem;      /* 32 */
+  --space-10: 2.5rem;    /* 40 */
+  --space-12: 3rem;      /* 48 */
+  --space-16: 4rem;      /* 64 */
+  --space-24: 6rem;      /* 96 */
+
+  --grid-gap:     var(--space-1);   /* the ONLY space between blocks, at every width */
+  --block-pad-sm: var(--space-4);   /* label and control blocks */
+  --block-pad-md: var(--space-6);   /* display-title blocks */
+  --block-pad-lg: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);   /* reading blocks, 24 → 40 */
+  --stack-xs:     var(--space-2);
+  --stack-sm:     var(--space-4);
+  --stack-md:     var(--space-6);
+  --stack-lg:     var(--space-12);
+
+  --radius-block:   0.5rem;     /* 8 — compare 6 in the specimen before locking */
+  --radius-control: 0.25rem;
+  --radius-pill:    62.5rem;
+  --target-min:     2.75rem;    /* 44px pointer target */
+}
+
+/* ── Semantic: dark ───────────────────────────────────────────────────────
+   Written twice, because a media query and an attribute selector cannot share
+   one rule: once for "follow the system", once for an explicit choice.
+   `npm run audit:contrast` fails if the two blocks ever drift apart.
+   The tonal ramp mirrors: tone-1 is always the step nearest the surface. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --scheme:                dark;
+    --color-surface:         var(--gray-900);  /* 1.31 against the ground — no darker */
+    --color-ink:             var(--white);     /* 16.01 */
+    --color-ink-muted:       var(--gray-300);  /*  7.46 surface · 6.36 tone-1 */
+    --color-tone-1:          var(--gray-800);
+    --color-tone-2:          var(--gray-750);
+    --color-tone-3:          var(--gray-700);
+    --color-tone-4:          var(--gray-500);
+    --color-accent-text:     var(--orange-500);  /* 5.26 on the dark surface */
+    --color-control-off:     var(--gray-500);
+  }
+}
+
+:root[data-theme="dark"] {
+  --scheme:                dark;
+  --color-surface:         var(--gray-900);
+  --color-ink:             var(--white);
+  --color-ink-muted:       var(--gray-300);
+  --color-tone-1:          var(--gray-800);
+  --color-tone-2:          var(--gray-750);
+  --color-tone-3:          var(--gray-700);
+  --color-tone-4:          var(--gray-500);
+  --color-accent-text:     var(--orange-500);
+  --color-control-off:     var(--gray-500);
+}

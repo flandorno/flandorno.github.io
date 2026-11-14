@@ -10,6 +10,14 @@ colors:
   line: "rgba(243, 242, 247, 0.13)"
   line-2: "rgba(243, 242, 247, 0.26)"
   accent: "#9B7CFF"
+  panel-n4m-hi: "#143A64"
+  panel-n4m-lo: "#00224A"
+  panel-yoga-hi: "#5A4D78"   # owner-set, 2026-11-08
+  panel-yoga-lo: "#1A1723"   # owner-set, 2026-11-08
+  panel-elux-hi: "#011E40"   # owner-set, 2026-11-08
+  panel-elux-lo: "#030712"   # owner-set, 2026-11-08
+  flag: "#651818"            # process-flow chip ground, owner-set 2026-11-08
+  flag-ink: "#FBD3CF"        # 9.03:1 on it
   presence-product: "#5B9BFF"
   presence-engineering: "#49D6B8"
   presence-research: "#F5A524"
@@ -77,6 +85,7 @@ rounded:
   frame: "0.25rem"   # --r,   4px
   panel: "0.5rem"    # --r-2,  8px
   icon: "0.75rem"    # app icons only, 12px
+  case: "1rem"       # --r-3, 16px — the three home case panels and the process flow
 spacing:
   # rem on an 8px grid; 0.25rem is the only half-step. See "The Spacing Grid Rule".
   half-step: "0.25rem"                        # 4px, hairline offsets only
@@ -116,10 +125,6 @@ components:
     typography: "{typography.lead}"
     rounded: "{rounded.panel}"
     padding: "clamp(1.5rem, 2.4vw, 2rem)"
-  art-frame:
-    backgroundColor: "{colors.bg-2}"
-    rounded: "{rounded.frame}"
-    width: "100%"
   figure-frame:
     backgroundColor: "{colors.bg-2}"
     rounded: "{rounded.panel}"
@@ -130,12 +135,45 @@ components:
     typography: "{typography.body}"
     rounded: "{rounded.panel}"
     padding: "0.75rem 1.5rem"
-  metric-figure:
-    textColor: "{colors.accent}"
-    typography: "{typography.metric}"
+  case-panel:
+    # one gradient per client, 155deg from -hi to -lo; see Case Panel
+    backgroundImage: "linear-gradient(155deg, {colors.panel-n4m-hi}, {colors.panel-n4m-lo})"
+    backgroundColor: "{colors.panel-n4m-lo}"
+    rounded: "{rounded.case}"
+    width: "100%"
+    opacity: 0.72
+  case-panel-hover:
+    opacity: 1
+  case-client:
+    textColor: "{colors.ink}"
+    typography: "{typography.headline}"
+  case-claim:
+    textColor: "{colors.ink-2}"
+    typography: "{typography.lead}"
+  case-keywords:
+    textColor: "{colors.ink-3}"
+    typography: "{typography.label}"
   app-icon:
     rounded: "{rounded.icon}"
     size: "3rem"
+  flow-panel:
+    # the page ground plus a hairline, not a third neutral
+    backgroundColor: "{colors.bg}"
+    rounded: "{rounded.case}"
+    padding: "1rem"
+    maxWidth: "24rem"
+  flow-step:
+    backgroundColor: "{colors.bg-2}"
+    textColor: "{colors.ink}"
+    typography: "{typography.read}"
+    rounded: "{rounded.case}"
+    padding: "0.75rem 1rem"
+  flow-gap:
+    backgroundColor: "{colors.flag}"
+    textColor: "{colors.flag-ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.frame}"
+    padding: "0.25rem 0.5rem"
 ---
 
 # Design System: Federico Landorno — Portfolio
@@ -146,7 +184,7 @@ components:
 
 A sober personal portfolio built on a cool graphite ground, cool white ink, and exactly one electric violet — with a single field of generative line segments carrying all of the visual ambition. The field is the metaphor the whole system is named for: a field of scattered marks that a sweep crosses and settles into one direction, then lets drift back. Order emerging from a complex field is the claim the work itself makes, so the artwork makes it before any sentence does. Everything else in the system is engineered restraint: a five-token type scale, one typeface, a flat material with no shadow vocabulary at all, and radii small enough (4–8px) that no surface ever reads as a toy card.
 
-The atmosphere is premium and cinematic meeting precise and engineered. The premium half comes from air and scale: a home page of 2.1 screens and 117 words, a hero where the artwork takes an equal half of the viewport and bleeds past the right gutter, and a display size that reaches 80px at 1440. The engineered half comes from how little is permitted: one accent, no second hue, no gradient, no blur, no lift. Components are tactile and responsive — a 1px button rise, a link underline that turns violet, a case row that dims its siblings to 0.4 on hover — but the tactility lives in colour and a single pixel of translation, never in a shadow.
+The atmosphere is premium and cinematic meeting precise and engineered. The premium half comes from air and scale: a home page of 2.1 screens and 117 words, a hero where the artwork takes an equal half of the viewport and bleeds past the right gutter, and a display size that reaches 55px at 1440. The engineered half comes from how little is permitted: one accent, no second hue, no gradient, no blur, no lift. Components are tactile and responsive — a 1px button rise, a link underline that turns violet, a case row that dims its siblings to 0.4 on hover — but the tactility lives in colour and a single pixel of translation, never in a shadow.
 
 This is a person seeking a role, not a studio selling services. The world was pinned from three references: kigo.studio for the headline-beside-dominant-artwork composition, roofstudio.tv for five-step type discipline and canvas craft, onlines.com.ar for radical restraint — their typographic confidence without their agency swagger. Confirmed rejections: two earlier discarded worlds (a cosmic violet/orange dark site; a drafting blueprint world in cyanotype and Overpass), and the generic AI-portfolio vocabulary of centred heroes, equal rounded cards, soft gradients and uppercase eyebrows.
 
@@ -158,7 +196,7 @@ This is a person seeking a role, not a studio selling services. The world was pi
 - Five type tokens per ramp, one typeface, tabular figures where numbers are the proof
 - Flat by construction: zero `box-shadow` in the system, depth by tone step and hairline only
 - One ambitious moment (the hero's live generative canvas); everything else is sequenced reveals
-- Rows and bleeds instead of a grid of equal rounded cards
+- Rows and bleeds instead of a grid of equal rounded cards — and three large panels, one per client in that client’s own colour, holding the work itself
 - Every colour is a semantic token; no component writes a literal hex
 
 ## Colors
@@ -166,7 +204,26 @@ This is a person seeking a role, not a studio selling services. The world was pi
 A two-value ground (page and one tone step up), a three-step ink ramp, two hairline alphas, and one accent. There is no second palette: this set is the system, in the only theme it has.
 
 ### Primary
-- **Electric Violet** (`#9B7CFF`): the only accent in the system. It carries the contact button, the skip link, the focus ring, text selection, the sparse accent segments in the generative field (roughly one segment in eleven), the metric figures in case rows, inline links in prose, and the hover border of every underlined link. Measured 5.81:1 against the page, and 5.81:1 again for the ground that sits on top of it.
+- **Electric Violet** (`#9B7CFF`): the only accent in the system. It carries the contact button, the skip link, the focus ring, text selection, the sparse accent segments in the generative field (roughly one segment in eleven), the underline of a hovered case band’s way in, inline links in prose, and the hover border of every underlined link. Measured 5.81:1 against the page, and 5.81:1 again for the ground that sits on top of it.
+
+### The Case Panels
+- **Panel · Net4Market** (`#143A64` → `#00224A`), **Panel · Yoga** (`#1A1723` → `#5A4D78`, owner-set), **Panel · Electrolux** (`#030712` → `#011E40`, owner-set): one dark ground per client, in that client’s own colour, as a two-stop tonal gradient at `155deg`. This is the **second sanctioned break in The One Voice Rule**, after the hero’s presence cursors, and it is sanctioned for the same reason: the colour is not decoration, it is whose work this is. Cool white ink measures 12.3:1, 12.6:1 and 12.3:1 on them.
+
+**Nothing here is invented.** Each brand colour was sampled from the pixels of that client’s own screenshots — Yoga `#7848A8` is the product’s sidebar purple, Electrolux `#081848` is the navy its app draws headers and buttons in, the dominant non-neutral colour across five device shots. Net4Market has no screenshot and uses `#0176DB`, the real `--color-blue-500` primitive from its token set.
+
+**The derivation is one rule, and it is not a mix.** A fixed mix with the page ground was built first and it fails: a mix can never be lighter than both its ends, and Electrolux’s navy is already darker than `--bg`, so 28% of it came out `#121628` — a neutral, with the brand gone. Each ground instead **keeps its brand’s hue and is set to one shared lightness, OKLab L = 0.30**, with chroma held to a 0.085 ceiling so no ground shouts. L = 0.30 is not picked either — it is where the earlier light panel already sat.
+
+Equal lightness is what makes the three read as one family rather than three accidents, and it is why Yoga’s plum and Electrolux’s navy — **the two that sit side by side** — separate on hue alone. Net4Market’s blue is close to Electrolux’s, and that is allowed: it is alone on the row above, 64px away, never beside it.
+
+**Each ground is a gradient, and the rule it bends is narrow.** Added at the owner’s request on 2026-11-06. The two stops are the same OKLab construction at **L = 0.30 ± 0.045**, so the panel’s mean lightness is exactly the solid it replaced, and **one hue per panel** — no second colour enters, no mesh, no hue rotation along the ramp. All three run at `155deg`: one light direction across the list, which is what keeps them a family rather than three separately lit objects. A solid `background-color` at the dark stop sits underneath, so a browser without gradients gets a panel rather than a hole.
+
+Both ends are bounded by measurement, not taste. The light stop keeps cool white ink at **10.4:1** or better. The dark stop stays at **1.12–1.15** against the page ground, so the panel’s darkest corner is still visibly above the page and the 16px edge holds all the way round — at ±0.06 it falls to 1.08 and the corner begins dissolving into the page, which is why ±0.045 and not more.
+
+**Two of the three are the owner’s, not the construction’s.** On 2026-11-08 he set Electrolux (`#030712` → `#011E40`) and then Yoga (`#1A1723` → `#5A4D78`) by hand, both running **`to top right`**. Only Net4Market still carries the derived pair at `155deg`, so the list no longer shares one light direction and one of its three grounds is still built by a rule the other two have left.
+
+**Both hand-set dark stops fall through the floor.** The derived construction holds its dark end at 1.12–1.15 against the page, so a panel’s darkest corner stays visible and the 16px edge reads all the way round. Measured against `--bg`: Net4Market **1.15**, Electrolux **1.11**, **Yoga 1.03**. At 1.03 the Yoga card’s bottom-left corner is indistinguishable from the page — the rounded corner simply is not there. Recorded rather than corrected, because the values are his; lifting the two dark stops, or giving the panels a hairline, are each a one-line change.
+
+*Previously a single light `#EDECF2` for all three, then three dark solids. The owner judged the grounds better dark on 2026-11-06, asked for the clients’ own colours, then for gradients. The light value and the solids are gone, not deprecated.*
 
 ### Neutral
 - **Cool Graphite** (`#16151B`): the page ground. Nothing is layered on top of it except one tone step.
@@ -181,11 +238,13 @@ Every text pair above passes WCAG AA; the figures are measured, not estimated.
 ### Named Rules
 **The One Voice Rule.** There is exactly one accent. Vermilion appears on roughly a tenth of any screen and never acquires a partner hue, a tint ramp, or a warm counterpart. If a new element needs emphasis, it gets ink weight or a tone step — not a second colour.
 
+**The Flag Exception.** One dark red, `--flag` `#651818` with `--flag-ink` `#FBD3CF` on it at 9.03:1, and it lives in exactly one component: the process flow's chip on the Net4Market case study. The owner asked for it twice on 2026-11-08, from a reference of his own in which every broken step carries a red chip; the objection was raised and overruled, and this is the record, not a correction. It is derived, not sampled — hue 25, OKLab L = 0.32 for the ground and 0.90 for the ink, the same construction as the panel grounds one lightness step up. **It is not a status palette.** There is no green, no amber, no second red, and no variant of it may be added. It never touches a control, a link, a surface or body text.
+
 **The Presence-Colour Exception.** The hero's collaborator cursors are the single sanctioned break in that rule, and the only one. In a multiplayer cursor, colour *is* identity: four presence colours — Product `#5B9BFF`, Engineering `#49D6B8`, Research `#F5A524`, Data `#FF6FB5` — name four people who are not the author, and flattening them to violet would delete the idea rather than discipline it. They are confined to the cursor layer: a pointer glyph, its label pill, and a 7%-opacity halo. They never touch a surface, a control, a text colour, a border or a chart, and no fifth presence colour may be added. The labels are roles, never invented names.
 
 **The Semantic-Only Rule.** No component ever writes a literal colour. Every surface, stroke and glyph reads `var(--bg)`, `var(--bg-2)`, `var(--ink)`, `var(--ink-2)`, `var(--ink-3)`, `var(--line)`, `var(--line-2)`, `var(--accent)` or `var(--on-accent)`. Even the Canvas2D artwork samples the tokens from the computed root style rather than hardcoding its strokes. The rule survives the removal of the second theme: it is what keeps the palette changeable from one block of CSS.
 
-**The Two-Ground Rule.** The page has one ground and one step above it. There is no third surface level; anything that needs separation gets `bg-2`, a hairline, or whitespace.
+**The Two-Ground Rule.** The page has one ground and one step above it. There is no third neutral surface level; anything that needs separation gets `bg-2`, a hairline, or whitespace. The three `--panel-*` grounds are not a third step — they are a per-client material, scoped to the case panels, and nothing else in the system may reach for them.
 
 ## Typography
 
@@ -204,12 +263,12 @@ Everything read in sequence now shares `--col` = `52rem` (832px): prose, lists, 
 **Character:** A single variable grotesque doing all the talking, tightened hard at display size (−0.04em) and relaxed to neutral at body size. The effect is engineered rather than expressive: the type never performs, so the generative field can.
 
 ### Hierarchy
-- **Display** (600, `clamp(2.375rem, 1.375rem + 4.1vw, 5rem)`, 0.98 line-height, −0.04em): the home `h1` only, and the case-study `h1` at a deliberate step down (`clamp(2rem, 1.375rem + 2.5vw, 3.625rem)`, capped to a 22ch measure so sentence-length titles land on two lines). Measures 80px at 1440, 64px at 1024, 38px at 390.
+- **Display** (600, `clamp(2.125rem, 1.725rem + 1.9vw, 3.4375rem)`, 0.98 line-height, −0.04em): the home `h1` only. Measures **55px at 1440, 52px at 1280, 47px at 1024, 35px at 390**. It is the one step in the ramp solved against the heading's own line count rather than through a 390/1440 pair — see *The display size is set by the line count* below. The case-study `h1` is `calc(var(--t-display) * 0.86)` on a 22ch measure, so the step down from the home hero is fixed by construction: 47px against 55 at 1440, 30 against 35 at 390.
 - **Headline** (600, `clamp(1.5rem, 1.1875rem + 1.34vw, 2.375rem)`, 1.06, −0.025em): section `h2`s, the contact closing line (capped at 20ch), and case-row titles (1.08 line-height). 38 / 33 / 24.
 - **Lead** (400, `clamp(1.125rem, 1.0625rem + 0.29vw, 1.3125rem)`, 1.25): the hero subparagraph (46ch max), case-study subtitles, `h3`s, and callout text. 21 / 20 / 18. The hero's is the owner's own second sentence, verbatim. It opens on the computer-science background because that is the evidence under *engineering* in the line above it — the heading makes a claim about bridging three concerns and the paragraph has to show why the engineering end of it is credible.
 - **Body** (400, 16px, 1.6, colour Reading Grey): all prose, list items, buttons, links, table cells. Paragraph rhythm is 1.1em between siblings.
-- **Label** (500, 13px, and **14px below 600px**): case metadata, figure captions, and table headers (+0.04em, Quiet Grey). The home work section carries no visible label — its heading was removed as an eyebrow and the section is named by `aria-label` alone.
-- **Metric** (700, head size on the home rows, tabular figures, violet): numbers only.
+- **Label** (500, 13px, and **14px below 600px**): case metadata, the home’s keyword tags, figure captions, and table headers (+0.04em, Quiet Grey). The home work section carries no visible label — its heading was removed as an eyebrow and the section is named by `aria-label` alone.
+- **Metric** (700, tabular figures): numbers only. It lives on the case studies’ impact tables. It used to carry a violet before/after line on every home row; that line was removed on 2026-11-06 at the owner’s instruction — see *Case Row*.
 
 ### Named Rules
 **The Anchored Clamp Rule.** Every fluid type step is `clamp(min, rem + vw, max)`. **A bare `vw` middle term is a defect, not a shorthand.** With nothing but `vw` between the ends, the page stops being a layout that adapts and becomes a linear photocopy of itself: measured across fifteen widths, `--t-lead` sat on its 17px floor from 320px *all the way to 1180px*, so every laptop in the world got the phone size, while `--t-display` held 38px flat to 700px and then stretched to 80px, so a 1024px window rendered a 69% reduction of the 1440px design. The `rem` term is the floor the text never drops below; the `vw` term is the growth above it. Each pair is solved through two real points — a 390px phone and a 1440px desktop — so the size is right at both ends *and* on the laptop between them, which is the width this portfolio is actually opened at.
@@ -217,6 +276,8 @@ Everything read in sequence now shares `--col` = `52rem` (832px): prose, lists, 
 Nothing in the repaired ramp came out smaller than it was. Floors are equal or one step up (`--t-lead` 17→18, `--t-read` 17→18, case `h1` 30→32); only the middle of the range moved. Verified by sweep: the home `h1` now climbs continuously 38 → 80 instead of standing still for the first 380px of the range, and the hero lead reaches 20px at 1024 where it used to reach 17px.
 
 **The Five-Step Rule.** Five size tokens exist — display, head, lead, body, label — and nothing between them. A new surface picks a step; it does not interpolate one.
+
+**The Quoted-Typeface Exception.** The site has one family and that has not changed. **Roboto** appears in exactly one place — `FormComparison` on the N4M case study — because it is `--font-family-base` in the real Net4Market design system and that component exists to show that system. An exhibit set in the portfolio’s own face is a fiction, not evidence. It is registered in `.impeccable/config.json` with that reason and loaded by the component’s own `@import`, so it costs the home page nothing. It briefly had a `<link>` in `index.html` as well, for a home-page exhibit that has since been cleared; that request is gone. It may not spread to a third surface.
 
 **The One Family Rule.** There is no monospace. Numbers that are the proof get `font-variant-numeric: tabular-nums` and the accent, in the same face as everything else. The system used to pair the sans with a mono for metrics; on a page that contains no code, a monospace is a costume for "technical" rather than a tool, and dropping it removed a family, a font request, and a tell.
 
@@ -226,7 +287,7 @@ Nothing in the repaired ramp came out smaller than it was. Floors are equal or o
 
 Two layout models, one per surface class.
 
-**Home surface** (`.fl-*`): full-bleed, no max-width container. A fluid gutter of `clamp(1.5rem, 4vw, 3.5rem)` is the only horizontal constraint. The hero is a two-column grid at `1fr 1fr` with a `clamp(2rem,4vw,3.5rem)` gap and `min(78svh, 47.5rem)` minimum height. The tracks are `1fr`, never `minmax(0,50%)` twice: two 50% tracks plus a gap ask for 100% + gap, which engines resolve differently and can push the page into a horizontal scrollbar by exactly the gap width. The artwork **stays inside the page gutter** — it used to cancel the gutter with a negative margin and bleed to the viewport edge, which left no margin for error against a scrollbar and put a hard edge flush with the window. Work is a one-dimensional list of rows — `minmax(0,19rem) minmax(0,1fr)`, image left, copy right, `clamp(2rem,3.5vw,3rem)` between rows — not a card grid.
+**Home surface** (`.fl-*`): full-bleed, no max-width container. A fluid gutter of `clamp(1.5rem, 4vw, 3.5rem)` is the only horizontal constraint. The hero is a two-column grid at `1fr 1fr` with a `clamp(2rem,4vw,3.5rem)` gap and `min(78svh, 47.5rem)` minimum height. The tracks are `1fr`, never `minmax(0,50%)` twice: two 50% tracks plus a gap ask for 100% + gap, which engines resolve differently and can push the page into a horizontal scrollbar by exactly the gap width. The artwork **stays inside the page gutter** — it used to cancel the gutter with a negative margin and bleed to the viewport edge, which left no margin for error against a scrollbar and put a hard edge flush with the window. Work is **two up with a lead**: `repeat(2, minmax(0,1fr))` at `clamp(2.5rem,4vw,4rem)`, with Net4Market spanning `1 / -1` above Yoga and Electrolux. Each entry is a large light panel with its caption beneath — client, claim, keywords. Three equal panels in one row would be the card grid this system refuses, and would also be a lie about the work: see *Case Panel*.
 
 **Reading surface** (`.fl-read*`): centred, 70rem max container, same fluid gutter. Prose, headings, lists, callouts and captions all share the `--col` reading column (52rem); figures, tables, icon grids and screen strips are deliberately allowed to exceed it. Sections are separated by `clamp(3rem,6vw,5.5rem)`.
 
@@ -235,8 +296,8 @@ Two layout models, one per surface class.
 | Range | What changes |
 |---|---|
 | ≤ **1079px** | The hero collapses to one column, copy first, artwork second at `min(48svh, 25rem)`, and the hero's minimum height is released. |
-| ≤ **900px** | Case rows stack, image above its own title, capped at 26rem. |
-| ≤ **600px** | Phone. **The hero artwork is removed** — see the Segment Field. The case meta line steps up to 14px; the data tables are let out into the page gutter so the fact that they scroll sideways is visible at the edge. |
+| ≤ **900px** | One panel per row. Two tracks want about 900px before a panel is wide enough for its composition: at 768 a two-up panel is 336px, where a 27% phone screen is 91px. |
+| ≤ **600px** | Phone. **The hero artwork is removed** — see the Segment Field. The keyword line steps up to 14px — 13px is a size that assumes a mouse and a desk — and the image panels become **1:1**, because a 4:3 panel at 342px wide is 257px tall and three phone screens have nowhere to go in it; the data tables are let out into the page gutter so the fact that they scroll sideways is visible at the edge. |
 
 The hero breakpoint was at 900px and is now 1079px. Two columns want about 1080px before the copy track is wide enough to hold a display heading: measured at 1024px, a ~420px track, 64px type and an `h1` **four lines deep**, where the same heading stacked at 900px ran three.
 
@@ -248,7 +309,7 @@ Verified by measurement sweep at 320 / 360 / 390 / 414 / 480 / 600 / 700 / 768 /
 
 **Spacing** is governed by The Spacing Grid Rule — see Named Rules below. It is the one rule in this document with an automated check behind it.
 
-**Motion:** exactly one ambitious moment, the hero canvas. Everything else is a sequenced reveal — 1rem rise and fade over 0.7s on `cubic-bezier(0.16,1,0.3,1)`, triggered at 15% intersection with a −6% bottom margin, staggered by an explicit per-element delay (80–90ms steps). State transitions are 0.18–0.25s. The hidden start state is applied by script only when motion is welcome, so a reduced-motion visitor or a no-JS visitor gets the finished page; under `prefers-reduced-motion` all durations collapse to 0.001ms and the canvas draws one static frame and never starts its loop.
+**Motion:** exactly one ambitious moment, the hero canvas. Everything else is a sequenced reveal — 1rem rise and fade over 0.7s on `cubic-bezier(0.16,1,0.3,1)`, triggered at 15% intersection with a −6% bottom margin, staggered by an explicit per-element delay (80–90ms steps). State transitions are 0.18–0.25s everywhere except the three case panels, which run at 0.55–0.6s — see The Soft-Panel Exception. The hidden start state is applied by script only when motion is welcome, so a reduced-motion visitor or a no-JS visitor gets the finished page; under `prefers-reduced-motion` all durations **and delays** collapse — delay too, or a visitor who asked for no motion would still wait 40ms for the case panels’ staggered state — and the canvas draws one static frame and never starts its loop. A static transform such as the Electrolux robot’s tilt is a resting state, not motion, and stays.
 
 ### Named Rules
 
@@ -280,30 +341,57 @@ Verified by measurement sweep at 320 / 360 / 390 / 414 / 480 / 600 / 700 / 768 /
 
 An earlier version of this heading broke after the role instead, with `product designer` demoted to head size. That reading — that the role is the least distinctive half and should be the quiet one — was overruled by the owner, and the reasoning was wrong anyway once the role stopped standing alone: `Product Designer bridging users, business and engineering.` is not a job title, it is a claim, and claims go in the display line.
 
-Measured across the ramp, with the heading block height and the first case row's position:
+**The display size is set by the line count.** Two constraints govern this step, and the binding one changed between releases.
+
+The first is that `Product Designer` must not break in half. It renders **7.71px of width per 1px of font-size** — 617px at 80, 293px at 38; the ratio holds because the tracking is in em. The hero copy column in the two-column layout is **0.44 × viewport**, since pad and gap are both 4vw below 1400: `(w − 0.08w − 0.04w) / 2`. So the role stays whole only while `F ≤ 0.44w / 7.71 = 0.0570w`. The original 80px ramp (`22px + 4.1vw`) crossed that at w ≈ 1370 and split the role from 1365 down to 1080; the 72px ramp fixed it; this one clears it with room everywhere.
+
+The second constraint is the one that now binds: **how many lines the sentence occupies.** The owner's reading of the 72px version was that it was still enormous on desktop, and the thing making it enormous was a four-line heading, not the glyph size. Bisecting the largest size that still fits three display lines, at each width:
 
 ```
-1440   display 80px   4 lines   block 493px   button y=727   first case y=918
-1280   display 74px   5 lines   block 541px   button y=726
-1024   display 64px   2 lines   block 290px   button y=448   (single column from 1079 down)
- 768   display 53px   3 lines   block 310px   button y=441
- 390   display 38px   4 lines   block 320px   button y=443   first case y=539
- 320   display 38px   5 lines   block 412px   button y=535
+   w    copy col   3 lines up to
+1080      475         44px   (4.07vw)
+1180      519         48px   (4.07vw)
+1280      563         52px   (4.06vw)
+1366      601         56px   (4.10vw)
+1440      634         59px   (4.10vw)
+1600      704         67px   (4.19vw)
+1920      845         82px   (4.27vw)
 ```
 
-Zero horizontal overflow at every width, and the hero clears the fold everywhere.
+Like the first constraint, it is **a pure proportion with no constant term** — ~4.06vw at the narrow end. Holding three lines all the way down to 1080 therefore needs a near-bare-vw ramp, which is the photocopy scaling this ramp exists to prevent; and pinning the phone at 35px while obeying 4.06vw at 1080 forces about 48px at 1440, only 1.26× the head size, at which point the display stops being a display.
 
-**`Product Designer` splits across two display lines between 1080 and 1365, and that is accepted.** The role needs 97% of the half-width copy column at 1440 and 108% of it at 320: the display clamp has a constant term (`1.375rem + 4.1vw`) so the type shrinks more slowly than the column does, and a 16-character phrase that just fits at the top of the ramp cannot fit further down. Three fixes were measured and all three cost more than the flaw:
+So the ramp is solved to hold three lines from **1280 up** — every common desktop — and to let it go to four below that: `clamp(2.125rem, 1.725rem + 1.9vw, 3.4375rem)`, 34 → 55, cap reached at 1442. At 1440 that is 1.45× the head size, a modest step but a real one, and the heading block drops from 462px to 341.
 
-- **Shrink the display ramp ~7%** so the role always fits. It buys two words and spends the page's only loud voice.
-- **Widen the copy column to `1.12fr 0.88fr`.** The art column drops under `LABEL_MIN_W = 510`, so the canvas loses `Research / Product / Data / Engineering` from 1080 all the way to ~1315 — the labels that now illustrate the headline.
-- **Stay single-column until 1365.** It takes the two-column hero away from every 1280 laptop.
+Swept at fifteen widths, the role is whole at every one and horizontal overflow is zero at every one:
 
-Looked at rather than reasoned about, the 1280 setting reads as a stacked editorial headline, not as a broken word. It stays.
+```
+        display   h1 lines   block   button y   first case y
+1600      55px     1 + 3      341      654         925
+1440      55px     1 + 3      341      651         918
+1366      54px     1 + 3      336      598         814
+1280      52px     1 + 3      329      602         828
+1180      50px     1 + 4      369      621         829
+1120      49px     1 + 4      361      604         805
+1080      48px     1 + 4      356      598         799
+1024      47px     1 + 2      257      415         935   ← single column from 1079 down
+ 900      45px     1 + 2      247      390         917
+ 768      42px     1 + 2      236      366         900
+ 600      39px     1 + 3      263      388         484
+ 414      35px     1 + 4      311      434         530
+ 390      35px     1 + 4      308      431         527
+ 360      34px     1 + 4      334      457         553
+ 320      34px     2 + 4      388      511         607
+```
 
-A separate, pre-existing consequence of the same arithmetic: between 1080 and ~1160 the two-column art track is narrower than 510px, so the field renders without labels. Narrow band, known, not introduced here.
+**The case title is derived from the display, not clamped on its own.** Two independent clamps drift. The case `h1` was `clamp(2rem, 1.375rem + 2.5vw, 3.625rem)` — 32 → 58 — set against a display of 38 → 80. When the display came down to 34 → 55 the case title ended up **larger than the home hero** at 1440, so a visitor going home → case study watched the type grow on the inner page. It is now `calc(var(--t-display) * 0.86)`, which cannot invert. The older warning still applies to any replacement: a bare 4.2vw held this at 30px from 320 to 714, so a 600px tablet got exactly the title a 320px phone got.
 
-**`text-wrap: balance` is overridden on the hero `h1` below 600px.** Balance is right for every heading on the site and right for this one down to 768, where it keeps `Product Designer` whole. At 390 it sets `Product Designer / bridging users, / business / and engineering.` — 585 / 465 / **300** / 565px. It is avoiding a short *last* line and paying with a short *middle* one, which is the worse trade: a short last line is the rag, a short middle line is a hole the eye falls into. `text-wrap: pretty` moves it back to the end, and in a browser without `pretty` the initial `wrap` produces the same break.
+A pre-existing consequence of the column arithmetic, unaffected by type size: between 1080 and ~1160 the two-column art track is narrower than 510px, so the field renders without labels. Narrow band, known.
+
+**The name does not break.** `.fl-greet b` carries `white-space: nowrap`. At 320 the greeting wraps to two lines and the break landed inside the name — `Ciao, I’m Federico / Landorno!` — which reads as a layout fault, not a line break, on the one proper noun the page is about. Held together it moves whole to the second line: 210px at 24px type in a 272px column.
+
+**`text-wrap: balance` is overridden on the hero `h1` below 460px.** Balance is right for every heading on the site and right for this one down to 480. Below that it strands a word: at 440 and narrower it sets `Product Designer / bridging users, / business / and engineering.` — a short line **third of four**. It is avoiding a short *last* line and paying with a short *middle* one, which is the worse trade: a short last line is the rag, a short middle line is a hole the eye falls into. `text-wrap: pretty` puts it back at the end, and in a browser without `pretty` the initial `wrap` produces the same break.
+
+The 460 threshold is measured rather than rounded to the nearest breakpoint: at 480 the two modes agree, at 440 they diverge, and above 500 balance has a second advantage — `pretty` pulls `bridging` up onto the role's line at 520–600 and balance does not. 460 sits in the gap and covers every phone up to 430.
 
 **No market segment in the positioning.** The owner's own bio says "B2B products" and the hero used to say "working in B2B product"; both are deliberately dropped, from the copy and from the `description`, `og:description` and `twitter:description`. The portfolio exists to get him hired and naming a focus area narrows where he can be considered. Case studies still name their clients' markets accurately — `B2B SaaS`, `B2B2C` — because that is evidence about the work, not a claim about him.
 
@@ -318,16 +406,18 @@ This system has **no shadow vocabulary at all**. There is not one `box-shadow` d
 The only "raised" gesture in the system is a 1px `translateY(-1px)` with 0.92 opacity on the primary button hover — a press-back, not an elevation.
 
 ### Named Rules
-**The Flat-Material Rule.** Surfaces never lift. No `box-shadow`, no `filter: drop-shadow`, no hard offset shadow, no glass, no `backdrop-filter`, no decorative gradient. If something needs to come forward, it changes tone or gains a hairline.
+**The Flat-Material Rule.** Surfaces never lift. No `box-shadow`, no `filter: drop-shadow`, no hard offset shadow, no glass, no `backdrop-filter`. If something needs to come forward, it changes tone or gains a hairline.
+
+**No decorative gradient — with exactly one exception, and it is scoped.** The three case panels carry a two-stop tonal gradient, authorised by the owner on 2026-11-06. It qualifies because it is not decoration: it is one hue lit from one side, which is what a 1328 × 462 flat field needs in order to read as a surface rather than as a swatch, and its mean lightness is identical to the solid it replaced. **A gradient that introduces a second hue, rotates hue along the ramp, reads as a mesh or a glow, or appears on any other surface is still banned**, and so is gradient text. The soft two-hue mesh is the most reliable tell of a generated page and no brief earns it back.
 
 ## Shapes
 
-Radii are small and functional, chosen so that nothing reads as a rounded card: 2px on the focus ring, 4px on the home case-study art frame, 6px on controls and raised surfaces (primary button, skip link, callout, figure frame, table ends), 8px on prototype screen images, 12px on the 48px competitor app icons (the one place where a radius is imitating an external artifact rather than expressing the system).
+Radii are small and functional, chosen so that nothing reads as a rounded card — with one deliberate exception, the 16px case panel: 2px on the focus ring, 4px on small frames, 6px on controls and raised surfaces (primary button, skip link, callout, figure frame, table ends), 8px on prototype screen images, 12px on the 48px competitor app icons (the one place where a radius is imitating an external artifact rather than expressing the system).
 
-Form language is rectilinear and panel-based. Image and art surfaces are fixed-ratio frames — 16:10 on home case rows, 16:9 on case-study figures — filled by `object-fit: cover` or by the generative field with `preserveAspectRatio="xMidYMid slice"`. Borders are hairlines or nothing; there are no coloured rules, no pills, no circles except the round line caps inside the generative field.
+Form language is rectilinear and panel-based. Image and art surfaces are fixed-ratio frames — 4:3 on the two-up home panels, 1:1 on a phone, 16:9 on case-study figures — filled by `object-fit: cover`. The home’s lead panel takes **no ratio at all**: it holds a composed artifact rather than a cropped photograph, so its content sizes it. Borders are hairlines or nothing; there are no coloured rules, **no pills**, no circles except the round line caps inside the generative field.
 
 ### Named Rules
-**The Small-Radius Rule.** Nothing exceeds 8px except the 48px external app icons. A radius large enough to read as a bubble or a pill is out of the world.
+**The Small-Radius Rule.** Nothing exceeds 8px except the 48px external app icons at 12px, and the three home case panels and the process flow at **16px**. The panel exception was taken on 2026-11-06 together with the light panels: 8px on a 1328×462 field reads as a square with a chipped corner, not as a radius. The process flow joined them on 2026-11-08, by the same argument and at the owner's instruction: its boxes are 574 × 75 and at 8px they read as chipped too, and his reference is rounder than anything else on the site. A radius large enough to read as a bubble or a pill is still out of the world, and no control, tag or small frame may use `--r-3`.
 
 ## Components
 
@@ -340,7 +430,7 @@ Components are tactile and responsive — they answer the pointer in colour and 
 - **Ghost / Secondary:** there is no secondary button. The sibling action is an underlined text link (`.fl-link`): Reading Grey text on a `line-2` hairline underline, 2px below the baseline; on hover the text goes full ink and the hairline turns violet.
 
 ### Cards / Containers
-- **Corner Style:** 4px on the home case art frame; 6px on the callout and the case-study figure frame.
+- **Corner Style:** 16px on the home case panels, 8px on the image crops inside them, 6px on the callout and the case-study figure frame.
 - **Background:** `bg-2` always. Never the page ground, never a tint of the accent.
 - **Shadow Strategy:** none. See Elevation & Depth.
 - **Border:** none; the tone step is the boundary.
@@ -374,13 +464,92 @@ Items are `My work · About · Contact`, and **the words never change between su
 
 In-page jumps are buttons, not fragment links, and this is not negotiable: the app runs on `HashRouter`, so `location.hash` is the route. An `href="#work"` rewrites `#/` to `#work`, the router finds no matching route, and the page empties. The two "Work" triggers call `scrollToSection("work")`, which moves focus to the section (`tabIndex={-1}`) with `preventScroll`, then scrolls — smooth at ~465ms, instant under `prefers-reduced-motion`. Focus moves first so a keyboard visitor's next Tab lands on the first case rather than back at the top; because the target is non-interactive, `:focus-visible` shows the violet ring for keyboard activation and nothing for a mouse click. The ring is inset (`outline-offset: -0.25rem`) so a full-bleed section cannot clip it, and `scroll-margin-top` leaves air above the first row. The cost of this approach is that `#work` is not linkable or openable in a new tab — the price of hash routing, not a detail to fix by restoring an `href`.
 
-### Case Row
-The home work list's unit: a 16:10 art frame (max 19rem wide) beside a stacked title / metric / meta group. The metric line pairs a violet figure in tabular figures with a Reading Grey note; the meta line is 13px Quiet Grey carrying client and discipline. The title is at full `--ink` and is an `<h3>` — see below.
+### Case Panel
+The home work list's unit, rebuilt on **2026-11-06** against a reference the owner pinned. A large panel in the client’s own dark colour carrying the actual work, with the caption beneath it: client at head size in full ink with the arrow, the claim at lead size under it, the keyword line at label size under that. Net4Market runs the full width above Yoga and Electrolux.
 
-The frames hold seeded generative fields as placeholders. They were removed once, for reading as three near-identical textures rather than as three projects, and restored at the owner's request: real mockups are coming and the slot is being held.
+Each panel’s ground is a two-stop tonal gradient in that client’s hue — see *The Case Panels* for the construction and the two measured bounds that fix its range.
+
+**The Net4Market panel is empty.** The owner cleared it on **2026-11-06** and is deciding what belongs in it. The slot keeps its 12:5 ratio (4:3 below 900px) so the space being designed for is the real one, and the caption underneath is unchanged. **The home page must not ship in this state.**
+
+What stood there was a design-system exhibit composed in code from the client’s real three-layer token set — `--color-blue-500` → `--background-brand` → `--button-primary-default-bg`, resolving into a field group and a button, set in Roboto because that is the system’s own face. It is **parked, unreferenced, at `src/components/N4mSystemPanel.tsx`**, still registered in `.impeccable/config.json`. Delete it or bring it back; do not leave it in that state indefinitely. The reasoning that produced it still holds and is worth re-reading before the slot is filled: Net4Market has **no product screenshot in the repo** — `src/assets/n4m/` holds a logo and nothing else — and a design system is the one subject better shown as a system than as a screen.
+
+**Two things died here, and both for the same reason.** The 16:10 art frame measured 304 × 190 at 1440 — 23% of the row, too small to hold a product screen anyone could read, and the same seeded texture three times over, so the slot read as one picture repeated rather than as three projects. Its replacement, a hairline band of title plus outlined keyword chips, the owner read as **corporate** — correctly: a grid of hairline rectangles is enterprise-dashboard furniture, and the page it produced was a changelog, not a portfolio. The panel answers both. The work is at a size worth looking at, and the keywords went back to being a quiet line of text.
+
+**The client is the heading, not the claim.** `Electrolux` does work in a scan that no sentence can, and a recruiter is scanning. The claim sits directly under it at lead size and is the line that earns the click. Both are inside the band, so nothing sits above a heading.
+
+**Why Net4Market leads.** It is the throughline case for the *systems thinker* half of the positioning, and it is the only case study with no product screenshot in the repo. Whatever fills its panel, it keeps the full width above the other two.
+
+**A composed panel wants `aspect-ratio: auto`; an image panel wants a ratio.** While the exhibit stood there the slot let its content size it, because a fixed ratio either starved that content or left a hole — at 12:5 it came out 553px against 480px of content at 1440, and at 1024 the same ratio gave 343px for content needing 450. Empty, it carries 12:5 again to hold its shape. Set it back to `auto` if a composed panel returns.
+
+**The caption takes the width of its panel.** `.fl-claim` carried `max-width: 34ch` and it was wrong: a `ch` measure belongs on prose read in sequence, and this is one line under a heading. At 34ch it broke `When surveys said “yes” but behavior said “no”` at 435px inside a 635px column and sent two words to a second line for nothing. There is no measure on the caption.
+
+**Yoga is one screenshot, centred, with the Electrolux phone’s zoom — and nothing else on it.** The owner replaced a two-crop composition with `yoga-quotation-error.png` on 2026-11-08: the quote screen showing its validation errors, which is the frame the 45→3 minutes was won on. It needs no crop box, and that is the point — the two files it replaced were 896 × 320 presentation renders carrying their own dark navy backdrop, so each had to sit in a box whose aspect ratio *was* the crop, with `object-fit: cover` pinned to the edge worth keeping. This one is the interface edge to edge at 1512 × 982.
+
+**No radius and no border on it either.** Both were carried over from those crops, where a hairline separated one light crop from the one behind it, and the owner cut them the same day: with a single image there is nothing to separate it from. The `--panel-line` token went with them — that border was its only consumer — as did the `.fl-art-yoga` class, which no longer had a rule behind it, and an inert `border-radius` on the Electrolux phone, whose PNG already carries its own transparent rounded corners.
+
+It is sized by **`max-width` and `max-height` together**, both dimensions `auto`, where the phone is sized by a height. The reason is orientation: at 1.54 wide per unit tall this one is **landscape**, so on a 4:3 panel the WIDTH binds — measured at 628 × 471, the 4rem inset box is 500 × 343 and the image fits to 500 × 325. A height would have run it off the sides. Two maxes let the browser take whichever actually binds, and the rule then survives a panel of any proportion.
+
+**On a phone that combination is unkind.** The image panels turn 1:1 below 600px — a decision taken when the Electrolux panel still held three portrait screens — and a landscape image in a square panel, minus a fixed 4rem inset, comes out **214 × 140 inside 342 × 342: about a quarter of the panel**, floating in gradient. It is the fixed-inset problem below, sharpened by the orientation. Giving Yoga a 4:3 panel on phones, or making the inset proportional, each fix it.
+
+**Electrolux is the owner’s own composition**, supplied as a reference image on 2026-11-08 and built to its measurements: the phone upright and centred, the **gold** robot behind it at **315°**, the **blue** robot in front at **−15°**. Those angles are his second pass — 135° and 30° were built first and he read them as the mirror of his reference, so the gold went round another 180° and the blue 45° the other way. DOM order *is* the stacking order — gold, phone, blue — so no `z-index` is needed and none should be added. The phone is `device-widget.png`, and that choice is not arbitrary: it is the home-screen widget, the literal subject of this case study and the thing the research said not to ship. Both robots are transparent PNGs, so the panel’s gradient is their ground.
+
+**One unit governs the whole scene: `--phone`**, the phone’s resting height, which is the panel inset by **4rem** on every side — his 2rem of container padding plus 2rem again. Every other size and travel distance is a multiple of it. That is what makes the scene scale as one object instead of three things that happen to share a stylesheet, and it is why the composition needs no breakpoint override at all, where the Yoga panel needs one.
+
+Robot *positions* are offsets from the panel centre in `--phone` units, not percentages of the panel. Percentages were built first and they break it: the phone is sized by a fixed inset, so robots pinned to panel percentages drift off it as the panel shrinks — overlapping the phone in the reference, clear of it by 40px in ours. Measured off the reference, the offsets are −0.376 / +0.135 for the gold and +0.303 / −0.182 for the blue.
+
+Robot *size* is **0.42 of the phone’s height, the same for both**, and it is a number the owner gave rather than one read off the image: 231.17px wide against a 551px phone. An earlier pass sized them off the reference by eye — 0.26 and 0.33 — and he was right that it came out tiny.
+
+**The fixed inset does not scale, and that is a live trade.** At the reference’s 1632 × 1224 the 4rem inset is 4.5% per side and the phone fills **91%** of the card. On the real cards it is the same 64px against a much smaller box: **73%** at the 628 × 471 desktop card, **63%** at 342 × 342 on a phone, **56%** in the 387 × 290 card at 901px. The scene therefore reads smaller than the reference, and progressively smaller as the card shrinks. This is what he specified in rem, so it is built that way; a proportional inset is a one-line change if the reference proportions matter more than the literal numbers.
+
+**Hover.** The phone grows into half its inset — 4rem of clearance at rest, 2rem hovered — centred, which is the zoom he asked for. It animates `height` and not `scale()`: the factor between the two states is (H−4rem)/(H−8rem), which varies with panel height (1.18 at 476px, 1.30 at 342, 1.38 at 296), and `calc()` cannot divide by a length, so one scale value would be wrong at every size but one. The cost is a layout pass per frame, scoped to this panel by its own size containment. **Each robot turns 15° clockwise and does nothing else** — gold 315° → 330°, blue −15° → 0°. Neither grows; the owner was explicit about the gold and asked on 2026-11-08 that the blue only turn.
+
+**The blue robot used to leave along a curve, and that is gone.** It was built as two nested elements — a wrapper carrying the horizontal travel on a front-loaded ease, the image the vertical on a back-loaded one — because a single `transform` interpolates its translation in a straight line whatever easing it carries. Measured on the built page, that path departed from the straight line between the two states by **24px at 300ms, 32% of the line’s 73.9px**. The owner cut it: it read as the robot fleeing the card rather than answering the pointer. The wrapper went with it and the blue robot is a plain `<img>` again. **If a curved path is ever wanted here or anywhere else, that two-element split is how to get one** — the technique is sound, the application was not.
+
+**`container-type: size` on `.fl-panel-elux` is load-bearing.** `cqh` exists only on a size container, and a size container is legal here only because the panel’s height is fully determined by `aspect-ratio`. Give that panel `aspect-ratio: auto` and size containment collapses it to nothing.
+
+**The panel is the container, never the window.** A panel is full width in one slot and half width in another, so its composition answers to `@container`, not to a media query. The `container-type` lives on `.fl-panel` in `index.css` and **not** on `.n4p`: an element cannot be styled by a query against its own container, and with it on `.n4p` the block silently hid the demo card while leaving the grid at two columns — measured at 390px, two tracks of 138 and 132 where there should have been one.
+
+**The way in is the arrow in the client name.** An earlier build left the row a link with nothing on it that said so — no arrow, no underline, no action — and the only affordance was the sibling dim, which nobody sees until they are already hovering the thing they were meant to discover. The owner named this directly.
+
+**The panels answer the pointer with movement as well as light**, added at the owner’s request on 2026-11-06. On Electrolux the phone lifts `0.75rem` and the robot straightens from −9° to −5° and drifts up and left — it is a machine that moves, so it moves. On Yoga the two crops lift, the front one further than the one behind, which separates them in depth instead of sliding the pair as one sheet. Both are **transform-only**, so neither costs a layout pass.
+
+The owner asked for this on Electrolux alone; Yoga was given the same answer because a list where one panel moves and the other sits still reads as a bug rather than as restraint.
+
+**The Soft-Panel Exception.** The case panels run at **0.55–0.6s**, not the 0.18–0.25s every other state change in this system uses. The owner asked on 2026-11-08 that the card’s lighting and movement be soft rather than instant, and at 0.25s a panel this large snapped. The One Ambitious Moment Rule is untouched — these are still state transitions, not loops — but the cap no longer applies to them and does still apply everywhere else. Where two objects move together they also carry a small stagger, so they read as two things of different mass answering the same pointer rather than one rig moving in lockstep.
+
+**The panels rest at 0.72, not at 1**, and that is the owner’s instruction of 2026-11-06: the three must not all sit lit when nothing is hovered. The list reads as one quiet field with a single bright thing in it rather than three equal claims on the eye. Hovering lifts that panel to **1** and drops the other two to **0.5**, so the lit one reads as *chosen* rather than merely brighter.
+
+**Only the panel dims — never the caption.** The client, the claim and the keyword line are the three things on this page that have to be read, and resting them below full ink would trade a permanent contrast loss for a hover effect. The dim is on `.fl-panel` alone.
+
+`:not(:hover)` in the sibling rule is not optional: `:has()` carries the specificity of its argument, so without it `.fl-list:has(.fl-case:hover) .fl-panel` outranks `.fl-case:hover .fl-panel` and even the hovered panel stays dim. And the selector hangs off `.fl-list:has(…)`, never `.fl-list:hover`, which also fires from the 64px gaps between entries — where nothing is hovered and all three would drop at once.
+
+**The metric line is gone**, removed with the art frame at the owner's instruction, leaving the claim to carry the outcome. This is in tension with Product Principle 2 — *lead with outcomes* — and the tension is the owner's call, not an oversight: the Yoga claim states its own numbers, Net4Market's `600+` and Electrolux's `0` appear inside their case studies, and the impact tables carry all of it. **Do not restore it from a reading of Principle 2 alone.**
 
 ### Figure
 One figure treatment across the reading surface: a 16:9 `bg-2` frame holding either a real lazy-loaded image (`object-fit: cover`, or `contain` when the image must show whole) or the static generative field as a placeholder, plus an optional 13px Quiet Grey caption clamped to the reading measure. Swapping placeholder for real artwork is a one-line change.
+
+### Process Flow
+A stack of steps, each one a box, with what that step was missing on a red chip riding its bottom edge. It exists for the Net4Market case study, where the opening paragraph describes a process whose **shape** is the argument — it runs one way and then it ends — and a shape is hard to hold in a sentence. `ProcessFlow` takes `steps`, an `end` and a `caption`; any case study can reuse it.
+
+**This is the owner's composition, from a reference of his own, and the second attempt at it.** The first was a hairline rail with the gaps filed in a second column and no colour anywhere. It broke no rule in this document and he rejected it twice. Three things his version does that it did not, and all three are the point:
+
+- **Each step is an object with visible edges** — a `bg-2` box at 16px, `0.75rem 1rem` of padding, 51px tall.
+- **The text is centred** (`--t-read`), so the column reads as a stack rather than as a list. The labels are kept **short** for that reason: the longest is 27 characters, 253px of the 302px a box has inside its padding. Measured at 390 / 744 / 1440, none of the eight wraps. Lengthen one and re-check at 390, where the box is 308px.
+- **The problem is pinned TO its step, not filed beside it.** The chip straddles the boundary — `translate(-50%, 50%)` off `bottom: 0`, so it stays centred and stays on the edge however many lines it runs to. That is the device: it belongs to the box it hangs off, and it is what the eye lands on first.
+
+`width: max-content` on the chip is **not optional**. An absolutely positioned box with only `left` set shrinks to fit the space between that edge and its container's right edge, so at `left: 50%` every chip was silently capped at *half* the box: measured on a 390px phone, 146px of an available 260, with three of the four wrapping to two lines for no reason. `max-content` sizes the chip to its text; `max-width: calc(100% - 2rem)` puts the real cap back.
+
+**Small on purpose, and small twice over: `max-width: 24rem`.** At the full content band the boxes are 944px wide with four centred words in them, which is a banner, not a step. The build that followed ran 640px wide with 24px labels and stood **900px tall** — taller than the section it illustrates. The owner called it enormous and it was: a diagram that outweighs its argument has stopped being a diagram. The figure is now **384 × 545** at desktop and **342 × 534** on a 390px phone, and it stays left-aligned with the prose above it rather than centred in a band the text does not use. The cap binds from about 450px up, so the composition is the same at every size and needs **no breakpoint of its own**; at ≤600px the 13px chip steps up to 14px with the rest of the label-size text.
+
+**No caption.** There was one and the owner cut it. The paragraph directly above the figure tells the same process in full, so the caption was restating a restatement, and the list of steps reads on its own for anyone who cannot see the layout.
+
+**The frame is the page ground plus a hairline, not a third neutral.** The boxes inside are the one tone step the system owns, so the container has to be `bg` itself — which is exactly the relationship in the reference, where the container is darker than the rows it holds.
+
+**The closing box is dashed and empty: the step that never existed.** It is the only element that says something the prose does not, and it is a `<p>` outside the `<ol>` — it is not a step, it is the absence of the next one.
+
+**Four of the eight boxes carry no chip, and they are not filler.** Without them the diagram is a list of complaints; with them it is a process that mostly worked, which is why nobody had called it out yet — the sentence the section opens on.
+
+**It is not hidden from assistive technology.** This is a diagram, not decoration: it renders as an ordered list of real sentences, each gap read out immediately after the step it belongs to, which is the same information the boxes and chips give a sighted reader. The dashed closing box carries its own sentence rather than relying on the border to say it.
 
 ### Signature Component: The Segment Field
 The system's signature exists in two forms built from the same geometry, and it is the only imagery the project owns.
@@ -456,10 +625,10 @@ The entire arrival is settled by ~1.7s, inside the load-sequence budget, and not
 
 Two things are non-negotiable for the field to hold 60fps, and both were learned by breaking them. **Segments batch into one `Path2D` per colour and opacity step** (10 steps): stroking each of the ~900 segments individually meant 54,000 draw calls a second and the field visibly stuttered. **Halo gradients are built once per colour and reused**, with the context translated and scaled to size them, rather than calling `createRadialGradient` four times a frame. Distance tests compare squared values and only take a square root inside the influence radius. Measured after these changes: a locked **16.66ms / 60fps**.
 
-**SegmentField** (static sibling): the same field frozen into inline SVG on a 640×400 viewBox, seeded by `mulberry32` so each case study always shows the same composition — step 30, length 16, 1.2px round caps, 8.5% accent rate, per-segment opacity 0.30–0.55, strokes bound to `var(--accent)` / `var(--ink)` rather than literals, so a palette change reaches it for free. Each one is replaced one-for-one when a real mockup lands.
+**SegmentField** (static sibling, used only by `Figure` on the reading surface — the home’s three instances went with the art frame on 2026-11-06): the same field frozen into inline SVG on a 640×400 viewBox, seeded by `mulberry32` so each case study always shows the same composition — step 30, length 16, 1.2px round caps, 8.5% accent rate, per-segment opacity 0.30–0.55, strokes bound to `var(--accent)` / `var(--ink)` rather than literals, so a palette change reaches it for free. Each one is replaced one-for-one when a real mockup lands.
 
 ### Named Rules
-**The One Imagery Family Rule.** All generated imagery in this system comes from the segment field — live in the hero, seeded and static everywhere else. No stock photography, no 3D render, no gradient mesh, no illustration in a second visual language.
+**The One Imagery Family Rule.** All *generated* imagery in this system comes from the segment field — live in the hero, seeded and static in `Figure`. No stock photography, no 3D render, no gradient mesh, no illustration in a second visual language. Real product screenshots are not generated imagery and are the point: since 2026-11-06 they are the home page’s main visual, and the generative field is confined to the hero and to figures still waiting for artwork.
 
 **The Decorative-Is-Hidden Rule.** Every piece of generated or decorative imagery carries `aria-hidden="true"` and `role="presentation"`, and its meaning is stated in adjacent copy.
 
@@ -474,7 +643,17 @@ Two things are non-negotiable for the field to hold 60fps, and both were learned
 - **Do** set numbers that are the proof in tabular figures and the accent — never in a second family.
 - **Do** separate surfaces with the single tone step (`bg-2`) or a hairline, at `--r` (4px) or `--r-2` (8px) radius — there is no third radius.
 - **Do** keep the accent to roughly a tenth of a screen, with exactly one filled violet action per view. *Per view means per viewport, not per page:* the home carries the filled button twice, in the hero and in `.fl-end`, 2.1 screens apart and never co-visible. The footer one is not optional — the hero offers the action before the visitor has seen any evidence, and the close is the moment after all of it, where it used to be a 58px text link.
-- **Do** place client/discipline metadata *under* the title, in 13px Quiet Grey.
+- **Do** pin a problem to the thing it belongs to rather than filing it alongside: the process-flow chip straddles its step's bottom edge, and that overlap is what makes it read as *that step's* problem. Give it `width: max-content` or `left: 50%` will cap it at half the box.
+- **Do** cap a diagram's width when its content is short. 40rem on the process flow; at the full band the same boxes are banners.
+- **Do** lead a case entry with the client, then the claim, then the keyword line — in that order, all beneath the panel.
+- **Do** give any block that is a link in its entirety a visible way in. A row that is clickable and says nothing about it is a row nobody clicks — see *Case Panel*.
+- **Do** crop a source render with a crop box whose aspect ratio is the region worth showing, plus `object-fit: cover` and `object-position`. Never ship a presentation render with its own backdrop into a panel.
+- **Do** prefer a transparent PNG for an object inside a panel: it takes the panel’s own gradient as its ground and needs no crop at all.
+- **Do** keep a hover movement transform-only where you can, and stagger two objects rather than slowing both.
+- **Do** split a curved path across two elements with two easings — one axis each. A single `transform` interpolates in a straight line whatever easing it carries.
+- **Do** measure a scene in one unit tied to its main subject, so it scales as one object and needs no breakpoint override.
+- **Do** carry the centring `translateX(-50%)` into every hover state of a centred object, or it jumps half its own width on the first hover.
+- **Do** let a panel’s contents respond to `@container` on `.fl-panel`, not to the viewport — the same panel is full width in one slot and half width in another.
 - **Do** build page structure as rows, lists and bleeds, and keep the hero artwork inside the page gutter — it is dissolved by its mask, not boxed by its edges.
 - **Do** write every fluid step as `clamp(min, rem + vw, max)`. The `rem` term is the floor, the `vw` term is the growth, and the pair is solved through two real widths. See The Anchored Clamp Rule.
 - **Do** keep the breakpoint block at the end of `src/index.css`. It wins on source order alone, and a rule moved above the component it overrides stops working without any visible error.
@@ -493,8 +672,14 @@ Two things are non-negotiable for the field to hold 60fps, and both were learned
 - **Don't** add a second accent colour, a tint ramp off the accent, or a warm counterpart. One voice.
 - **Don't** use `box-shadow`, `drop-shadow`, or any offset shadow for lift — the system has no shadow vocabulary.
 - **Don't** use glass, `backdrop-filter`, or blur of any kind.
-- **Don't** use a gradient as decoration.
+- **Don't** use a gradient anywhere but the three case panels, and only as a two-stop ramp within one hue at L = 0.30 ± 0.045. No second hue, no hue rotation, no mesh, no glow, no gradient text.
 - **Don't** build a grid of equally sized rounded cards as page structure.
+- **Don't** invent a brand colour. Sample it from the client's own screenshots, or use a value from their real token set, and derive the ground by the one rule: keep the hue, set OKLab L to 0.30, hold chroma at 0.085.
+- **Don't** rest the panels at full opacity, and don't extend the dim to the caption text.
+- **Don't** use `--r-3` anywhere but the three case panels, or a `--panel-*` ground anywhere but their surface.
+- **Don't** put outlined chips back on the keyword line. That version was built, and the owner read the result as corporate.
+- **Don't** put a Unicode arrow where an icon belongs. The `→` inside a sentence is text; the one in a case client name is `ArrowIcon`, drawn at a 16 viewBox with a 1.5px stroke.
+- **Don't** write a backtick inside `N4mSystemPanel`'s stylesheet comments. The whole sheet is a template literal and one ends it.
 - **Don't** put an uppercase eyebrow, kicker, or pretitle above any heading.
 - **Don't** write a literal colour value in a component, inline style, or canvas call.
 - **Don't** interpolate a size between the steps of a ramp. Two ramps exist, one per mode, and neither is a licence to invent a third value inside the other.

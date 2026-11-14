@@ -26,7 +26,17 @@
     <meta name="twitter:description" content="Product designer bridging users, business and engineering. Computer-science background; design systems through developer handoff. 600+ files to one source of truth; 45 minutes to 3." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&display=swap" rel="stylesheet">
+    <!-- Schibsted Grotesk serves the v1 pages until they migrate; Doto and
+         Atkinson Hyperlegible Next are the v2 foundations (DESIGN.next.md). -->
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&family=Doto:ROND,wght@0..100,100..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <!-- Apply a saved theme before first paint, so a reload never flashes the
+         other one. Mirrors src/lib/theme.ts — keep the key in sync. -->
+    <script>
+      try {
+        var t = localStorage.getItem("fl-theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
