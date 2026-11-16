@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import CaseLayout from "../components/CaseLayout";
-import ProcessFlow from "../components/ProcessFlow";
 
 /* The process half of the Net4Market work, split from /n4m on 2026-11-14.
    Every claim here was confirmed by the owner that day: he raised the problem
@@ -43,24 +42,6 @@ export default function N4mProcess() {
           what was released with what had been designed.
         </p>
 
-        {/* The paragraph above tells the process; this draws it, because its
-            shape is the argument. The four unflagged steps are not filler:
-            without them the diagram would be a list of complaints, and with
-            them it is a process that mostly worked, which is why nobody had
-            raised it. */}
-        <ProcessFlow
-          steps={[
-            { step: "Pick up a task", gap: "No map of the 600+ files" },
-            { step: "Create a file" },
-            { step: "Design the screens" },
-            { step: "Put together a presentation" },
-            { step: "Leave it for review", gap: "Never presented" },
-            { step: "Iterate in writing" },
-            { step: "Hand it off to developers", gap: "Screens, not decisions" },
-          ]}
-          end={{ step: "Then stop.", gap: "No one checked what shipped" }}
-        />
-
         <p>
           Every task had its own file, and there were more than 600 of them. Starting a new one
           meant remembering which earlier tasks had touched the same part of the interface, then
@@ -99,18 +80,19 @@ export default function N4mProcess() {
           differs from the design. In the old process those differences went unnoticed and piled up
           from one task to the next.
         </p>
-
-        <ProcessFlow
-          steps={[
-            { step: "Pick up a task" },
-            { step: "Start from the current version" },
-            { step: "Design the screens" },
-            { step: "Present it to the team" },
-            { step: "Iterate on the feedback" },
-            { step: "Hand it off to developers" },
-            { step: "Review the build before release" },
-          ]}
-        />
+        <p>The review covers three things:</p>
+        <ul className="fl-ul">
+          <li>
+            <strong>The feature.</strong> Together with QA, we check that it is implemented the way
+            it was designed.
+          </li>
+          <li>
+            <strong>The tokens.</strong> We check whether the build actually uses the new tokens.
+          </li>
+          <li>
+            <strong>Accessibility.</strong> We check it on the build, not only on the design.
+          </li>
+        </ul>
       </section>
 
       <section data-reveal>

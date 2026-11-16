@@ -1,4 +1,5 @@
-/* Theme state for the v2 foundations.
+/* Theme state. The store that the interface reads is prefs.ts; this file
+   holds the reading, writing and resolving of the theme itself.
    "system" is the absence of a choice: no attribute on <html>, and the CSS
    follows prefers-color-scheme. An explicit choice sets data-theme and is
    remembered. The inline script in index.html applies the saved value before

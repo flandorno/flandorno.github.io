@@ -1,0 +1,397 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   The mosaic — the layout, built on the tokens in tokens.css.
+   Two kinds of object on a black ground: tiles, which are surfaces, and
+   screens, which are the ground itself carrying dot-matrix text. Screens sit
+   below tiles, so a tile can slide across one.
+
+   The grid engine (src/grid/useGrid.ts) writes --mx-cols and --mx-cell on
+   .mx. Placement is inline grid-column / grid-row from each scene's data.
+   Spec: DESIGN.md. Spacing is held to the scale by audit:spacing.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.mx {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  color-scheme: var(--scheme);
+  background: var(--color-ground);
+  color: var(--color-on-ground);
+  font-family: var(--font-text);
+
+  /* Doto is monospace, 0.6em a character, so what fits a tile is arithmetic.
+     The viewport-based sizes in tokens.css are right when cells are about an
+     eighth of the viewport; when the grid has more or narrower columns the
+     type has to follow the cell instead. --mx-cw is the cell width in px.
+     Display: "Federico Landorno" (17) on one line in four cells.
+     Label: "RESPONSIVENESS" (14, caps) in two cells, "3-LAYER" (7) in one.
+
+     The fit keeps the padding clear; the floor keeps Doto readable. Doto is
+     never under 1.125rem (DESIGN.md › Type), so where the fit would go below
+     that the word takes a little of the tile's padding instead — down to the
+     size at which it would touch the tile's edges, which only a visitor with
+     a much enlarged text size reaches. */
+  /* On the narrowest eight-column grids one cell cannot hold "3-LAYER" at the
+     floor and the full padding, and the word would break at its hyphen. The
+     padding gives way first: 5.0625rem is 4.5 × the 1.125rem floor. */
+  --mx-pad-base: var(--block-pad-sm);
+  --mx-pad: min(var(--mx-pad-base), max(var(--space-1), calc((var(--mx-cw) * 1px - 5.0625rem) / 2)));
+  --mx-display: min(var(--type-display), calc((var(--mx-cw) * 4px - 2.25rem) / 10.4));
+  --mx-label-floor: min(1.125rem, calc(var(--mx-cw) * 1px / 4.4));
+  --mx-label: max(
+    var(--mx-label-floor),
+    min(
+      var(--type-label),
+      calc((var(--mx-cw) * 2px - 2 * var(--mx-pad)) / 8.9),
+      calc((var(--mx-cw) * 1px - 2 * var(--mx-pad)) / 4.5)
+    )
+  );
+}
+/* The phone has no one-cell labels, and the longest word it sets in two cells
+   is ten characters ("NET4MARKET", "ELECTROLUX"). */
+.mx[data-layout="l4"] {
+  --mx-pad: var(--mx-pad-base);
+  --mx-label-floor: min(1.125rem, calc(var(--mx-cw) * 2px / 6.3));
+  --mx-label: max(var(--mx-label-floor), min(var(--type-label), calc((var(--mx-cw) * 2px - 2 * var(--mx-pad)) / 6.3)));
+}
+.mx[data-compact] { --mx-pad-base: var(--space-2); }
+/* Stage: the home page is exactly one viewport and never scrolls. */
+.mx[data-mode="stage"] { height: 100svh; overflow: hidden; }
+
+/* ── The ground and its charge waves ─────────────────────────────────────── */
+.mx-ground { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+/* At rest each layer is clipped to nothing; a wave opens it as a circle from
+   the battery tile (GroundFx). */
+.mx-charge { position: absolute; inset: 0; clip-path: circle(0 at 100% 100%); }
+.mx-charge-1 { background: var(--charge-red); }
+.mx-charge-2 { background: var(--charge-orange); }
+.mx-charge-3 { background: var(--charge-yellow); }
+.mx-charge-4 { background: var(--charge-green); }
+
+/* ── Grid ────────────────────────────────────────────────────────────────── */
+.mx-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--mx-cols), minmax(0, 1fr));
+  grid-auto-rows: var(--mx-cell);
+  gap: var(--grid-gap);
+}
+.mx-grid :where(h1, h2, h3, p) { margin: 0; font-size: inherit; font-weight: inherit; letter-spacing: 0; color: inherit; }
+
+.mx-scene { padding: 0 var(--grid-gap) var(--grid-gap); }
+
+/* ── The fixed row ───────────────────────────────────────────────────────── */
+.mx-head {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: var(--grid-gap);
+  background: var(--color-ground);
+}
+/* On the stage nothing scrolls under it, and the charge waves have to show
+   through its gaps too. */
+.mx[data-mode="stage"] .mx-head { background: transparent; }
+.mx-head-home  { grid-column: 1; }
+.mx-head-cases { grid-column: 2 / span 2; }
+.mx-head-about { grid-column: 4; }
+.mx-head-fill  { grid-column: 5 / -2; }
+.mx-head-theme { grid-column: -2 / -1; }
+/* Phone: four tracks sized for what they hold, so the two words fit at the
+   label's floor down to 320px: icon, "CASE STUDIES", "ABOUT", icon. */
+.mx[data-layout="l4"] .mx-head .mx-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 4fr) minmax(0, 3fr) minmax(0, 2fr); }
+.mx[data-layout="l4"] .mx-head-cases { grid-column: 2; }
+.mx[data-layout="l4"] .mx-head-about { grid-column: 3; }
+.mx[data-layout="l4"] .mx-head .mx-tile { padding: var(--space-2); }
+.mx[data-layout="l4"] .mx-head-fill { display: none; }
+
+/* ── Tile ────────────────────────────────────────────────────────────────── */
+.mx-tile {
+  --tile-hover: var(--color-tone-1);
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  margin: 0;
+  padding: var(--mx-pad);
+  border: 0;
+  border-radius: var(--radius-block);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--stack-sm);
+  text-align: center;
+  overflow: hidden;
+}
+.mx-col { flex-direction: column; gap: var(--stack-xs); }
+
+.mx-tone-1 { background: var(--color-tone-1); --tile-hover: var(--color-tone-2); }
+.mx-tone-2 { background: var(--color-tone-2); --tile-hover: var(--color-tone-1); }
+.mx-tone-3 { background: var(--color-tone-3); }
+.mx-tone-4 { background: var(--color-tone-4); }
+.mx-accent { background: var(--color-accent); color: var(--color-on-accent); --tile-hover: var(--color-accent-hover); }
+
+/* A tile that is a control: the whole tile is the target. Its focus ring is
+   drawn inside, in its own text colour — outside it would land on the black
+   gap, where a black ring disappears. */
+:is(a, button).mx-tile { cursor: pointer; transition: background-color 0.18s; }
+:is(a, button).mx-tile:hover { background: var(--tile-hover); }
+:is(a, button).mx-tile:focus-visible,
+/* A heading tile that was handed focus (skip link, change of page). */
+.mx-tile[tabindex="-1"]:focus-visible { outline: 2px solid currentColor; outline-offset: -0.5rem; }
+.mx-accent:is(a, button):active { background: var(--color-accent-active); }
+.mx-tile[aria-disabled="true"] { cursor: default; }
+.mx-tile[aria-disabled="true"]:hover { background: var(--color-surface); }
+
+/* ── Screen ──────────────────────────────────────────────────────────────── */
+.mx-screen {
+  position: relative;
+  z-index: 0;
+  min-width: 0;
+  padding: var(--block-pad-md);
+  color: var(--color-on-ground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.mx-word { display: inline-block; white-space: nowrap; }
+.mx-ch-accent { color: var(--color-accent); }
+.mx-sector-later { display: none; }
+
+/* ── Type roles (DESIGN.md › Type) ──────────────────────────────────── */
+.mx-display, .mx-title, .mx-label { font-family: var(--font-display); letter-spacing: 0; text-wrap: balance; }
+.mx-grid .mx-display { font-size: var(--mx-display); font-weight: 800; line-height: 1.2; }
+.mx-grid .mx-title   { font-size: var(--type-title);   font-weight: 700; line-height: 1.2; }
+.mx-grid .mx-label   { font-size: var(--mx-label);   font-weight: 700; line-height: 1.25; }
+.mx-grid .mx-caps    { text-transform: uppercase; letter-spacing: 0.02em; }
+
+/* ── Controls inside tiles ───────────────────────────────────────────────── */
+/* Sized in rem, held to the tile: with a larger text size the icon grows
+   until the tile is full, then stops instead of being cut off. */
+.mx-icon { width: 3rem; height: 3rem; max-width: 100%; max-height: 100%; flex: none; }
+.mx-icon-lg { width: 4rem; height: 4rem; }
+.mx-icon-battery { width: 4.5rem; height: 3rem; }
+.mx-bar { fill: currentColor; stroke: none; }
+.mx-warn { fill: var(--color-accent); stroke: none; }
+.mx-off-mark { stroke: var(--color-accent); }
+
+/* Switch: the knob's position carries the state as well as the colour,
+   because orange on white is 3.04 — enough for a graphic, not for meaning. */
+.mx-switch {
+  position: relative;
+  flex: none;
+  width: 3.5rem;
+  height: 2rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-control-off);
+  transition: background-color 0.18s;
+}
+.mx-switch::after {
+  content: "";
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[aria-checked="true"] > .mx-switch { background: var(--color-accent); }
+[aria-checked="true"] > .mx-switch::after { transform: translateX(1.5rem); }
+
+/* Language: the active code is full ink and underlined, the other is muted. */
+.mx-lang { display: flex; gap: var(--space-4); color: var(--color-ink-muted); }
+.mx-lang .is-on { color: var(--color-ink); box-shadow: 0 0.25rem 0 var(--color-accent); }
+
+/* Sound: the megaphone above, the speaker grill below. Off, the cross is
+   orange; on, the grill is. */
+.mx-sound { justify-content: space-evenly; }
+.mx-horn {
+  width: 100%;
+  max-width: 10rem;
+  aspect-ratio: 1;
+  border-radius: var(--radius-pill);
+  background: var(--color-tone-1);
+  display: grid;
+  place-items: center;
+  transition: background-color 0.18s;
+}
+.mx-sound:hover .mx-horn { background: var(--color-surface); }
+.mx-horn .mx-icon { width: 60%; height: auto; }
+.mx-grill { width: 100%; max-width: 10rem; aspect-ratio: 1; fill: var(--color-ink); overflow: visible; }
+/* Fixed dots. --d is each dot's distance from the centre, in rings: the
+   delay makes the orange spread outwards. */
+.mx-grill circle { transition: fill 0.12s linear calc(var(--d) * 60ms); }
+[aria-checked="true"] > .mx-grill { fill: var(--color-accent); }
+[aria-checked="true"] > .mx-grill.is-reset { fill: var(--color-ink); }
+.mx-grill.is-reset circle { transition: none; }
+/* While the battery charges, the grill takes the colour of each wave, sound
+   on or off; the same delays spread it from the centre. */
+:root[data-charge="1"] .mx-sound > .mx-grill { fill: var(--charge-red); }
+:root[data-charge="2"] .mx-sound > .mx-grill { fill: var(--charge-orange); }
+:root[data-charge="3"] .mx-sound > .mx-grill { fill: var(--charge-yellow); }
+:root[data-charge="4"] .mx-sound > .mx-grill { fill: var(--charge-green); }
+
+/* ── Animations off ──────────────────────────────────────────────────────── */
+:root[data-motion="off"] .mx *,
+:root[data-motion="off"] .mx *::after { transition: none; }
+
+/* ── The home stage ──────────────────────────────────────────────────────────
+   On the stage all six scenes share one grid area; only one shows, and the
+   others are inert. Off it they are simply stacked. */
+.mx-stage { display: grid; }
+.mx[data-mode="stage"] .mx-stage > .mx-scene { grid-area: 1 / 1; }
+.mx-stage > .mx-scene[inert] { visibility: hidden; }
+.mx-scene { scroll-margin-top: calc(var(--mx-cell) + 2 * var(--grid-gap)); }
+.mx-scene:focus { outline: none; }
+
+/* ── Case scenes ─────────────────────────────────────────────────────────── */
+.mx-start { justify-content: flex-start; text-align: left; padding: var(--block-pad-md); }
+
+/* The counter that opens a case scene: "CASE STUDY" over 1 2 3 4 (Pager in
+   cases.tsx). The tile is not a control; the numbers are. They have no
+   surface of their own: the one loud control of a scene is the orange tile.
+   The number on show is orange and underlined, as the language on show is —
+   the bar is there because the orange and the grey are close in lightness,
+   and colour alone would not say which one is current. */
+.mx-pager { flex-direction: column; gap: var(--stack-xs); }
+.mx-pager-list { list-style: none; margin: 0; padding: 0; display: flex; width: 100%; max-width: 14rem; }
+.mx-pager-list li { flex: 1 1 0; min-width: 0; display: flex; }
+.mx-pager-n {
+  flex: 1;
+  min-height: var(--target-min);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-control);
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.mx-pager-n:hover { color: var(--color-ink); }
+.mx-pager-n[aria-current] { color: var(--color-accent-text); cursor: default; }
+.mx-pager-n[aria-current] span { box-shadow: 0 0.25rem 0 var(--color-accent); }
+.mx-pager-n:focus-visible { outline: 2px solid var(--color-focus); outline-offset: -0.25rem; }
+a.mx-screen { text-decoration: none; }
+/* "Read more" and the orange tile beside it are one control in two parts:
+   pointing at either lights both. */
+a.mx-screen { transition: color 0.18s; }
+a.mx-screen:hover,
+a.mx-screen:has(+ .mx-go:is(:hover, :focus-visible)) { color: var(--color-accent); }
+a.mx-screen:hover + .mx-go { background: var(--color-accent-hover); }
+a.mx-screen:active + .mx-go { background: var(--color-accent-active); }
+.mx-go { color: var(--color-on-accent-mark); }
+.mx-up .mx-icon { transform: rotate(-90deg); }
+
+/* A product screenshot shown on a screen. */
+.mx-shot img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-block);
+}
+
+/* Electrolux: phone upright in the middle, a robot either side of its foot. */
+.mx-elux { overflow: hidden; }
+.mx-elux img { position: absolute; height: auto; }
+.mx-elux-phone { height: 84%; width: auto; left: 50%; top: 8%; transform: translateX(-50%); }
+.mx-elux .mx-elux-phone { height: 84%; width: auto; }
+.mx-elux-gold { width: 34%; left: 12%; bottom: 10%; }
+.mx-elux-blue { width: 38%; right: 10%; bottom: 4%; }
+
+/* Net4Market exhibits, drawn with this site's own tokens. The checkbox and
+   the switch work (see Demo in cases.tsx); the four button states are a
+   picture of states, not buttons. */
+.mx-demo-check {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--color-control-off);
+  border-radius: var(--radius-control);
+  transition: background-color 0.18s, border-color 0.18s;
+}
+/* The tick: black on orange, drawn with two borders. */
+.mx-demo-check::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 0.5rem;
+  height: 1rem;
+  border: solid var(--color-on-accent);
+  border-width: 0 3px 3px 0;
+  transform: translate(-50%, -50%) rotate(45deg) scale(0);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[aria-checked="true"] > .mx-demo-check { background: var(--color-accent); border-color: var(--color-accent); }
+[aria-checked="true"] > .mx-demo-check::after { transform: translate(-50%, -50%) rotate(45deg) scale(1); }
+.mx-demo-states { justify-content: center; gap: var(--space-4); }
+.mx-demo-btn {
+  width: 100%;
+  min-height: var(--target-min);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-control);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font: 500 var(--type-ui)/1.4 var(--font-text);
+}
+.mx-demo-btn.is-hover { background: var(--color-accent-hover); }
+.mx-demo-btn.is-disabled { background: var(--color-disabled); color: var(--color-on-disabled); }
+.mx-demo-btn.is-focus { outline: 2px solid var(--color-focus); outline-offset: 0.25rem; }
+/* A short stage: four 44px states and their gaps do not fit two rows. */
+@media (max-height: 42rem) {
+  .mx-demo-states { gap: var(--space-2); }
+}
+
+/* Sixty files, one of them current. */
+.mx-demo-files {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  align-content: center;
+  gap: var(--space-2);
+  padding: var(--block-pad-md);
+}
+.mx-demo-files span { aspect-ratio: 3 / 4; border-radius: var(--radius-control); background: var(--color-tone-2); }
+.mx-demo-files .is-current { background: var(--color-accent); }
+
+/* "Next section": off-screen until it takes focus. */
+.mx-next {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-4);
+  z-index: 30;
+  transform: translate(-50%, 200%);
+  min-height: var(--target-min);
+  padding: var(--space-3) var(--space-6);
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font: 500 var(--type-ui)/1.4 var(--font-text);
+  cursor: pointer;
+}
+.mx-next:focus-visible { transform: translate(-50%, 0); outline: 2px solid var(--color-on-ground); outline-offset: 0.25rem; }
+
+/* ── Compact: eight columns on a narrow screen ───────────────────────────────
+   Cells are around 90px. Everything scales with the type ramp except these. */
+.mx[data-compact] .mx-icon { width: 2rem; height: 2rem; }
+.mx[data-compact] .mx-icon-battery { width: 3rem; height: 2rem; }
+.mx[data-compact] .mx-screen { padding: var(--space-3); }
+.mx[data-compact] .mx-reading { padding: var(--block-pad-lg); }
+.mx[data-compact] .mx-anim { flex-direction: column; gap: var(--space-2); }
+/* Four button states do not fit a 90px tile: show two. */
+.mx[data-compact] .mx-demo-states { gap: var(--space-2); }
+.mx[data-compact] .mx-demo-btn:nth-child(n + 3) { display: none; }
+.mx[data-compact] .mx-demo-btn { font-size: var(--type-small); }
+.mx[data-compact] .mx-demo-files { gap: var(--space-1); padding: var(--space-3); }
+
+/* ── Phone ───────────────────────────────────────────────────────────────── */
+.mx[data-layout="l4"] .mx-icon { width: 2.5rem; height: 2.5rem; }
+.mx[data-layout="l4"] .mx-screen { padding: var(--space-4); }
+.mx[data-layout="l4"] .mx-start { padding: var(--block-pad-sm); }
+/* The counter is a band across the phone: the words, then the numbers. */
+.mx[data-layout="l4"] .mx-pager { flex-direction: row; justify-content: space-between; }
+.mx[data-layout="l4"] .mx-pager-list { width: auto; flex: 0 1 11rem; }

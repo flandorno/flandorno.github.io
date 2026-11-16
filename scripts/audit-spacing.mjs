@@ -2,19 +2,15 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    The Spacing Grid Rule — enforcement.
 
-   Every length in this project is rem on an 8px grid, with 0.25rem (4px) as
-   the only half-step. See DESIGN.md › Layout › "The Spacing Grid Rule".
-
-   This script reads the rule's three sources of truth:
-     · src/index.css        — the whole design system, home and reading surfaces
-     · src/pages/*.tsx      — must carry no spacing of their own
-     · src/components/*.tsx — same, plus FormComparison's embedded stylesheet
-
-   v2 foundations (src/styles/*.css, DESIGN.next.md) are held to a stricter
-   rule on top: margin, padding and gap may only use the v2 scale — 0.25,
-   0.5, 0.75, 1, 1.5, 2, 2.5, 3, 4, 6rem — or a var() of it. The 4px grid
-   check above still applies to every other length in those files.
-
+   Every length in this project is rem on a 4px grid. See DESIGN.md › Space.
+   This script reads:
+     · src/styles/*.css     — the design system. On top of the grid, margin,
+                              padding and gap may only use the scale — 0.25,
+                              0.5, 0.75, 1, 1.5, 2, 2.5, 3, 4, 6rem — or a
+                              var() of it.
+     · every .tsx in src/   — must carry no spacing of their own, apart from
+                              FormComparison's embedded stylesheet, which is
+                              scanned as CSS.
    Run: npm run audit:spacing      Exits non-zero when the grid is broken.
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -38,6 +34,9 @@ const EXEMPT_SELECTOR = [
   { test: /^\.lg-/,  why: 'FormComparison: legacy form, off-grid values are the evidence' },
   { test: /^\.ds-/,  why: 'FormComparison: real Net4Market tokens, quoted verbatim' },
   /* A toggle knob centres by arithmetic: (16 − 12) ÷ 2 = 2. Not a spacing choice. */
+  /* The visually-hidden helper is 1px by definition. It was Tailwind's until the
+     mosaic rebuild dropped Tailwind; it is now written out in base.css. */
+  { test: /^\.sr-only/, why: 'visually-hidden helper, 1px by definition' },
   { test: /^\.dsx-switch::after/, why: 'switch knob centring arithmetic' },
 ];
 
@@ -219,12 +218,12 @@ const show = (title, list) => {
   }
 };
 
-console.log('The Spacing Grid Rule — rem on an 8px grid, 0.25rem the only half-step');
+console.log('The Spacing Grid Rule — rem on the 4px grid (DESIGN.md › Space)');
 console.log(`scanned: ${walk(SRC).length} files under src/`);
 
 show('off the 4px grid', offGrid);
 show('not in rem', notRem);
-show('spacing declared outside index.css', inPages);
+show('spacing declared outside src/styles', inPages);
 show('v2 margin/padding/gap off the v2 scale', offV2);
 
 if (exempt.length) {

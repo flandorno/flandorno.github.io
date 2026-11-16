@@ -1,15 +1,11 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   Foundations v2 — tokens
-   The mosaic redesign: blocks on a black ground, separated by a 0.25rem gap,
-   one orange, Doto for the voice and Atkinson Hyperlegible Next for reading.
-   Spec: DESIGN.next.md. Contrast is enforced by `npm run audit:contrast`.
+   Tokens
+   The mosaic: tiles on a black ground, separated by a 0.25rem gap, one
+   orange, Doto for the voice and Atkinson Hyperlegible Next for reading.
+   Spec: DESIGN.md. Contrast is enforced by `npm run audit:contrast`.
 
    Three layers: primitives → semantic → component. Components read only the
    semantic layer; no hex value is written anywhere but in this file.
-
-   These names deliberately do not collide with the v1 tokens in index.css
-   (--bg, --ink, --accent, --t-*, --r*), so both systems live side by side
-   until the pages migrate. Nothing outside `.fx` (the specimen) reads them yet.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -17,9 +13,9 @@
      The first seven are sampled from the owner's palette; the rest are
      derived at the greys' own hue (OKLCH h ≈ 255) for the dark theme and for
      text that has to clear AA. Never read these from a component. */
-  --orange-300: #FF864E;
   --orange-500: #FF5F12;   /* the primary */
   --orange-600: #E04E00;
+  --orange-700: #D04900;
   --orange-800: #AA3700;
   --black:      #000000;
   --white:      #FFFFFF;
@@ -33,6 +29,19 @@
   --gray-750:   #383E45;
   --gray-800:   #2A2E34;
   --gray-900:   #1E2226;
+  /* The battery easter egg: four waves across the ground. Used by nothing
+     else. Full but not neon, and in two strengths: next to white tiles the
+     ground can take more colour than next to dark ones. The yellow is kept a
+     real yellow (owner, 2026-11-15): darker it turns brown. White screen
+     text is weak on it for the 0.65s the yellow wave lasts. */
+  --charge-red-light:    #C8372D;
+  --charge-orange-light: #D9661A;
+  --charge-yellow-light: #E6B422;
+  --charge-green-light:  #2E9150;
+  --charge-red-dark:     #9C2B26;
+  --charge-orange-dark:  #A9500F;
+  --charge-yellow-dark:  #C99A14;
+  --charge-green-dark:   #22703D;
 
   /* ── Semantic: light (the default) ──────────────────────────────────────
      The ground is black in BOTH themes: it is the grid's lines, and the
@@ -51,13 +60,22 @@
   --color-tone-4:          var(--gray-400);
   --color-accent:          var(--orange-500);
   --color-on-accent:       var(--black);     /*  6.90 — never white (3.04) */
-  --color-accent-hover:    var(--orange-300);  /* black on it 8.77 */
-  --color-accent-active:   var(--orange-600);  /* black on it 5.26 */
+  --color-on-accent-mark:  var(--white);     /*  3.04 — graphics only (the arrow), never text */
+  --color-accent-hover:    var(--orange-600);  /* darker, not lighter: owner, 2026-11-15 */
+  --color-accent-active:   var(--orange-700);
   --color-accent-text:     var(--orange-800);  /* orange AS TEXT on surface, 6.45 */
   --color-control-off:     var(--gray-400);  /* switch track, checkbox edge: 3.02 on surface */
   --color-disabled:        var(--color-tone-1);
   --color-on-disabled:     var(--color-ink-muted);
   --color-focus:           var(--color-ink);
+  /* "This step was broken": the chips on the process diagrams. The same in
+     both themes; 10.5 between the two. */
+  --charge-red:            var(--charge-red-light);
+  --charge-orange:         var(--charge-orange-light);
+  --charge-yellow:         var(--charge-yellow-light);
+  --charge-green:          var(--charge-green-light);
+  --color-flag:            #651818;
+  --color-on-flag:         #FBD3CF;
 
   /* ── Type ───────────────────────────────────────────────────────────── */
   --font-display: "Doto", ui-monospace, "SF Mono", Menlo, monospace;
@@ -87,7 +105,7 @@
      Hyperlegible Next at 19px averages 8.5px a character (1ch, the zero, is
      12.3px — far wider than the average, which is why `ch` would mislead
      here too). 44rem gave 83 a line; 37rem = 592px gives the 65–75 band.
-     The specimen re-measures it live; re-check if --type-body moves. */
+     Re-measure if --type-body moves. */
   --measure: 37rem;
 
   /* ── Space ──────────────────────────────────────────────────────────────
@@ -112,7 +130,7 @@
   --stack-md:     var(--space-6);
   --stack-lg:     var(--space-12);
 
-  --radius-block:   0.5rem;     /* 8 — compare 6 in the specimen before locking */
+  --radius-block:   0.5rem;     /* 8 */
   --radius-control: 0.25rem;
   --radius-pill:    62.5rem;
   --target-min:     2.75rem;    /* 44px pointer target */
@@ -135,6 +153,10 @@
     --color-tone-4:          var(--gray-500);
     --color-accent-text:     var(--orange-500);  /* 5.26 on the dark surface */
     --color-control-off:     var(--gray-500);
+    --charge-red:            var(--charge-red-dark);
+    --charge-orange:         var(--charge-orange-dark);
+    --charge-yellow:         var(--charge-yellow-dark);
+    --charge-green:          var(--charge-green-dark);
   }
 }
 
@@ -149,4 +171,8 @@
   --color-tone-4:          var(--gray-500);
   --color-accent-text:     var(--orange-500);
   --color-control-off:     var(--gray-500);
+  --charge-red:            var(--charge-red-dark);
+  --charge-orange:         var(--charge-orange-dark);
+  --charge-yellow:         var(--charge-yellow-dark);
+  --charge-green:          var(--charge-green-dark);
 }

@@ -1,30 +1,13 @@
-import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useReveals } from "../lib/useReveals";
-import { BASE_TITLE, pageTitle } from "../lib/title";
-import { LINKEDIN, READCV } from "../lib/contact";
+import CaseLayout from "../components/CaseLayout";
+import { pageTitle } from "../lib/title";
 
-/* No email on the page — see the note in Home.tsx. */
-
+/* No email on the page — see PRODUCT.md. The contact links are the reading
+   layout's own last row. */
 export default function About() {
-  const root = useRef<HTMLDivElement>(null);
-  useReveals(root);
-
-  useEffect(() => {
-    document.title = pageTitle("About");
-    return () => {
-      document.title = BASE_TITLE;
-    };
-  }, []);
-
   return (
-    <div className="fl-read" ref={root}>
-      <header className="fl-read-head">
-        <h1 data-reveal>About</h1>
-        <p className="fl-read-meta" data-reveal data-reveal-delay="80">UX Designer</p>
-      </header>
-
-      <section data-reveal>
+    <CaseLayout title="About" meta="Product Designer" docTitle={pageTitle("About")}>
+      <section>
         {/* No characterisation of how Federico works beyond what PRODUCT.md clears.
             A claim about his practice that he did not write is not his to publish. */}
         <p>
@@ -43,11 +26,6 @@ export default function About() {
           the feature everyone wanted.
         </p>
       </section>
-
-      <footer id="contact" className="fl-read-end" tabIndex={-1}>
-        <a className="fl-link fl-tap" href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn<span className="sr-only"> (opens in a new tab)</span></a>
-        <a className="fl-link fl-tap" href={READCV} target="_blank" rel="noopener noreferrer">Read.cv<span className="sr-only"> (opens in a new tab)</span></a>
-      </footer>
-    </div>
+    </CaseLayout>
   );
 }

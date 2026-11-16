@@ -1,28 +1,24 @@
-import SegmentField from "./SegmentField";
-
 type Props = {
-  /** A real image. When absent, the generative placeholder stands in. */
+  /** The image. Without one the figure is not drawn at all. */
   src?: string;
   alt?: string;
-  /** Seed for the placeholder field, so each one is stable and distinct. */
+  /** Unused since the mosaic rebuild; kept so the case studies need no edit. */
   seed?: number;
   caption?: string;
   /** Lets the image show whole rather than filling the frame. */
   contain?: boolean;
 };
 
-/* One figure treatment for the case studies: a framed surface that holds
- * either a real image or, until the real mockups exist, the same generative
- * field the home page uses. Swapping one for the other is a one-line change. */
-export default function Figure({ src, alt = "", seed = 7, caption, contain }: Props) {
+/* One figure treatment for the case studies. Several figures are placed in
+ * the text ahead of their images (the owner supplies them): until an image is
+ * there the figure renders nothing — an empty frame in a portfolio reads as
+ * unfinished work, which is worse than no figure. */
+export default function Figure({ src, alt = "", caption, contain }: Props) {
+  if (!src) return null;
   return (
-    <figure className="fl-figure" data-reveal>
+    <figure className="fl-figure">
       <div className="fl-figure-frame">
-        {src ? (
-          <img src={src} alt={alt} loading="lazy" decoding="async" style={contain ? { objectFit: "contain" } : undefined} />
-        ) : (
-          <SegmentField seed={seed} />
-        )}
+        <img src={src} alt={alt} loading="lazy" decoding="async" className={contain ? "is-contain" : undefined} />
       </div>
       {caption ? <figcaption>{caption}</figcaption> : null}
     </figure>

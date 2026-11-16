@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* ═══════════════════════════════════════════════════════════════════════════
-   Contrast audit — v2 foundations.
+   Contrast audit.
 
    Reads src/styles/tokens.css, resolves every semantic colour token for the
    light and the dark theme, and checks a declared table of pairs against
@@ -128,7 +128,7 @@ const PAIRS = [
 ];
 
 let failed = 0;
-console.log('Contrast audit — v2 foundations (src/styles/tokens.css)');
+console.log('Contrast audit (src/styles/tokens.css)');
 
 for (const [theme, map] of Object.entries(THEMES)) {
   console.log(`\n${theme}`);

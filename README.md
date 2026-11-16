@@ -18,9 +18,8 @@ reason two files exist that a portfolio normally would not have:
   things that must never be invented: no testimonials, no stated seniority, no
   employer claim, no fabricated bio. Every content decision is checked against it.
 - **[DESIGN.md](DESIGN.md)** — the design system as built, not as intended. Tokens,
-  the two type ramps, the spacing grid, the motion budget, and a set of named
-  rules with the reasoning behind each one, including the ones that were learned
-  by getting them wrong first.
+  the grid engine, the two kinds of object, the scene transition and the reading
+  layout, with the reasoning behind each rule.
 
 Both are written for the next person to open this repo, which is usually a
 future version of me. They are the reason the system held together across a full
@@ -30,11 +29,11 @@ redesign instead of drifting.
 
 | | |
 |---|---|
-| **Spacing** | Every length is `rem` on an 8px grid, `0.25rem` the only half-step. Enforced by `npm run audit:spacing`, which fails the build on a violation. |
-| **Type** | Two ramps, one per surface mode — the home is scanned, a case study is read — and nothing between their steps. |
-| **Colour** | One accent. One tone step for surfaces. No shadow vocabulary anywhere. |
-| **Motion** | Exactly one continuously animating element, the hero canvas, measured at a locked 60fps. Everything else is a one-shot reveal under 0.25s. |
-| **Accessibility** | Keyboard-operable, visible focus, real heading outline, `prefers-reduced-motion` honoured by drawing one static frame rather than by stopping mid-animation. |
+| **Spacing** | Every length is `rem` on a 4px grid; margin, padding and gap use one ten-step scale. Enforced by `npm run audit:spacing`. |
+| **Type** | Doto, a dot-matrix face, for names, claims and labels; Atkinson Hyperlegible Next for anything read in sequence. Doto is sized by what fits a tile, which is arithmetic because it is monospace. |
+| **Colour** | Three token layers, one orange, a black ground in both themes. Every text and control pairing is checked by `npm run audit:contrast`. |
+| **Motion** | The home page moves one scene per gesture, with tiles that can never overlap by construction. One switch, and the system setting, turn all of it off. |
+| **Accessibility** | Keyboard-operable, visible focus, real heading outline, scenes that are not showing are inert, and the page works as a plain scroll with animations off. |
 
 ## Running it
 
@@ -44,6 +43,7 @@ npm run dev              # http://localhost:5173
 npm run build            # tsc -b && vite build
 npm run lint
 npm run audit:spacing    # the spacing grid, checked across every .css and .tsx
+npm run audit:contrast   # every colour pairing, in both themes
 npm run deploy           # build + publish dist/ to gh-pages
 ```
 
@@ -51,17 +51,25 @@ npm run deploy           # build + publish dist/ to gh-pages
 
 ```
 src/
-  pages/        one file per surface — home and three case studies
-  components/   FieldCanvas (the hero's generative field), CaseLayout, Figure,
-                Callout, SegmentField (its static sibling), FormComparison
-  lib/          reveals, in-page scrolling, the document title
+  grid/         the grid engine (useGrid), Scene, the row-fitting tile (Fit),
+                screen text and the icons
+  home/         the six scenes of the home page and the landing's controls
+  pages/        Home, About and the four case studies; pages/it/ holds the
+                Italian drafts
+  components/   the fixed row (Header), CaseLayout, GroundFx, Figure, Callout,
+                ProcessFlow, FormComparison
+  i18n/         interface strings, English and Italian
+  lib/          preferences, battery, sound, theme, contact, document title
+  styles/       tokens.css, base.css, mosaic.css, reading.css
 scripts/
-  audit-spacing.mjs   the spacing grid's enforcement, with its exemptions and
-                      the reason for each one written into the file
+  audit-spacing.mjs    the spacing grid's enforcement, with its exemptions and
+                       the reason for each one written into the file
+  audit-contrast.mjs   every colour pairing, in both themes
 ```
 
 ## Case studies
 
-- **Net4Market** — 600+ disconnected files consolidated into one source of truth
+- **Net4Market, design system** — from a UI kit to a shared language
+- **Net4Market, design process** — 600+ disconnected files consolidated into one source of truth
 - **Yoga** — issuing an insurance policy, from 45 minutes to 3
 - **Electrolux** — research that argued against shipping the feature everyone wanted

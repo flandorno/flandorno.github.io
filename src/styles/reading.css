@@ -1,0 +1,151 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Reading — case studies and About.
+   The text runs down the middle of the mosaic, one tile per section, set in
+   Atkinson Hyperlegible Next at the measure (DESIGN.md › Type).
+   The case-study files keep their `fl-*` class names from before the
+   rebuild; this file is what those names mean now.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.mx-read { grid-auto-flow: row dense; }
+
+/* The rails either side of the text: a strip of the same grid. */
+.mx-rail { display: grid; grid-auto-rows: var(--mx-cell); gap: var(--grid-gap); min-width: 0; }
+/* One cell cut into four. */
+.mx-quad { display: grid; grid-template: 1fr 1fr / 1fr 1fr; gap: var(--grid-gap); min-width: 0; }
+.mx-quad > .mx-tile { padding: 0; }
+
+.mx-read-title, .mx-read-meta { padding: var(--block-pad-md); }
+.mx-read-next { justify-content: flex-start; text-align: left; }
+
+/* ── The reading tile ────────────────────────────────────────────────────── */
+.mx-reading {
+  /* FormComparison's own chrome still asks for these three names. */
+  --ink: var(--color-ink);
+  --ink-muted: var(--color-ink-muted);
+  --ink-faint: var(--color-ink-muted);
+
+  display: block;
+  padding: var(--block-pad-lg);
+  text-align: left;
+  font-size: var(--type-body);
+  line-height: 1.65;
+  overflow: visible;
+}
+.mx-reading .mx-fit > * { max-width: var(--measure); margin-inline: auto; }
+.mx-reading .mx-fit > section > * { max-width: var(--measure); margin-inline: auto; }
+.mx-reading .mx-fit > section { max-width: none; }
+
+.mx-reading h2 {
+  margin: 0;
+  font-size: var(--type-h2);
+  font-weight: 600;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.mx-reading h3 {
+  margin: var(--space-8) auto 0;
+  font-size: var(--type-h3);
+  font-weight: 600;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.mx-reading p { margin: var(--space-4) auto 0; font-size: var(--type-body); text-wrap: pretty; }
+.mx-reading section > p:first-child { margin-top: 0; }
+.mx-reading strong { font-weight: 700; }
+
+.fl-ol, .fl-ul { margin: var(--space-4) auto 0; padding: 0 0 0 var(--space-6); display: grid; gap: var(--space-2); }
+.fl-ol { list-style: decimal; }
+.fl-ul { list-style: disc; }
+
+/* A link in running text. Orange as text on a surface is accent-text. */
+.fl-inline { color: var(--color-accent-text); text-decoration: underline; text-underline-offset: 0.25rem; }
+.fl-inline:hover { color: var(--color-ink); }
+.mx-reading :focus-visible { outline: 2px solid var(--color-focus); outline-offset: 0.25rem; }
+
+/* ── Facts: role, team, period, outcome ──────────────────────────────────
+   A row of tiles on the page's own columns (Facts in CaseLayout). The row is
+   one item of the page grid, as many whole rows tall as its text needs; inside
+   it the tiles share that height. */
+.mx-facts { margin: 0; grid-auto-rows: minmax(0, 1fr); }
+/* One under the other: each as tall as its own text. */
+.mx-facts[data-stack] { grid-auto-rows: auto; }
+.mx-fact { display: block; padding: var(--block-pad-md); text-align: left; }
+/* The mosaic's label, held to 1.5rem so it names the sentence under it
+   without outweighing it. Full ink: Doto's dots read fainter than their ratio. */
+.mx-fact dt {
+  font: 700 min(var(--mx-label), 1.5rem)/1.25 var(--font-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.mx-fact dd {
+  margin: var(--stack-xs) 0 0;
+  font: 500 var(--type-h3)/1.35 var(--font-text);
+  text-wrap: pretty;
+}
+
+/* ── Callout ─────────────────────────────────────────────────────────────── */
+.fl-callout {
+  margin: var(--space-6) auto 0;
+  padding: var(--space-6);
+  border-radius: var(--radius-block);
+  background: var(--color-tone-1);
+}
+.fl-callout > :first-child { margin-top: 0; }
+
+/* ── Figures ─────────────────────────────────────────────────────────────── */
+.fl-figure { margin: var(--space-6) auto 0; }
+.mx-fit > .fl-figure { margin-top: 0; }
+.fl-figure-frame { border-radius: var(--radius-block); overflow: hidden; background: var(--color-tone-1); }
+.fl-figure-frame img { width: 100%; height: auto; }
+.fl-figure-frame img.is-contain { object-fit: contain; }
+.fl-figure figcaption { margin-top: var(--space-2); font-size: var(--type-small); color: var(--color-ink-muted); }
+
+/* ── Tables ──────────────────────────────────────────────────────────────── */
+.fl-table-wrap { margin: var(--space-6) auto 0; overflow-x: auto; }
+.fl-table-wrap table { width: 100%; border-collapse: collapse; font-size: var(--type-ui); line-height: 1.4; font-variant-numeric: tabular-nums; }
+.fl-table-wrap th, .fl-table-wrap td { padding: var(--space-3) var(--space-4) var(--space-3) 0; text-align: left; vertical-align: top; border-bottom: 1px solid var(--color-tone-2); }
+.fl-table-wrap thead th { font-size: var(--type-small); font-weight: 600; color: var(--color-ink-muted); border-bottom-color: var(--color-tone-4); }
+.fl-table-wrap tbody th { font-weight: 600; }
+
+/* A wide exhibit takes the whole tile, not just the measure. */
+.mx-reading .fl-bleed { max-width: none; margin-top: var(--space-6); }
+
+/* ── Process diagram (ProcessFlow) ───────────────────────────────────────── */
+.fl-flow { margin: var(--space-6) auto 0; }
+.fl-flow-panel { max-width: 24rem; padding: var(--space-4); border-radius: var(--radius-block); background: var(--color-tone-1); }
+.fl-flow-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+.fl-flow-step, .fl-flow-end {
+  position: relative;
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  text-align: center;
+}
+.mx-reading .fl-flow-end { margin-top: var(--space-2); background: none; border: 1px dashed var(--color-control-off); }
+.fl-flow-label { display: block; font-size: var(--type-ui); font-weight: 500; line-height: 1.4; }
+/* The chip rides the bottom edge of the step that was broken. */
+.fl-flow-gap {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  width: max-content;
+  max-width: calc(100% - 1rem);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--color-flag);
+  color: var(--color-on-flag);
+  font-size: var(--type-small);
+  line-height: 1.4;
+}
+.fl-flow-step:has(.fl-flow-gap) { margin-bottom: var(--space-4); }
+
+/* ── Electrolux: competitor icons and prototype screens ──────────────────── */
+.fl-icon-grid { list-style: none; margin: var(--space-6) auto 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.fl-app-icon { width: 3rem; height: 3rem; border-radius: 0.75rem; background: center / cover no-repeat; }
+.fl-screens { list-style: none; margin: var(--space-6) auto 0; padding: 0; display: flex; gap: var(--space-2); align-items: flex-end; }
+.fl-screens li { flex: 1; min-width: 0; }
+.fl-screens img { width: 100%; height: auto; border-radius: var(--radius-block); }
+
+.mx-fit { display: block; }

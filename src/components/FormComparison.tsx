@@ -512,6 +512,8 @@ const CSS = `
     font-size: 12px; color: var(--ink-muted); cursor: pointer;
     user-select: none; white-space: nowrap;
     border-radius: var(--r1);
+    /* A 24px target (WCAG 2.5.8): the switch alone is 16px tall. */
+    min-height: var(--s5);
   }
   .dsx-ctrl:focus-visible { outline: 2px solid var(--signal); outline-offset: var(--s1); }
   .dsx-switch[data-checked] { background: var(--signal); }

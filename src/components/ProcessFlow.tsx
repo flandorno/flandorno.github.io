@@ -12,8 +12,8 @@
    device: it belongs to the box it hangs off, and it is what the eye lands
    on first.
 
-   The red is `--flag`, the third sanctioned break in The One Voice Rule, and
-   the token comment in `src/index.css` records whose call it was.
+   The red is `--color-flag` (tokens.css), the one colour on the site outside
+   the orange and the greys, kept for this.
 
    This is a diagram, not a decoration, so it is NOT hidden from assistive
    technology. It renders as an ordered list of real sentences, each gap read
@@ -26,8 +26,8 @@
    caption was restating a restatement — and the list of steps is readable on
    its own, so nothing is lost for anyone who cannot see the layout.
 
-   All spacing lives in `src/index.css` under `.fl-flow-*`, per The Spacing
-   Grid Rule — there is not a length in this file.
+   All spacing lives in `src/styles/reading.css` under `.fl-flow-*` — there
+   is not a length in this file.
    ───────────────────────────────────────────────────────────────────────────── */
 
 export type FlowStep = {
@@ -47,7 +47,7 @@ type Props = {
 
 export default function ProcessFlow({ steps, end }: Props) {
   return (
-    <figure className="fl-flow" data-reveal>
+    <figure className="fl-flow">
       <div className="fl-flow-panel">
         <ol className="fl-flow-steps">
           {steps.map((s) => (
